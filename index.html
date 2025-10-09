@@ -3,96 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexa - Premium</title>
+    <title>Nexa Premium UI</title>
     <style>
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             background: url('https://i.imgur.com/GsfBtXF.jpeg') no-repeat center center fixed;
             background-size: cover;
-            color: #ffffff;
+            color: white;
         }
-
-        .window {
-            width: 650px;
-            height: 510px;
+        .container {
+            max-width: 800px;
             margin: 50px auto;
-            background: rgba(0,0,0,0.8);
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            overflow: hidden;
-            position: relative;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
         }
-
-        .header {
-            height: 60px;
-            background-color: rgba(20,20,20,0.9);
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
+        h1 {
+            text-align: center;
+            color: #FFD700;
         }
-
-        .header img {
-            height: 40px;
-            margin-right: 10px;
+        pre {
+            background-color: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
         }
-
-        .header h1 {
-            font-size: 24px;
-            margin: 0;
-        }
-
-        .profile {
-            position: absolute;
-            top: 70px;
-            left: 15px;
-        }
-
-        .profile p {
-            margin: 5px 0;
-        }
-
-        .notify-btn {
-            margin-top: 15px;
-            padding: 8px 15px;
-            background-color: #ff6600;
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #444;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            color: #fff;
         }
-
-        .notify-btn:hover {
-            background-color: #ff4500;
+        button:hover {
+            background-color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="window">
-        <div class="header">
-            <img src="rbxassetid://107488593993096" alt="Icon">
-            <h1>Nexa - Premium</h1>
-        </div>
-        <div class="profile">
-            <p><strong>Author:</strong> Fish IT! Script | @ Han</p>
-            <p><strong>Folder:</strong> Hanzo</p>
-            <p><strong>User Display Name:</strong> <span id="displayName">PlayerNameHere</span></p>
-            <p><strong>Username:</strong> <span id="username">@PlayerUsernameHere</span></p>
-            <button class="notify-btn" onclick="notify()">Show Notification</button>
-        </div>
+    <div class="container">
+        <h1>Nexa Premium UI</h1>
+        <p>Script WindUI ini hanya bisa dijalankan di Roblox. Jangan ubah kode agar tetap aman.</p>
+
+        <pre id="luaCode">
+-- Lua Code:
+local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
+
+local Localization = WindUI:Localization({
+    Enabled = true,
+    Prefix = "loc:",
+    DefaultLanguage = "en",
+    Translations = {
+        ["en"] = { ["1"] = "Only Works on Auto Fish V2", ["2"] = "h" },
+        ["id"] = { ["1"] = "Hanya Berfungsi di Auto Fish V2", ["2"] = "h" }
+    }
+})
+
+WindUI.TransparencyValue = 0.2
+WindUI:SetTheme("Dark")
+-- ... dst
+        </pre>
+
+        <button onclick="copyLua()">Copy Lua Script</button>
     </div>
 
     <script>
-        function notify() {
-            alert("User profile clicked!");
+        function copyLua() {
+            const luaCode = document.getElementById('luaCode').innerText;
+            navigator.clipboard.writeText(luaCode).then(() => {
+                alert('Lua code copied to clipboard!');
+            });
         }
-
-        // Bisa update user profile dari server atau Lua dengan AJAX/fetch jika ada backend
-        const playerDisplayName = "Hanzo123"; // Ganti sesuai player.DisplayName dari Roblox
-        const playerUserName = "@Hanzo";       // Ganti sesuai player.Name dari Roblox
-
-        document.getElementById("displayName").textContent = playerDisplayName;
-        document.getElementById("username").textContent = playerUserName;
     </script>
 </body>
 </html>
