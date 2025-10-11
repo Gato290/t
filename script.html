@@ -1,63 +1,120 @@
-local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
+-- script.lua
+-- Simpan file ini di repo: /t/script.lua
+-- Panggilan di executor: loadstring(game:HttpGet("https://raw.githubusercontent.com/<user>/<repo>/<branch>/t/script.lua"))()
 
-WindUI.TransparencyValue = 0.2
-WindUI:SetTheme("Dark")
+-- SAFE loader checks
+local function warn(msg) pcall(function() print("[Loader] "..tostring(msg)) end) end
 
-local function gradient(text, startColor, endColor)
-    local result = ""
-    for i = 1, #text do
-        local t = (i - 1) / (#text - 1)
-        local r = math.floor((startColor.R + (endColor.R - startColor.R) * t) * 255)
-        local g = math.floor((startColor.G + (endColor.G - startColor.G) * t) * 255)
-        local b = math.floor((startColor.B + (endColor.B - startColor.B) * t) * 255)
-        result = result .. string.format('<font color="rgb(%d,%d,%d)">%s</font>', r, g, b, text:sub(i, i))
-    end
-    return result
+-- cek fungsi HttpGet
+local httpOk, httpResp = pcall(function() return game:HttpGet end)
+if not httpOk or type(game.HttpGet) ~= "function" then
+    warn("game:HttpGet not available in this environment.")
 end
 
--- Ambil nama player
-local player = game.Players.LocalPlayer
-local playerName = player.Name
-local playerDisplayName = player.DisplayName
+-- main code (WindUI snippet)
+local function main()
+    -- coba load WindUI library via raw URL (contoh gunakan raw dari GitHub)
+    local ok, lib = pcall(function()
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
+    end)
+    if not ok then
+        warn("Failed to load WindUI library: "..tostring(lib))
+        -- fallback: stop or continue with minimal UI
+        return
+    end
 
--- Buat Window versi baru
-local Window = WindUI:CreateWindow({
-    Title = "Nexa - Premium",
-    Icon = "rbxassetid://107488593993096",
-    Author = "Fish IT! Script | @ Han",
-    Folder = "Hanzo",
-    Size = UDim2.fromOffset(540, 420),
-    Transparent = true,
-    Theme = "Dark",
-    
-    HidePanelBackground = true,
-    NewElements = false,
-    Background = "https://i.imgur.com/GsfBtXF.jpeg",
-    User = {
-        Enabled = true,
-        Anonymous = false,           -- false biar muncul nama asli
-        Name = playerDisplayName,    -- Nama tampilan
-        UserName = "@" .. playerName, -- Username Roblox
+    local WindUI = lib
+
+    -- Pengaturan awal
+    pcall(function()
+        WindUI.TransparencyValue = 0.2
+        WindUI:SetTheme("Dark")
+    end)
+
+    local function gradient(text, startColor, endColor)
+        if #text <= 1 then
+            return string.format('<font color="rgb(%d,%d,%d)">%s</font>',
+                math.floor(startColor.R*255), math.floor(startColor.G*255), math.floor(startColor.B*255),
+                text)
+        end
+        local result = ""
+        for i = 1, #text do
+            local t = (i - 1) / (#text - 1)
+            local r = math.floor((startColor.R + (endColor.R - startColor.R) * t) * 255)
+            local g = math.floor((startColor.G + (endColor.G - startColor.G) * t) * 255)
+            local b = math.floor((startColor.B + (endColor.B - startColor.B) * t) * 255)
+            result = result .. string.format('<font color="rgb(%d,%d,%d)">%s</font>', r, g, b, text:sub(i, i))
+        end
+        return result
+    end
+
+    -- Ambil nama player
+    local player = game.Players.LocalPlayer
+    if not player then
+        warn("LocalPlayer not found.")
+        return
+    end
+    local playerName = player.Name
+    local playerDisplayName = player.DisplayName
+
+    -- Buat Window
+    local Window = WindUI:CreateWindow({
+        Title = "Nexa - Premium",
+        Icon = "rbxassetid://107488593993096",
+        Author = "Fish IT! Script | @ Han",
+        Folder = "Hanzo",
+        Size = UDim2.fromOffset(540, 420),
+        Transparent = true,
+        Theme = "Dark",
+        HidePanelBackground = true,
+        NewElements = false,
+        Background = "https://i.imgur.com/GsfBtXF.jpeg",
+        User = {
+            Enabled = true,
+            Anonymous = false,
+            Name = playerDisplayName,
+            UserName = "@" .. playerName,
+            Callback = function()
+                WindUI:Notify({
+                    Title = "User Profile",
+                    Content = "User profile clicked!",
+                    Duration = 3
+                })
+            end
+        },
+        Acrylic = false,
+        HideSearchBar = false,
+        SideBarWidth = 200,
+    })
+
+    Window:Tag({
+        Title = "v1.2.7",
+        Color = Color3.fromHex("#30ff6a")
+    })
+
+    Window:EditOpenButton({
+        Enabled = false
+    })
+
+    -- Contoh tombol / elemen tambahan
+    local Tab = Window:CreateTab("General")
+    Tab:CreateButton({
+        Title = "Test Notify",
         Callback = function()
             WindUI:Notify({
-                Title = "User Profile",
-                Content = "User profile clicked!",
-                Duration = 3
+                Title = "Test",
+                Content = "Notification works!",
+                Duration = 2
             })
         end
-    },
-    
-    Acrylic = false,
-    HideSearchBar = false,
-    SideBarWidth = 200,
-})
+    })
 
-Window:Tag({
-    Title = "v1.2.7",
-    Color = Color3.fromHex("#30ff6a")
-})
+    -- selesai
+    warn("Script loaded successfully for user: "..playerName)
+end
 
-
-Window:EditOpenButton({
-    Enabled = false
-})
+-- jalankan main dengan pcall supaya error tidak crash
+local success, err = pcall(main)
+if not success then
+    warn("Error running script: "..tostring(err))
+end
