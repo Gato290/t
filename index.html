@@ -1,440 +1,673 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NexaHUB</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NexaHUB — Premium Script Hub</title>
 
-  <!-- Tailwind CSS -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- AOS -->
+  <!-- AOS (scroll animations) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
   <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    :root {
-      --accent: #9b6bff;
-      --accent-2: #6c47ff;
-      --bg: #0b0b12;
+    :root{
+      --bg:#05030a;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.06);
+      --accent1:#9b6bff;
+      --accent2:#6c47ff;
+      --accent-3:#5ce1e6;
+      --muted:#bfc0d6;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Outfit',system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: radial-gradient(ellipse at 15% 10%, rgba(155,107,255,0.06), transparent 30%), var(--bg);
+      color:#eef0ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
     }
 
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: radial-gradient(ellipse at 50% 10%, rgba(128,80,255,0.07), transparent 30%), #06060a;
-      color: #f2f2f6;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
+    /* Loading overlay */
+    #loader {
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(180deg, rgba(2,2,6,0.9), rgba(2,2,6,0.95));
+      z-index:2000; transition:opacity .45s, visibility .45s;
     }
+    #loader.hidden{opacity:0; visibility:hidden; pointer-events:none}
+    .lds-ring{display:inline-block; position:relative; width:80px; height:80px}
+    .lds-ring div{box-sizing:border-box; display:block; position:absolute; width:64px; height:64px; margin:8px; border:8px solid var(--accent1); border-radius:50%; animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite; border-color:var(--accent1) transparent transparent transparent}
+    .lds-ring div:nth-child(2){animation-delay:-.45s}
+    .lds-ring div:nth-child(3){animation-delay:-.3s}
+    .lds-ring div:nth-child(4){animation-delay:-.15s}
+    @keyframes lds-ring {0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0);
-      background-size: 28px 28px;
-      opacity: 0.6;
-      pointer-events: none;
-      animation: float-bg 20s ease-in-out infinite;
+    /* Aurora & floating lines / particles */
+    .aurora{
+      position:fixed; inset:0; z-index:-2; pointer-events:none; overflow:hidden;
+      filter: blur(80px);
     }
+    .aurora .layer { position:absolute; width:120%; height:120%; transform-origin:center; opacity:.7; }
+    .aurora .l1{background:radial-gradient(circle at 20% 30%, rgba(155,107,255,0.28), transparent 25%);}
+    .aurora .l2{background:radial-gradient(circle at 80% 70%, rgba(92,225,230,0.12), transparent 30%); mix-blend-mode:screen;}
+    .aurora .l3{background:conic-gradient(from 200deg at 50% 50%, rgba(108,71,255,0.05), transparent 30%); opacity:.6;}
+    @keyframes auroraMove {0%{transform:translate(0,0) rotate(0)}50%{transform:translate(-40px,30px) rotate(4deg)}100%{transform:translate(0,0) rotate(0)}}
+    .aurora .layer{animation:auroraMove 18s ease-in-out infinite;}
 
-    @keyframes float-bg {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
+    /* Particle grid (subtle) */
+    .particle-grid{position:fixed; inset:0; z-index:-1; opacity:.12; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0); background-size:26px 26px; pointer-events:none; filter:blur(0px)}
 
-    /* Floating particles */
-    .particle {
-      position: absolute;
-      background: rgba(155, 107, 255, 0.3);
-      border-radius: 50%;
-      pointer-events: none;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 10%; animation-delay: 0s; }
-    .particle:nth-child(2) { width: 6px; height: 6px; top: 60%; left: 80%; animation-delay: 1s; }
-    .particle:nth-child(3) { width: 3px; height: 3px; top: 80%; left: 20%; animation-delay: 2s; }
-    .particle:nth-child(4) { width: 5px; height: 5px; top: 40%; left: 90%; animation-delay: 3s; }
-    .particle:nth-child(5) { width: 4px; height: 4px; top: 10%; left: 50%; animation-delay: 4s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
-      50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
-    }
-
-    .neon {
-      color: #fff;
-      font-weight: 800;
-      letter-spacing: -1px;
-      font-size: clamp(48px, 8vw, 100px);
-      text-shadow: 0 0 15px rgba(155,107,255,0.6), 0 0 30px rgba(108,71,255,0.4);
-      animation: glow 3s ease-in-out infinite alternate 0.5s, slide-in 1s ease-out;
-      /* Removed opacity: 0; to ensure immediate visibility */
-    }
-
-    @keyframes glow {
-      from { text-shadow: 0 0 10px rgba(155,107,255,0.5), 0 0 30px rgba(108,71,255,0.3); }
-      to { text-shadow: 0 0 25px rgba(155,107,255,0.8), 0 0 55px rgba(108,71,255,0.6); }
-    }
-
-    @keyframes slide-in {
-      from { opacity: 0; transform: translateX(-50px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    .neon {
-      animation-fill-mode: forwards; /* Ensures slide-in completes and stays visible */
-    }
-
-    /* Logo styling */
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 1rem; /* Space between logo and text */
-      margin-bottom: 1rem;
-    }
-
-    .logo-image {
-      width: clamp(80px, 15vw, 150px); /* Big responsive size */
-      height: auto;
-      border-radius: 12px; /* Optional: rounded corners for modern look */
-      box-shadow: 0 0 20px rgba(155, 107, 255, 0.3); /* Neon glow effect on logo */
-      animation: logo-float 3s ease-in-out infinite alternate 1s; /* Subtle float animation */
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fade-up-logo 1s ease-out 0.3s forwards; /* Fade in with delay */
-    }
-
-    @keyframes fade-up-logo {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes logo-float {
-      from { transform: translateY(0); }
-      to { transform: translateY(-5px); }
-    }
-
-    .hero-text {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fade-up 1s ease-out 0.5s forwards;
-    }
-
-    @keyframes fade-up {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .btn {
-      border-radius: 999px;
-      font-weight: 600;
-      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left .5s;
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 10px 30px rgba(155,107,255,0.4);
-    }
-
-    .btn-purple {
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      color: white;
-      padding: 12px 28px;
-    }
-
-    .btn-yellow {
-      background: linear-gradient(90deg, #ffdf5a, #ffb84d);
-      color: #111;
-      padding: 12px 28px;
-    }
-
+    /* Top nav */
     .top-nav {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      backdrop-filter: blur(12px);
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 999px;
-      padding: 8px 22px;
-      display: flex;
-      gap: 20px;
-      z-index: 50;
-      opacity: 0;
-      animation: slide-down 1s ease-out 0.2s forwards;
+      position:fixed; left:50%; transform:translateX(-50%); top:18px; z-index:1200;
+      display:flex; gap:18px; background:rgba(255,255,255,0.03); padding:9px 20px; border-radius:999px; align-items:center;
+      border:1px solid var(--glass-border); backdrop-filter: blur(10px);
+      transition: all .35s ease;
+      box-shadow: 0 6px 30px rgba(92,40,255,0.06);
+    }
+    .top-nav.small{ transform: translateX(-50%) translateY(-6px) scale(.98); background: rgba(6,6,10,0.6) }
+    .top-nav a{ color:var(--muted); text-decoration:none; font-weight:600; padding:6px 8px; border-radius:8px; transition:all .2s ease}
+    .top-nav a:hover{ color:white; transform:translateY(-3px) }
+    .brand { display:flex; gap:12px; align-items:center; margin-right:8px; padding-right:8px; border-right:1px solid rgba(255,255,255,0.03) }
+    .brand img{ width:46px; height:46px; border-radius:10px; box-shadow:0 8px 30px rgba(107,64,255,0.14); }
+
+    /* Hero */
+    .hero { min-height:92vh; display:flex; align-items:center; justify-content:center; padding:48px 20px; position:relative; z-index:5 }
+    .hero-inner{ max-width:1100px; width:100%; display:grid; grid-template-columns: 1fr; gap:26px; place-items:center; text-align:center }
+    @media(min-width:960px){ .hero-inner{ grid-template-columns: 480px 1fr; text-align:left; align-items:center } }
+
+    .neon {
+      font-size: clamp(36px, 7vw, 80px); line-height:0.9; font-weight:800;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      text-shadow: 0 6px 40px rgba(108,71,255,0.18);
+      letter-spacing:-1.2px; display:inline-block;
     }
 
-    @keyframes slide-down {
-      from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .sub {
+      color: #bfc3e6; margin-top:6px; font-size:1.02rem; max-width:680px;
     }
 
-    .top-nav a {
-      color: #ccc;
-      font-weight: 500;
-      transition: all .3s ease;
-      position: relative;
+    /* Glass card */
+    .glass {
+      background: var(--glass); border:1px solid var(--glass-border); border-radius:14px; padding:18px; backdrop-filter:blur(8px);
     }
 
-    .top-nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--accent);
-      transition: width .3s ease;
+    /* Buttons */
+    .btn {
+      border-radius:999px; padding:12px 20px; display:inline-flex; gap:10px; align-items:center; font-weight:700; cursor:pointer;
+      transition: all .28s cubic-bezier(.2,.9,.25,1); box-shadow: 0 10px 30px rgba(92,47,255,0.06);
     }
+    .btn-primary{ background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; }
+    .btn-ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04) }
 
-    .top-nav a:hover { 
-      color: #fff; 
-    }
+    .btn:hover{ transform: translateY(-4px) scale(1.02) }
 
-    .top-nav a:hover::after {
-      width: 100%;
-    }
+    /* code block */
+    pre.codebox{ font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; border-radius:12px; padding:18px; font-size:13px; color:#dbeafe; background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.02)); border:1px solid rgba(155,107,255,0.06); overflow:auto }
+    .code-actions{ display:flex; gap:10px; justify-content:center; margin-bottom:12px }
 
-    pre.codebox {
-      background: rgba(255,255,255,0.03);
-      padding: 1rem;
-      border-radius: 14px;
-      font-family: monospace;
-      font-size: 14px;
-      overflow-x: auto;
-      color: #dbeafe;
-      border: 1px solid rgba(155,107,255,0.2);
-      position: relative;
-      opacity: 0;
-      transform: scale(0.95);
-      animation: code-appear 1s ease-out forwards;
-    }
+    /* Feature grid */
+    .features { display:grid; grid-template-columns:1fr; gap:18px }
+    @media(min-width:860px){ .features{ grid-template-columns: repeat(3,1fr) } }
+    .feature-card{ padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); transition: transform .25s ease, box-shadow .25s ease }
+    .feature-card:hover{ transform: translateY(-8px); box-shadow:0 24px 60px rgba(92,47,255,0.06) }
 
-    @keyframes code-appear {
-      to { opacity: 1; transform: scale(1); }
-    }
+    /* Tilted showcase */
+    .showcase-wrap{ perspective:1200px }
+    .showcase-card{ transform-style:preserve-3d; transition:transform .25s; border-radius:14px; overflow:hidden; }
 
-    /* Typing animation for code (simulated) */
-    .codebox::before {
-      content: '|';
-      animation: blink 1s infinite;
-      color: var(--accent);
-    }
+    /* Testimonials slider (simple) */
+    .slider { display:flex; gap:16px; align-items:center; overflow:hidden }
+    .slide{ min-width:280px; flex-shrink:0; border-radius:12px; padding:14px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03) }
 
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
+    /* Stats counter */
+    .stat{ text-align:center }
+    .stat .num{ font-size:28px; font-weight:800; color:var(--accent2) }
 
-    /* Showcase animation */
-    .showcase-iframe {
-      transition: all .5s ease;
-      transform: scale(0.95);
-      opacity: 0;
-    }
+    /* FAQ */
+    .faq-item { border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.03); background:rgba(255,255,255,0.01) }
+    .faq-q{ display:flex; justify-content:space-between; gap:8px; cursor:pointer; align-items:center; padding:8px }
+    .faq-a{ padding:6px 8px; color:#cbd0ea; display:none }
 
-    .showcase-iframe.animated {
-      transform: scale(1);
-      opacity: 1;
-    }
+    /* cursor trail */
+    .cursor-trail { position:fixed; left:0; top:0; width:10px; height:10px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%); mix-blend-mode:screen; z-index:9999; filter:blur(0.5px) }
+    .trail-dot{ position:absolute; width:8px; height:8px; border-radius:50%; pointer-events:none; opacity:0.9 }
 
-    /* Section transitions */
-    section {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all .8s ease-out;
-    }
+    /* footer */
+    footer{ padding:34px 20px; text-align:center; color:#9fa3c8; border-top:1px solid rgba(255,255,255,0.02); margin-top:48px }
 
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Footer fade in */
-    footer {
-      opacity: 0;
-      animation: fade-in 1s ease-out 1s forwards;
-    }
-
-    @keyframes fade-in {
-      to { opacity: 1; }
-    }
-
-    /* Button pulse on load */
-    .btn-pulse {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(155,107,255,0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(155,107,255,0); }
-      100% { box-shadow: 0 0 0 0 rgba(155,107,255,0); }
-    }
+    /* small helpers */
+    .muted{ color:#9fa3c8 }
+    .chip { padding:6px 10px; border-radius:999px; font-weight:700; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.02) }
   </style>
 </head>
 <body>
 
-  <!-- Floating Particles -->
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
+  <!-- Loader -->
+  <div id="loader" aria-hidden="true">
+    <div class="text-center">
+      <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+      <div style="margin-top:18px; color:#cfc9ff; font-weight:700">Loading NexaHUB...</div>
+    </div>
+  </div>
 
-  <!-- NAVBAR -->
-  <div class="top-nav">
+  <!-- Decorative aurora + particle grid -->
+  <div class="aurora" aria-hidden="true">
+    <div class="layer l1" style="left:-10%; top:-10%; width:140%; height:140%"></div>
+    <div class="layer l2" style="right:-20%; bottom:-10%; width:140%; height:140%"></div>
+    <div class="layer l3" style="left:0; top:10%; width:120%; height:120%"></div>
+  </div>
+  <div class="particle-grid" aria-hidden="true"></div>
+
+  <!-- Cursor trail container -->
+  <div id="cursorTrail" class="cursor-trail" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <nav class="top-nav glass" id="navbar">
+    <div class="brand">
+      <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" loading="lazy" />
+      <div style="line-height:1">
+        <div style="font-weight:800">NexaHUB</div>
+        <div style="font-size:11px;color:#a9aed2">Premium Script Hub</div>
+      </div>
+    </div>
+
     <a href="#home">Home</a>
     <a href="#showcase">Showcase</a>
     <a href="#script">Script</a>
-    <a href="#" id="yt">YouTube</a>
-    <a href="#" id="tk">TikTok</a>
-  </div>
+    <a href="#features">Features</a>
+    <a href="#faq">FAQ</a>
 
-  <!-- HERO SECTION -->
-  <section id="home" class="min-h-screen flex items-center px-10 md:px-28 section-visible">
-    <div class="max-w-3xl" data-aos="fade-right" data-aos-delay="200">
-      <div class="logo-container">
-        <!-- Logo Image - Ganti src dengan path gambar logo kamu (misal: logo.png atau URL eksternal) -->
-        <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB Logo" class="logo-image">
-        <h1 class="neon mb-0">NexaHUB</h1> <!-- mb-0 untuk menghilangkan margin bottom karena sekarang di flex -->
+    <div style="width:12px"></div>
+    <button id="toggleTheme" class="chip" title="Toggle theme">Dark</button>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <header id="home" class="hero">
+      <div class="hero-inner">
+        <div data-aos="fade-right">
+          <div style="display:flex; align-items:center; gap:18px;">
+            <img src="https://i.imgur.com/6h1Te7r.png" alt="logo" class="glass" style="width:120px; height:120px; padding:8px; border-radius:14px;"/>
+            <div>
+              <div class="neon">NexaHUB</div>
+              <div class="muted" style="margin-top:6px">Premium Roblox script hub — simple, fast & powerful.</div>
+            </div>
+          </div>
+
+          <p class="sub" style="margin-top:22px">
+            Nexa Premium is the best top script with lots of features. Use NexaHub to manage, preview, and download scripts for Roblox — built with speed and style.
+          </p>
+
+          <div class="mt-6 flex flex-wrap gap-3 items-center" style="justify-content:center; margin-bottom:14px">
+            <button class="btn btn-primary" id="watchShow"><i class="fa-solid fa-play"></i> Watch Showcase</button>
+            <button class="btn btn-ghost" id="copyScriptBtn"><i class="fa-solid fa-copy"></i> Copy Script</button>
+            <button class="btn btn-ghost" id="downloadScriptBtn"><i class="fa-solid fa-download"></i> Download</button>
+          </div>
+
+          <div style="display:flex; gap:10px; justify-content:center; margin-top:10px">
+            <span class="chip"><i class="fa-solid fa-star" style="color:var(--accent1)"></i> Premium</span>
+            <span class="chip">Auto-update</span>
+            <span class="chip">Secure Loader</span>
+          </div>
+        </div>
+
+        <!-- Right: Showcase card -->
+        <div data-aos="fade-left" class="showcase-wrap">
+          <div class="showcase-card glass" id="showcaseCard" style="padding:14px">
+            <div style="display:flex; gap:12px; align-items:center; justify-content:space-between">
+              <div>
+                <div style="font-weight:800; font-size:18px">Showcase</div>
+                <div class="muted" style="font-size:13px">Live preview</div>
+              </div>
+              <div class="chip">v1.0 Web</div>
+            </div>
+
+            <div style="margin-top:12px; border-radius:12px; overflow:hidden; margin-bottom:6px">
+              <iframe id="showcaseIframe" class="w-full aspect-video" src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Showcase" frameborder="0" allowfullscreen loading="lazy"></iframe>
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:flex-end">
+              <button class="btn btn-ghost" id="expandVideo"><i class="fa-solid fa-expand"></i></button>
+              <button class="btn btn-ghost" id="miniPlay"><i class="fa-solid fa-play"></i></button>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <p class="hero-text text-gray-300 text-lg md:text-xl mb-6 leading-relaxed">
-        Nexa Premium is the best top script with lots of features . Enjoy Nexa premium Hub with a very cool interface and easy to use.
-      </p>
-      <div class="flex gap-4 flex-wrap">
-        <button class="btn btn-yellow btn-pulse"><i class="fa-solid fa-play"></i> Watch Showcase</button>
-        <button id="scrollToScript" class="btn btn-purple"><i class="fa-solid fa-code"></i> Copy Script</button>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- SHOWCASE VIDEO -->
-  <section id="showcase" class="py-24 px-6 section">
-    <div class="max-w-5xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-      <h2 class="text-4xl font-bold mb-5" data-aos="fade-up" data-aos-delay="200">Showcase Script</h2>
-      <p class="text-gray-400 mb-8 max-w-2xl" data-aos="fade-up" data-aos-delay="300">Watch Nexa Hub Script On Youtube</p>
+    <!-- SCRIPT SECTION -->
+    <section id="script" class="py-20 px-6">
+      <div class="max-w-4xl mx-auto" data-aos="fade-up">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h2 class="text-3xl font-bold">Copy / Download Script</h2>
+            <p class="muted" style="margin-top:6px">Grab the loader script quickly. Works with most executors.</p>
+          </div>
+          <div class="muted">Ready to use • <span id="lastUpdated">Updated: 2025-10-19</span></div>
+        </div>
 
-      <div class="rounded-2xl overflow-hidden shadow-2xl" data-aos="zoom-in-up" data-aos-delay="400">
-        <iframe id="showcaseIframe" class="w-full aspect-video rounded-2xl showcase-iframe"
-          src="https://www.youtube.com/embed/ScMzIvxBSi4"
-          title="Showcase video"
-          frameborder="0"
-          allowfullscreen></iframe>
-      </div>
-    </div>
-  </section>
+        <div class="glass p-4">
+          <div class="code-actions">
+            <button id="copyBtn" class="btn btn-primary"><i class="fa-solid fa-copy"></i> Copy</button>
+            <button id="downloadBtn" class="btn btn-ghost"><i class="fa-solid fa-download"></i> Download .lua</button>
+            <button id="soundToggle" class="btn btn-ghost"><i class="fa-solid fa-volume-high"></i> Sound</button>
+          </div>
 
-  <!-- COPY SCRIPT -->
-  <section id="script" class="py-24 px-6 bg-[rgba(255,255,255,0.02)] section">
-    <div class="max-w-4xl mx-auto" data-aos="fade-up">
-      <h2 class="text-4xl font-bold mb-4" data-aos="fade-up" data-aos-delay="100">Copy Script</h2>
-      <p class="text-gray-400 mb-6" data-aos="fade-up" data-aos-delay="200">Copy your script directly or download as a file for your executor.</p>
-
-      <div class="flex gap-3 mb-4" data-aos="fade-up" data-aos-delay="300">
-        <button id="copyBtn" class="btn btn-purple text-white text-sm"><i class="fa-solid fa-copy"></i> Copy Script</button>
-        <button id="downloadBtn" class="btn btn-yellow text-sm"><i class="fa-solid fa-download"></i> Download</button>
-      </div>
-
-      <pre id="codeBlock" class="codebox" data-aos="fade-up" data-aos-delay="400">
+          <pre id="codeBlock" class="codebox" aria-label="Script code" contenteditable="false">
 script_key = "PASTEKEYHERE"
 loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
-      </pre>
-    </div>
-  </section>
+          </pre>
+        </div>
+      </div>
+    </section>
 
-  <!-- FOOTER -->
-  <footer class="py-10 text-center text-gray-500 text-sm">
-    © 2025 NexaHUB — Premium Roblox Script Hub. All rights reserved.
+    <!-- FEATURES -->
+    <section id="features" class="py-20 px-6 bg-[rgba(255,255,255,0.01)]">
+      <div class="max-w-6xl mx-auto" data-aos="fade-up">
+        <div class="flex justify-between items-center mb-8">
+          <div>
+            <h2 class="text-3xl font-bold">Fitur Unggulan</h2>
+            <p class="muted" style="margin-top:6px">Semua fitur dirancang untuk kenyamanan dan performa.</p>
+          </div>
+          <div class="muted">Hand-picked • Lightweight</div>
+        </div>
+
+        <div class="features">
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+            <div style="display:flex; gap:12px; align-items:center">
+              <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-rocket"></i></div>
+              <div>
+                <div style="font-weight:800">Auto Farm</div>
+                <div class="muted" style="margin-top:6px">Auto-run features with smart bring & safe pathing.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="160">
+            <div style="display:flex; gap:12px; align-items:center">
+              <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#5ce1e6,#4cbef0);display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-shield-halved"></i></div>
+              <div>
+                <div style="font-weight:800">Secure Loader</div>
+                <div class="muted" style="margin-top:6px">Signed loader and checksum verification.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="220">
+            <div style="display:flex; gap:12px; align-items:center">
+              <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ffd86b,#ff9a4d);display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-bolt"></i></div>
+              <div>
+                <div style="font-weight:800">Low Lag</div>
+                <div class="muted" style="margin-top:6px">Optimized scripts with minimal performance impact.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS + STATS -->
+    <section class="py-20 px-6">
+      <div class="max-w-6xl mx-auto" data-aos="fade-up">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-3 items-start">
+          <div class="md:col-span-2">
+            <h3 class="text-2xl font-bold mb-4">Apa kata pengguna</h3>
+            <div class="slider" id="testimonialSlider" style="overflow:hidden">
+              <div class="slide glass" data-aos="fade-right">
+                <div style="display:flex; gap:10px; align-items:center">
+                  <img src="https" alt="" style="border-radius:10px" />
+                  <div>
+                    <div style="font-weight:800">---</div>
+                    <div class="muted" style="font-size:12px">Premium</div>
+                  </div>
+                </div>
+                <p class="muted" style="margin-top:8px">""</p>
+              </div>
+
+              <div class="slide glass" data-aos="fade-right" data-aos-delay="80">
+                <div style="display:flex; gap:10px; align-items:center">
+                  <img src="https" alt="" style="border-radius:10px" />
+                  <div>
+                    <div style="font-weight:800">---</div>
+                    <div class="muted" style="font-size:12px">Premium</div>
+                  </div>
+                </div>
+                <p class="muted" style="margin-top:8px">""</p>
+              </div>
+
+              <div class="slide glass" data-aos="fade-right" data-aos-delay="160">
+                <div style="display:flex; gap:10px; align-items:center">
+                  <img src="https" alt="" style="border-radius:10px" />
+                  <div>
+                    <div style="font-weight:800">---</div>
+                    <div class="muted" style="font-size:12px">Premium</div>
+                  </div>
+                </div>
+                <p class="muted" style="margin-top:8px">""</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:12px">
+              <button id="prevTest" class="btn btn-ghost"><i class="fa-solid fa-chevron-left"></i></button>
+              <button id="nextTest" class="btn btn-ghost"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+
+          <div class="glass p-6">
+            <h4 class="font-bold">Stats</h4>
+            <div class="mt-4 grid grid-cols-2 gap-4">
+              <div class="stat">
+                <div class="num" data-target="---">0</div>
+                <div class="muted">Downloads</div>
+              </div>
+              <div class="stat">
+                <div class="num" data-target="---">0</div>
+                <div class="muted">Active users</div>
+              </div>
+              <div class="stat">
+                <div class="num" data-target="---">0</div>
+                <div class="muted">Features</div>
+              </div>
+              <div class="stat">
+                <div class="num" data-target="---">0</div>
+                <div class="muted">Stars</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-20 px-6 bg-[rgba(255,255,255,0.01)]">
+      <div class="max-w-4xl mx-auto" data-aos="fade-up">
+        <h3 class="text-2xl font-bold mb-4">FAQ</h3>
+        <div class="space-y-3">
+          <div class="faq-item">
+            <div class="faq-q"><div><strong>Apa itu NexaHUB?</strong></div><div class="muted">+</div></div>
+            <div class="faq-a">NexaHUB adalah kumpulan script premium Roblox yang mudah digunakan, dengan loader dan update rutin.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><div><strong>Apakah aman?</strong></div><div class="muted">+</div></div>
+            <div class="faq-a">Kami menyediakan loader dengan checksum dan pembaruan reguler. Selalu gunakan script sesuai kebijakan platformmu.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><div><strong>Bagaimana cara meng-copy?</strong></div><div class="muted">+</div></div>
+            <div class="faq-a">Klik tombol "Copy" pada bagian Script. Sistem akan memberi animasi & suara bila aktif.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="max-w-6xl mx-auto">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+        <div class="muted">© 2025 NexaHUB • Built with ❤️</div>
+        <div style="display:flex; gap:10px; align-items:center">
+          <a class="muted" href="https://www.youtube.com/@Hanblox96" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+          <a class="muted" href="https://www.tiktok.com/@scriptrandom_988" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+          <a class="muted" href="#" id="backToTop">Back to top</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- JS -->
   <script>
+    // Init AOS
     AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
 
-    // Section visibility animation on scroll
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          if (entry.target.id === 'showcase') {
-            setTimeout(() => {
-              document.getElementById('showcaseIframe').classList.add('animated');
-            }, 500);
-          }
-        }
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => observer.observe(section));
-
-    // Initial hero visibility
-    document.getElementById('home').classList.add('visible');
-
-    // Remove pulse after 3s
-    setTimeout(() => {
-      document.querySelector('.btn-pulse').classList.remove('btn-pulse');
-    }, 3000);
-
-    // Scroll to script
-    document.getElementById('scrollToScript').addEventListener('click', () => {
-      document.getElementById('script').scrollIntoView({ behavior: 'smooth' });
+    // Loader hide
+    window.addEventListener('load', () => {
+      setTimeout(() => { document.getElementById('loader').classList.add('hidden'); }, 600);
     });
 
-    // Copy Script
+    // Simple theme toggle (dark/light stored in localStorage)
+    const toggleThemeBtn = document.getElementById('toggleTheme');
+    const currentTheme = localStorage.getItem('nexahub_theme') || 'dark';
+    const applyTheme = (t) => {
+      if (t === 'light') {
+        document.documentElement.style.setProperty('--bg', '#f7f8fb');
+        document.documentElement.style.setProperty('--glass', 'rgba(2,6,23,0.03)');
+        document.documentElement.style.setProperty('--glass-border', 'rgba(0,0,0,0.06)');
+        document.body.style.color = '#061025';
+        toggleThemeBtn.textContent = 'Light';
+      } else {
+        document.documentElement.style.setProperty('--bg', '#05030a');
+        document.documentElement.style.setProperty('--glass', 'rgba(255,255,255,0.04)');
+        document.documentElement.style.setProperty('--glass-border', 'rgba(255,255,255,0.06)');
+        document.body.style.color = '#eef0ff';
+        toggleThemeBtn.textContent = 'Dark';
+      }
+    };
+    applyTheme(currentTheme);
+    toggleThemeBtn.addEventListener('click', () => {
+      const next = (localStorage.getItem('nexahub_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('nexahub_theme', next);
+      applyTheme(next);
+    });
+
+    // Navbar shrink on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) navbar.classList.add('small'); else navbar.classList.remove('small');
+    });
+
+    // Copy / download script actions
+    const codeBlock = document.getElementById('codeBlock');
     document.getElementById('copyBtn').addEventListener('click', async () => {
-      const text = document.getElementById('codeBlock').innerText;
-      await navigator.clipboard.writeText(text);
-      const btn = document.getElementById('copyBtn');
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-      btn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
-      setTimeout(() => {
-        btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy Script';
-        btn.style.background = 'linear-gradient(90deg, var(--accent), var(--accent-2))';
-      }, 1500);
+      const text = codeBlock.innerText.trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast('Copied to clipboard ✓');
+        playClick();
+      } catch (e) {
+        showToast('Copy failed — manual copy available');
+      }
     });
-
-    // Download Script
     document.getElementById('downloadBtn').addEventListener('click', () => {
-      const text = document.getElementById('codeBlock').innerText;
+      const text = codeBlock.innerText.trim();
       const blob = new Blob([text], { type: 'text/plain' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'nexahub-script.lua';
+      document.body.appendChild(a);
       a.click();
+      a.remove();
+      showToast('Download started');
+      playClick();
     });
 
-    // Replace these with your links
-    document.getElementById('yt').href = "https://www.youtube.com/@Hanblox96";
-    document.getElementById('tk').href = "https://www.tiktok.com/@scriptrandom_988";
-  </script>
+    // Quick copy / download buttons in hero
+    document.getElementById('copyScriptBtn').addEventListener('click', () => document.getElementById('copyBtn').click());
+    document.getElementById('downloadScriptBtn').addEventListener('click', () => document.getElementById('downloadBtn').click());
+    document.getElementById('watchShow').addEventListener('click', () => {
+      document.getElementById('showcaseIframe').scrollIntoView({behavior:'smooth'});
+    });
 
+    // Simple toast
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.position = 'fixed';
+      t.style.right = '18px';
+      t.style.bottom = '18px';
+      t.style.padding = '12px 16px';
+      t.style.background = 'linear-gradient(90deg,var(--accent1),var(--accent2))';
+      t.style.color = 'white';
+      t.style.borderRadius = '10px';
+      t.style.boxShadow = '0 8px 30px rgba(92,47,255,0.12)';
+      t.style.zIndex = 9999;
+      document.body.appendChild(t);
+      setTimeout(()=> t.style.opacity = '0', 1800);
+      setTimeout(()=> t.remove(), 2200);
+    }
+
+    // Tiny click sound using WebAudio
+    let audioEnabled = true;
+    const audioCtx = typeof AudioContext !== 'undefined' ? new AudioContext() : null;
+    function playClick(){
+      if (!audioEnabled || !audioCtx) return;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.value = 660;
+      g.gain.value = 0.02;
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start();
+      setTimeout(()=>{ o.stop(); }, 60);
+    }
+    document.getElementById('soundToggle').addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      document.getElementById('soundToggle').classList.toggle('opacity-50', !audioEnabled);
+      showToast(audioEnabled ? 'Sound on' : 'Sound off');
+    });
+
+    // Testimonial slider (simple scroll carousel)
+    const slider = document.getElementById('testimonialSlider');
+    const slides = Array.from(slider.querySelectorAll('.slide'));
+    let sIndex = 0;
+    function showSlide(i){
+      sIndex = (i + slides.length) % slides.length;
+      const offset = slides.slice(0,sIndex).reduce((sum, el)=> sum + el.offsetWidth + 16, 0);
+      slider.scrollTo({ left: offset, behavior: 'smooth' });
+    }
+    document.getElementById('prevTest').addEventListener('click', ()=> showSlide(sIndex-1));
+    document.getElementById('nextTest').addEventListener('click', ()=> showSlide(sIndex+1));
+
+    // Auto counter animation when visible
+    const counters = document.querySelectorAll('.num');
+    const counterObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = +el.getAttribute('data-target');
+          let start = 0;
+          const dur = 1400;
+          const step = Math.max(1, Math.floor(target / (dur / 30)));
+          const t = setInterval(()=> {
+            start += step;
+            if (start >= target) { el.textContent = target; clearInterval(t); }
+            else el.textContent = start;
+          }, 30);
+          counterObserver.unobserve(el);
+        }
+      })
+    }, {threshold:0.5});
+    counters.forEach(c => counterObserver.observe(c));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const q = item.querySelector('.faq-q');
+      const a = item.querySelector('.faq-a');
+      q.addEventListener('click', () => {
+        const is = a.style.display === 'block';
+        document.querySelectorAll('.faq-a').forEach(x => x.style.display='none');
+        if (!is) a.style.display = 'block';
+      });
+    });
+
+    // Back to top
+    document.getElementById('backToTop').addEventListener('click', e => { e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'}); });
+
+    // Expand video small action toggle
+    document.getElementById('expandVideo').addEventListener('click', () => {
+      const iframe = document.getElementById('showcaseIframe');
+      if (!iframe.style.height || iframe.style.height === '') {
+        iframe.style.height = '600px';
+      } else {
+        iframe.style.height = '';
+      }
+    });
+
+    // Simple 3D tilt effect on showcase card
+    const scard = document.getElementById('showcaseCard');
+    scard.addEventListener('mousemove', (e) => {
+      const rect = scard.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rx = (y - 0.5) * 6; const ry = (x - 0.5) * -8;
+      scard.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+    });
+    scard.addEventListener('mouseleave', () => scard.style.transform = 'rotateX(0) rotateY(0)');
+
+    // Cursor trail (lightweight)
+    const trail = document.getElementById('cursorTrail');
+    const DOTS = [];
+    for (let i=0;i<8;i++){
+      const d = document.createElement('div');
+      d.className = 'trail-dot';
+      d.style.width = d.style.height = (6 + i*0.7) + 'px';
+      d.style.left = d.style.top = '0px';
+      d.style.background = `linear-gradient(180deg, rgba(155,107,255,${0.12 + i*0.08}), rgba(108,71,255,${0.06 + i*0.04}))`;
+      d.style.opacity = String(0.9 - i*0.08);
+      trail.appendChild(d);
+      DOTS.push(d);
+    }
+    let mouse = {x: window.innerWidth/2, y: window.innerHeight/2};
+    window.addEventListener('mousemove', (e) => { mouse.x=e.clientX; mouse.y=e.clientY });
+    function renderTrail() {
+      let x = mouse.x, y = mouse.y;
+      DOTS.forEach((el, idx) => {
+        const k = 0.12 + idx*0.02;
+        const ex = parseFloat(el.dataset.x || x), ey = parseFloat(el.dataset.y || y);
+        const nx = ex + (x - ex) * k;
+        const ny = ey + (y - ey) * k;
+        el.style.transform = `translate3d(${nx - 6}px, ${ny - 6}px, 0)`;
+        el.dataset.x = nx; el.dataset.y = ny;
+        x = nx; y = ny;
+      });
+      requestAnimationFrame(renderTrail);
+    }
+    renderTrail();
+
+    // Small accessibility: skip heavy animations if user prefers reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-aos]').forEach(n => n.removeAttribute('data-aos'));
+    }
+
+    // Tiny helper to show "Copied" state on main hero copy button
+    document.getElementById('copyScriptBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('copyScriptBtn');
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+      setTimeout(()=> btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy Script', 1400);
+    });
+
+    // Optional: keyboard shortcut (C) to copy
+    window.addEventListener('keydown', (e) => {
+      if ((e.key === 'c' || e.key === 'C') && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        document.getElementById('copyBtn').click();
+      }
+    });
+
+    // last updated date auto set to today (UTC+0 to avoid confusion), but here we use fixed date as example
+    document.getElementById('lastUpdated').textContent = 'Updated: 2025-10-19';
+
+    // Accessibility: ensure focus outlines
+    document.body.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') document.documentElement.style.setProperty('outline', 'auto 1px rgba(255,255,255,0.08)');
+    });
+
+  </script>
 </body>
 </html>
