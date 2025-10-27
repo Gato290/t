@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>NexaHUB — Premium Script Hub</title>
+  <title>NexaHUB — Premium Script Hub (Animated)</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -28,6 +28,8 @@
       --accent3: #5ce1e6;
       --muted: #bfc0d6;
     }
+    /* Base */
+    html,body { height: 100%; }
     body {
       font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background:
@@ -39,6 +41,7 @@
       overflow-x: hidden;
       margin: 0;
       min-height: 100vh;
+      transition: background 0.6s ease, color 0.4s ease;
     }
     .glass {
       background: var(--glass);
@@ -52,23 +55,24 @@
       font-weight: 700;
       padding: 0.75rem 1.5rem;
       border-radius: 9999px;
-      transition: transform 0.3s ease;
+      transition: transform 0.28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+      box-shadow: 0 8px 30px rgba(108,71,255,0.12);
     }
     .btn-primary:hover {
-      transform: translateY(-4px) scale(1.05);
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 18px 48px rgba(108,71,255,0.18);
     }
     .btn-ghost {
       background: transparent;
       color: var(--muted);
-      border: 1px solid rgba(255 255 255 / 0.1);
+      border: 1px solid rgba(255 255 255 / 0.08);
       padding: 0.5rem 1rem;
       border-radius: 9999px;
       font-weight: 600;
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, transform .18s ease;
     }
-    .btn-ghost:hover {
-      color: white;
-    }
+    .btn-ghost:hover { color: white; transform: translateY(-3px); }
+
     .neon-text {
       font-size: clamp(3rem, 7vw, 5rem);
       font-weight: 800;
@@ -79,21 +83,125 @@
       letter-spacing: -1.2px;
       display: inline-block;
       line-height: 1;
+      animation: neon-breathe 3.6s ease-in-out infinite;
+    }
+
+    /* Neon breathe */
+    @keyframes neon-breathe {
+      0% { filter: drop-shadow(0 6px 20px rgba(155,107,255,0.08)); transform: translateY(0) scale(1); }
+      50% { filter: drop-shadow(0 16px 48px rgba(108,71,255,0.22)); transform: translateY(-4px) scale(1.01); }
+      100% { filter: drop-shadow(0 6px 20px rgba(155,107,255,0.08)); transform: translateY(0) scale(1); }
+    }
+
+    /* Loader */
+    #loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      background: linear-gradient(180deg, rgba(2,2,6,0.95), rgba(6,6,10,0.95));
+      transition: opacity 0.6s ease, visibility 0.6s;
+    }
+    .lds-ring { position: relative; width: 110px; height: 110px; }
+    .lds-ring .ring {
+      position: absolute;
+      inset: 0;
+      border: 6px solid rgba(255,255,255,0.06);
+      border-top-color: var(--accent1);
+      border-radius: 50%;
+      animation: spin 1.6s linear infinite;
+      filter: blur(2px);
+    }
+    .lds-ring .ring.r2 { transform: rotate(45deg); border-top-color: var(--accent2); animation-duration: 1.9s; }
+    .lds-ring .ring.r3 { transform: rotate(90deg); border-top-color: var(--accent3); animation-duration: 2.2s; }
+    .loader-subtext { margin-top: 18px; text-align:center; color: rgba(255,255,255,0.9); font-weight:700; letter-spacing: .6px;}
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Particles background canvas */
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.9;
+    }
+
+    /* Showcase tilt container improvements */
+    .showcase-wrap {
+      transform-style: preserve-3d;
+      transition: transform 0.35s ease, box-shadow .35s;
+    }
+    .showcase-wrap:hover { box-shadow: 0 30px 80px rgba(12,8,24,0.6); }
+
+    /* Typing effect for subtitle */
+    .typing {
+      font-weight: 600;
+      color: var(--muted);
+      display:inline-block;
+      min-height: 1.1em;
+    }
+    @keyframes caret {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: rgba(255,255,255,0.9); }
+    }
+    .typing::after {
+      content: "";
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      vertical-align: -0.18em;
+      margin-left: 6px;
+      background: rgba(255,255,255,0.9);
+      animation: caret 1s steps(2) infinite;
+    }
+
+    /* Floating badges animation */
+    .chip { background: rgba(255,255,255,0.03); padding: .35rem .6rem; border-radius: 999px; font-weight:700; display:inline-flex; gap:.5rem; align-items:center;}
+    .chip .icon { transform-origin:center; animation: floaty 4.6s ease-in-out infinite; }
+    @keyframes floaty {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(3deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    /* FAQ nicer reveal */
+    .faq-item { transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s; will-change: transform; }
+    .faq-item.open { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(12,8,24,0.6); }
+    .faq-a { transition: max-height .35s ease, opacity .28s ease; overflow:hidden; }
+
+    /* Cursor trail dots */
+    .trail-dot { position: fixed; z-index: 9999; opacity: 0.9; pointer-events:none; mix-blend-mode: screen; transition: transform .08s linear; }
+
+    /* code box styling */
+    .codebox { border-radius: 12px; box-shadow: inset 0 -6px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.04); }
+
+    /* Responsive niceties */
+    @media (max-width: 768px) {
+      .neon-text { font-size: clamp(2.4rem, 9vw, 3.6rem); }
+      nav#navbar { left: 50%; transform: translateX(-50%); padding-left: 16px; padding-right: 16px; gap: 8px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Particles Canvas -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Cursor trail container -->
+  <div id="cursorTrail" aria-hidden="true"></div>
+
   <!-- Loader -->
-  <div id="loader" class="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[rgba(2,2,6,0.9)] to-[rgba(2,2,6,0.95)] z-[2000] transition-opacity duration-500">
-    <div>
-      <div class="lds-ring inline-block relative w-20 h-20">
-        <div class="absolute border-8 border-accent1 border-t-transparent rounded-full w-16 h-16 animate-spin"></div>
-        <div class="absolute border-8 border-accent1 border-t-transparent rounded-full w-16 h-16 animate-spin animation-delay-150"></div>
-        <div class="absolute border-8 border-accent1 border-t-transparent rounded-full w-16 h-16 animate-spin animation-delay-300"></div>
-        <div class="absolute border-8 border-accent1 border-t-transparent rounded-full w-16 h-16 animate-spin animation-delay-450"></div>
+  <div id="loader" class="fixed inset-0 flex items-center justify-center z-[2000]">
+    <div class="text-center">
+      <div class="lds-ring mx-auto relative">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
       </div>
-      <p class="mt-5 text-center font-bold text-accent1">Loading NexaHUB...</p>
+      <div class="loader-subtext mt-5 text-accent1">Loading NexaHUB...</div>
     </div>
   </div>
 
@@ -115,35 +223,35 @@
   </nav>
 
   <!-- Main Content -->
-  <main class="pt-36">
+  <main class="pt-36 relative z-10">
 
     <!-- Hero -->
-    <section id="home" class="max-w-7xl mx-auto px-6 pb-16 grid md:grid-cols-2 gap-10 items-center">
-
-      <div data-aos="fade-right" class="space-y-6 text-center md:text-left">
+    <section id="home" class="max-w-7xl mx-auto px-6 pb-16 grid md:grid-cols-2 gap-10 items-center relative">
+      <div data-aos="fade-right" class="space-y-6 text-center md:text-left z-20">
         <div class="flex items-center gap-6 justify-center md:justify-start">
-          <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB Logo" class="w-28 h-28 rounded-lg glass p-4" loading="lazy" />
+          <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB Logo" class="w-28 h-28 rounded-lg glass p-4 shadow-lg" loading="lazy" />
           <div>
             <h2 class="neon-text">NexaHUB</h2>
-            <p class="text-sm text-muted mt-1">Premium Roblox script hub — cepat, mudah, dan powerful.</p>
+            <p class="text-sm text-muted mt-1"><span id="typedSubtitle" class="typing"></span></p>
           </div>
         </div>
+
         <p class="text-muted max-w-xl mx-auto md:mx-0">Nexa Premium top script dengan berbagai fitur lengkap. Kelola, lihat preview, dan download script Roblox favoritmu dengan kecepatan maksimal dan tampilan stylish.</p>
 
         <div class="flex flex-wrap justify-center md:justify-start gap-4">
-          <button id="watchShow" class="btn-primary flex items-center gap-2"><i class="fa-solid fa-play"></i> Watch Showcase</button>
-          <button id="copyScriptBtn" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-copy"></i> Copy Script</button>
-          <button id="downloadScriptBtn" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-download"></i> Download</button>
+          <button id="watchShow" class="btn-primary flex items-center gap-2 transform-gpu" data-tilt><i class="fa-solid fa-play"></i> Watch Showcase</button>
+          <button id="copyScriptBtn" class="btn-ghost flex items-center gap-2" data-tilt><i class="fa-solid fa-copy"></i> Copy Script</button>
+          <button id="downloadScriptBtn" class="btn-ghost flex items-center gap-2" data-tilt><i class="fa-solid fa-download"></i> Download</button>
         </div>
 
         <div class="flex justify-center md:justify-start gap-4 mt-4 text-xs text-muted">
-          <span class="chip flex items-center gap-1"><i class="fa-solid fa-star text-accent1"></i> Premium</span>
+          <span class="chip flex items-center gap-1"><i class="fa-solid fa-star text-accent1 icon"></i> Premium</span>
           <span class="chip">Auto-update</span>
           <span class="chip">Secure Loader</span>
         </div>
       </div>
 
-      <div data-aos="fade-left" class="showcase-wrap glass p-4 rounded-lg shadow-lg relative">
+      <div id="showcase" data-aos="fade-left" class="showcase-wrap glass p-4 rounded-lg shadow-lg relative">
         <div class="flex items-center justify-between mb-3">
           <div>
             <h3 class="font-semibold text-white text-lg">Showcase</h3>
@@ -151,13 +259,12 @@
           </div>
           <span class="chip text-xs">v1.0 Web</span>
         </div>
-        <iframe id="showcaseIframe" class="w-full aspect-video rounded-md" src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Showcase video" frameborder="0" allowfullscreen loading="lazy"></iframe>
+        <iframe id="showcaseIframe" class="w-full aspect-video rounded-md transform-gpu" src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Showcase video" frameborder="0" allowfullscreen loading="lazy"></iframe>
         <div class="flex justify-end gap-3 mt-2">
           <button id="expandVideo" class="btn-ghost p-2"><i class="fa-solid fa-expand"></i></button>
           <button id="miniPlay" class="btn-ghost p-2"><i class="fa-solid fa-play"></i></button>
         </div>
       </div>
-
     </section>
 
     <!-- Script Section -->
@@ -176,7 +283,7 @@
           <button id="downloadBtn" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-download"></i> Download .lua</button>
           <button id="soundToggle" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-volume-high"></i> Sound</button>
         </div>
-        <pre id="codeBlock" tabindex="0" class="codebox bg-[rgba(155,107,255,0.1)] rounded-md p-4 overflow-auto font-mono text-sm text-indigo-100 select-text">
+        <pre id="codeBlock" tabindex="0" class="codebox bg-[rgba(155,107,255,0.08)] rounded-md p-4 overflow-auto font-mono text-sm text-indigo-100 select-text">
 script_key = "PASTEKEYHERE"
 loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
         </pre>
@@ -195,7 +302,7 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
-          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]">
+          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]" data-aos="zoom-in" data-aos-delay="60">
             <div class="flex items-center gap-4">
               <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center text-white text-xl">
                 <i class="fa-solid fa-rocket"></i>
@@ -207,7 +314,7 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
             </div>
           </article>
 
-          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]">
+          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]" data-aos="zoom-in" data-aos-delay="120">
             <div class="flex items-center gap-4">
               <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white text-xl">
                 <i class="fa-solid fa-shield-halved"></i>
@@ -219,7 +326,7 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
             </div>
           </article>
 
-          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]">
+          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]" data-aos="zoom-in" data-aos-delay="180">
             <div class="flex items-center gap-4">
               <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-xl">
                 <i class="fa-solid fa-bolt"></i>
@@ -284,22 +391,38 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
     </div>
   </footer>
 
+  <!-- Scripts -->
   <script>
     // Initialize AOS animations
     AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
 
-    // Loader hide after page load
+    /* -------------------------
+       Loader hide & entrance
+       ------------------------- */
     window.addEventListener('load', () => {
+      // small delay for aesthetics
       setTimeout(() => {
         const loader = document.getElementById('loader');
         if (loader) {
           loader.style.opacity = '0';
-          setTimeout(() => loader.style.display = 'none', 500);
+          setTimeout(() => { loader.style.display = 'none'; }, 700);
         }
-      }, 600);
+        // gentle entrance for content
+        document.querySelectorAll('main [data-aos]').forEach(el => {
+          el.style.opacity = 0;
+          el.style.transform = 'translateY(10px)';
+          setTimeout(() => {
+            el.style.transition = 'opacity .6s ease, transform .6s ease';
+            el.style.opacity = 1;
+            el.style.transform = 'translateY(0)';
+          }, 300);
+        });
+      }, 680);
     });
 
-    // Theme toggle
+    /* -------------------------
+       Theme toggle (dark/light)
+       ------------------------- */
     const toggleThemeBtn = document.getElementById('toggleTheme');
     const applyTheme = (mode) => {
       if (mode === 'light') {
@@ -316,17 +439,19 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
         toggleThemeBtn.textContent = 'Dark';
       }
     };
-
     let theme = localStorage.getItem('nexahub_theme') || 'dark';
     applyTheme(theme);
-
     toggleThemeBtn.addEventListener('click', () => {
       theme = theme === 'dark' ? 'light' : 'dark';
       localStorage.setItem('nexahub_theme', theme);
       applyTheme(theme);
+      // small pulse
+      toggleThemeBtn.animate([{ transform:'scale(1)' }, { transform:'scale(1.06)' }, { transform:'scale(1)' }], { duration: 260 });
     });
 
-    // Navbar smaller on scroll
+    /* -------------------------
+       Navbar shrink on scroll
+       ------------------------- */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 40) {
@@ -336,7 +461,9 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
       }
     });
 
-    // Copy script to clipboard
+    /* -------------------------
+       Copy & Download (same logic)
+       ------------------------- */
     const codeBlock = document.getElementById('codeBlock');
     document.getElementById('copyBtn').addEventListener('click', async () => {
       const text = codeBlock.innerText.trim();
@@ -350,7 +477,6 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
     });
     document.getElementById('copyScriptBtn').addEventListener('click', () => document.getElementById('copyBtn').click());
 
-    // Download script file
     document.getElementById('downloadBtn').addEventListener('click', () => {
       const text = codeBlock.innerText.trim();
       const blob = new Blob([text], { type: 'text/plain' });
@@ -365,7 +491,9 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
     });
     document.getElementById('downloadScriptBtn').addEventListener('click', () => document.getElementById('downloadBtn').click());
 
-    // Toggle sound
+    /* -------------------------
+       Sound toggle and click
+       ------------------------- */
     const soundToggle = document.getElementById('soundToggle');
     let audioEnabled = true;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -385,32 +513,45 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
       audioEnabled = !audioEnabled;
       soundToggle.classList.toggle('opacity-50', !audioEnabled);
       showToast(audioEnabled ? 'Suara aktif' : 'Suara mati');
+      playClick();
     });
 
-    // Toast notifications
+    /* -------------------------
+       Toast notifications
+       ------------------------- */
     function showToast(message) {
       const toast = document.createElement('div');
       toast.textContent = message;
       toast.className = 'fixed right-5 bottom-5 px-5 py-3 rounded-lg text-white z-50 shadow-lg';
       toast.style.background = 'linear-gradient(90deg, var(--accent1), var(--accent2))';
+      toast.style.transition = 'opacity .4s ease, transform .4s ease';
       document.body.appendChild(toast);
-      setTimeout(() => toast.style.opacity = '0', 1800);
-      setTimeout(() => toast.remove(), 2200);
+      setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(12px)'; }, 1600);
+      setTimeout(() => toast.remove(), 2100);
     }
 
-    // FAQ toggle
+    /* -------------------------
+       FAQ toggle with animation
+       ------------------------- */
     document.querySelectorAll('.faq-item').forEach(item => {
       const q = item.querySelector('.faq-q');
       const a = item.querySelector('.faq-a');
       q.addEventListener('click', () => {
         const isVisible = !a.classList.contains('hidden');
-        document.querySelectorAll('.faq-a').forEach(x => x.classList.add('hidden'));
+        // close all
+        document.querySelectorAll('.faq-a').forEach(x => {
+          x.classList.add('hidden');
+          x.parentElement.classList.remove('open');
+          x.previousElementSibling.querySelector('.faq-toggle').textContent = '+';
+        });
         if (isVisible) {
           a.classList.add('hidden');
           q.querySelector('.faq-toggle').textContent = '+';
+          item.classList.remove('open');
         } else {
           a.classList.remove('hidden');
           q.querySelector('.faq-toggle').textContent = '–';
+          item.classList.add('open');
         }
       });
     });
@@ -431,31 +572,37 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
       }
     });
 
-    // Simple 3D tilt effect on showcase card
+    /* -------------------------
+       Showcase card 3D tilt
+       ------------------------- */
     const showcaseCard = document.querySelector('.showcase-wrap');
     showcaseCard.addEventListener('mousemove', (e) => {
       const rect = showcaseCard.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      const rotateX = (y - 0.5) * 6;
-      const rotateY = (x - 0.5) * -8;
-      showcaseCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(6px)`;
+      const rotateX = (y - 0.5) * 8;
+      const rotateY = (x - 0.5) * -12;
+      showcaseCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(12px)`;
     });
     showcaseCard.addEventListener('mouseleave', () => {
       showcaseCard.style.transform = 'rotateX(0) rotateY(0)';
     });
 
-    // Cursor trail effect
-    const cursorTrail = document.getElementById('cursorTrail');
-    if (cursorTrail) {
+    /* -------------------------
+       Cursor trail effect
+       ------------------------- */
+    (function initCursorTrail() {
+      const cursorTrail = document.getElementById('cursorTrail');
       const DOTS = [];
       for (let i = 0; i < 8; i++) {
         const dot = document.createElement('div');
         dot.className = 'trail-dot rounded-full pointer-events-none absolute opacity-90';
-        const size = 6 + i * 0.7;
+        const size = 6 + i * 1.2;
         dot.style.width = `${size}px`;
         dot.style.height = `${size}px`;
-        dot.style.background = `linear-gradient(180deg, rgba(155,107,255,${0.12 + i * 0.08}), rgba(108,71,255,${0.06 + i * 0.04}))`;
+        dot.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,${0.08 + i * 0.03}), rgba(108,71,255,${0.06 + i * 0.04}))`;
+        dot.style.filter = 'blur(.6px)';
+        dot.style.zIndex = 9999 - i;
         cursorTrail.appendChild(dot);
         DOTS.push(dot);
       }
@@ -464,7 +611,7 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
       (function renderTrail() {
         let x = mouse.x, y = mouse.y;
         DOTS.forEach((el, i) => {
-          const k = 0.12 + i * 0.02;
+          const k = 0.14 + i * 0.03;
           const ex = parseFloat(el.dataset.x || x);
           const ey = parseFloat(el.dataset.y || y);
           const nx = ex + (x - ex) * k;
@@ -477,8 +624,146 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
         });
         requestAnimationFrame(renderTrail);
       })();
-    }
-  </script>
+    })();
 
+    /* -------------------------
+       Simple particles system (canvas)
+       ------------------------- */
+    (function initParticles() {
+      const canvas = document.getElementById('particles-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W = canvas.width = innerWidth;
+      let H = canvas.height = innerHeight;
+      window.addEventListener('resize', () => { W = canvas.width = innerWidth; H = canvas.height = innerHeight; });
+
+      const num = Math.max(60, Math.floor((W * H) / 60000)); // scale with screen
+      const particles = [];
+      for (let i = 0; i < num; i++) {
+        particles.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: -0.15 - Math.random() * 0.25,
+          r: 1 + Math.random() * 3,
+          hue: 230 + Math.random() * 80,
+          life: 40 + Math.random() * 80
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0,0,W,H);
+        for (let p of particles) {
+          ctx.beginPath();
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 6);
+          g.addColorStop(0, `hsla(${p.hue},100%,80%,0.9)`);
+          g.addColorStop(0.3, `hsla(${p.hue},90%,60%,0.25)`);
+          g.addColorStop(1, `hsla(${p.hue},80%,50%,0)`);
+          ctx.fillStyle = g;
+          ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+          ctx.fill();
+
+          // move
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life -= 0.2;
+          if (p.y < -50 || p.life <= 0) {
+            p.x = Math.random() * W;
+            p.y = H + 20 + Math.random() * 80;
+            p.vx = (Math.random() - 0.5) * 0.3;
+            p.vy = -0.1 - Math.random() * 0.25;
+            p.life = 40 + Math.random() * 80;
+            p.r = 1 + Math.random() * 3;
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    /* -------------------------
+       Typing subtitle (multiple phrases)
+       ------------------------- */
+    (function typingEffect() {
+      const el = document.getElementById('typedSubtitle');
+      if (!el) return;
+      const phrases = [
+        "Premium Roblox script — cepat & aman.",
+        "Auto-update • Secure Loader • Low Lag.",
+        "Built for performance and style."
+      ];
+      let pi = 0, ci = 0, forward = true;
+      function tick() {
+        const text = phrases[pi];
+        if (forward) {
+          ci++;
+          el.textContent = text.slice(0, ci);
+          if (ci >= text.length) { forward = false; setTimeout(tick, 1200); return; }
+        } else {
+          ci--;
+          el.textContent = text.slice(0, ci);
+          if (ci === 0) { forward = true; pi = (pi + 1) % phrases.length; }
+        }
+        setTimeout(tick, forward ? 45 + Math.random()*30 : 30 + Math.random()*16);
+      }
+      tick();
+    })();
+
+    /* -------------------------
+       Small tilt effect for buttons (parallax)
+       ------------------------- */
+    document.querySelectorAll('[data-tilt]').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const rx = (y - 0.5) * -6;
+        const ry = (x - 0.5) * 8;
+        btn.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translateY(0) translateZ(0)';
+      });
+      btn.addEventListener('mousedown', () => {
+        btn.style.transform += ' scale(.98)';
+      });
+      btn.addEventListener('mouseup', () => {
+        btn.style.transform = btn.style.transform.replace(' scale(.98)', '');
+      });
+    });
+
+    /* -------------------------
+       IntersectionObserver: subtle reveal for elements without AOS
+       ------------------------- */
+    (function observerReveal() {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.transition = 'opacity .7s ease, transform .7s ease';
+            e.target.style.opacity = 1;
+            e.target.style.transform = 'translateY(0)';
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.18 });
+      document.querySelectorAll('[data-reveal]').forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(12px)';
+        io.observe(el);
+      });
+    })();
+
+    /* -------------------------
+       Small accessibility: enable keyboard copy (Ctrl+C on codebox)
+       ------------------------- */
+    const code = document.getElementById('codeBlock');
+    code.addEventListener('focus', (e) => { /* do nothing, but allow keyboard interactions */ });
+
+    /* -------------------------
+       Finish - small polish on load
+       ------------------------- */
+    // Ensure AOS refresh after dynamic changes
+    setTimeout(() => AOS.refresh(), 1200);
+  </script>
 </body>
 </html>
