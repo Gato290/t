@@ -5,411 +5,266 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>NexaHUB — Premium Script Hub</title>
 
-  <!-- Tailwind -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
   <!-- AOS (scroll animations) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root{
-      --bg:#05030a;
-      --glass: rgba(255,255,255,0.04);
-      --glass-border: rgba(255,255,255,0.06);
-      --accent1:#9b6bff;
-      --accent2:#6c47ff;
-      --accent-3:#5ce1e6;
-      --muted:#bfc0d6;
+    :root {
+      --bg: #05030a;
+      --glass: rgba(255 255 255 / 0.06);
+      --glass-border: rgba(255 255 255 / 0.1);
+      --accent1: #9b6bff;
+      --accent2: #6c47ff;
+      --accent3: #5ce1e6;
+      --muted: #bfc0d6;
     }
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:'Outfit',system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
-      background: radial-gradient(ellipse at 15% 10%, rgba(155,107,255,0.06), transparent 30%), var(--bg);
-      color:#eef0ff;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      overflow-x:hidden;
+    body {
+      font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(155, 107, 255, 0.06), transparent 30%),
+        var(--bg);
+      color: #eef0ff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      margin: 0;
+      min-height: 100vh;
     }
-
-    /* Loading overlay */
-    #loader {
-      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(180deg, rgba(2,2,6,0.9), rgba(2,2,6,0.95));
-      z-index:2000; transition:opacity .45s, visibility .45s;
-    }
-    #loader.hidden{opacity:0; visibility:hidden; pointer-events:none}
-    .lds-ring{display:inline-block; position:relative; width:80px; height:80px}
-    .lds-ring div{box-sizing:border-box; display:block; position:absolute; width:64px; height:64px; margin:8px; border:8px solid var(--accent1); border-radius:50%; animation:lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite; border-color:var(--accent1) transparent transparent transparent}
-    .lds-ring div:nth-child(2){animation-delay:-.45s}
-    .lds-ring div:nth-child(3){animation-delay:-.3s}
-    .lds-ring div:nth-child(4){animation-delay:-.15s}
-    @keyframes lds-ring {0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-
-    /* Aurora & floating lines / particles */
-    .aurora{
-      position:fixed; inset:0; z-index:-2; pointer-events:none; overflow:hidden;
-      filter: blur(80px);
-    }
-    .aurora .layer { position:absolute; width:120%; height:120%; transform-origin:center; opacity:.7; }
-    .aurora .l1{background:radial-gradient(circle at 20% 30%, rgba(155,107,255,0.28), transparent 25%);}
-    .aurora .l2{background:radial-gradient(circle at 80% 70%, rgba(92,225,230,0.12), transparent 30%); mix-blend-mode:screen;}
-    .aurora .l3{background:conic-gradient(from 200deg at 50% 50%, rgba(108,71,255,0.05), transparent 30%); opacity:.6;}
-    @keyframes auroraMove {0%{transform:translate(0,0) rotate(0)}50%{transform:translate(-40px,30px) rotate(4deg)}100%{transform:translate(0,0) rotate(0)}}
-    .aurora .layer{animation:auroraMove 18s ease-in-out infinite;}
-
-    /* Particle grid (subtle) */
-    .particle-grid{position:fixed; inset:0; z-index:-1; opacity:.12; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0); background-size:26px 26px; pointer-events:none; filter:blur(0px)}
-
-    /* Top nav */
-    .top-nav {
-      position:fixed; left:50%; transform:translateX(-50%); top:18px; z-index:1200;
-      display:flex; gap:18px; background:rgba(255,255,255,0.03); padding:9px 20px; border-radius:999px; align-items:center;
-      border:1px solid var(--glass-border); backdrop-filter: blur(10px);
-      transition: all .35s ease;
-      box-shadow: 0 6px 30px rgba(92,40,255,0.06);
-    }
-    .top-nav.small{ transform: translateX(-50%) translateY(-6px) scale(.98); background: rgba(6,6,10,0.6) }
-    .top-nav a{ color:var(--muted); text-decoration:none; font-weight:600; padding:6px 8px; border-radius:8px; transition:all .2s ease}
-    .top-nav a:hover{ color:white; transform:translateY(-3px) }
-    .brand { display:flex; gap:12px; align-items:center; margin-right:8px; padding-right:8px; border-right:1px solid rgba(255,255,255,0.03) }
-    .brand img{ width:46px; height:46px; border-radius:10px; box-shadow:0 8px 30px rgba(107,64,255,0.14); }
-
-    /* Hero */
-    .hero { min-height:92vh; display:flex; align-items:center; justify-content:center; padding:48px 20px; position:relative; z-index:5 }
-    .hero-inner{ max-width:1100px; width:100%; display:grid; grid-template-columns: 1fr; gap:26px; place-items:center; text-align:center }
-    @media(min-width:960px){ .hero-inner{ grid-template-columns: 480px 1fr; text-align:left; align-items:center } }
-
-    .neon {
-      font-size: clamp(36px, 7vw, 80px); line-height:0.9; font-weight:800;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      text-shadow: 0 6px 40px rgba(108,71,255,0.18);
-      letter-spacing:-1.2px; display:inline-block;
-    }
-
-    .sub {
-      color: #bfc3e6; margin-top:6px; font-size:1.02rem; max-width:680px;
-    }
-
-    /* Glass card */
     .glass {
-      background: var(--glass); border:1px solid var(--glass-border); border-radius:14px; padding:18px; backdrop-filter:blur(8px);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
     }
-
-    /* Buttons */
-    .btn {
-      border-radius:999px; padding:12px 20px; display:inline-flex; gap:10px; align-items:center; font-weight:700; cursor:pointer;
-      transition: all .28s cubic-bezier(.2,.9,.25,1); box-shadow: 0 10px 30px rgba(92,47,255,0.06);
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: white;
+      font-weight: 700;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      transition: transform 0.3s ease;
     }
-    .btn-primary{ background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; }
-    .btn-ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04) }
-
-    .btn:hover{ transform: translateY(-4px) scale(1.02) }
-
-    /* code block */
-    pre.codebox{ font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; border-radius:12px; padding:18px; font-size:13px; color:#dbeafe; background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.02)); border:1px solid rgba(155,107,255,0.06); overflow:auto }
-    .code-actions{ display:flex; gap:10px; justify-content:center; margin-bottom:12px }
-
-    /* Feature grid */
-    .features { display:grid; grid-template-columns:1fr; gap:18px }
-    @media(min-width:860px){ .features{ grid-template-columns: repeat(3,1fr) } }
-    .feature-card{ padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); transition: transform .25s ease, box-shadow .25s ease }
-    .feature-card:hover{ transform: translateY(-8px); box-shadow:0 24px 60px rgba(92,47,255,0.06) }
-
-    /* Tilted showcase */
-    .showcase-wrap{ perspective:1200px }
-    .showcase-card{ transform-style:preserve-3d; transition:transform .25s; border-radius:14px; overflow:hidden; }
-
-    /* Testimonials slider (simple) */
-    .slider { display:flex; gap:16px; align-items:center; overflow:hidden }
-    .slide{ min-width:280px; flex-shrink:0; border-radius:12px; padding:14px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03) }
-
-    /* Stats counter */
-    .stat{ text-align:center }
-    .stat .num{ font-size:28px; font-weight:800; color:var(--accent2) }
-
-    /* FAQ */
-    .faq-item { border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.03); background:rgba(255,255,255,0.01) }
-    .faq-q{ display:flex; justify-content:space-between; gap:8px; cursor:pointer; align-items:center; padding:8px }
-    .faq-a{ padding:6px 8px; color:#cbd0ea; display:none }
-
-    /* cursor trail */
-    .cursor-trail { position:fixed; left:0; top:0; width:10px; height:10px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%); mix-blend-mode:screen; z-index:9999; filter:blur(0.5px) }
-    .trail-dot{ position:absolute; width:8px; height:8px; border-radius:50%; pointer-events:none; opacity:0.9 }
-
-    /* footer */
-    footer{ padding:34px 20px; text-align:center; color:#9fa3c8; border-top:1px solid rgba(255,255,255,0.02); margin-top:48px }
-
-    /* small helpers */
-    .muted{ color:#9fa3c8 }
-    .chip { padding:6px 10px; border-radius:999px; font-weight:700; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.02) }
+    .btn-primary:hover {
+      transform: translateY(-4px) scale(1.05);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid rgba(255 255 255 / 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    .btn-ghost:hover {
+      color: white;
+    }
+    .neon-text {
+      font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 6px 40px rgba(108, 71, 255, 0.18);
+      letter-spacing: -1.2px;
+      display: inline-block;
+      line-height: 1;
+    }
   </style>
 </head>
 <body>
 
   <!-- Loader -->
-  <div id="loader" aria-hidden="true">
-    <div class="text-center">
-      <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-      <div style="margin-top:18px; color:#cfc9ff; font-weight:700">Loading NexaHUB...</div>
+  <div id="loader" class="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[rgba(2,2,6,0.9)] to-[rgba(2,2,6,0.95)] z-[2000] transition-opacity duration-500">
+    <div>
+      <div class="lds-ring inline-block relative w-20 h-20">
+        <div class="absolute border-8 border-accent1 border-t-transparent rounded-full w-16 h-16 animate-spin"></div>
+        <div class="absolute border-8 border-accent1 border-t-transparent rounded-full w-16 h-16 animate-spin animation-delay-150"></div>
+        <div class="absolute border-8 border-accent1 border-t-transparent rounded-full w-16 h-16 animate-spin animation-delay-300"></div>
+        <div class="absolute border-8 border-accent1 border-t-transparent rounded-full w-16 h-16 animate-spin animation-delay-450"></div>
+      </div>
+      <p class="mt-5 text-center font-bold text-accent1">Loading NexaHUB...</p>
     </div>
   </div>
-
-  <!-- Decorative aurora + particle grid -->
-  <div class="aurora" aria-hidden="true">
-    <div class="layer l1" style="left:-10%; top:-10%; width:140%; height:140%"></div>
-    <div class="layer l2" style="right:-20%; bottom:-10%; width:140%; height:140%"></div>
-    <div class="layer l3" style="left:0; top:10%; width:120%; height:120%"></div>
-  </div>
-  <div class="particle-grid" aria-hidden="true"></div>
-
-  <!-- Cursor trail container -->
-  <div id="cursorTrail" class="cursor-trail" aria-hidden="true"></div>
 
   <!-- Navbar -->
-  <nav class="top-nav glass" id="navbar">
-    <div class="brand">
-      <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" loading="lazy" />
-      <div style="line-height:1">
-        <div style="font-weight:800">NexaHUB</div>
-        <div style="font-size:11px;color:#a9aed2">Premium Script Hub</div>
+  <nav id="navbar" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] backdrop-blur-md rounded-full px-6 py-2 flex gap-6 items-center shadow-lg z-50 transition-all duration-300">
+    <div class="flex items-center gap-3 pr-6 border-r border-[rgba(255,255,255,0.03)]">
+      <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-12 h-12 rounded-lg shadow-lg" loading="lazy" />
+      <div>
+        <h1 class="font-extrabold text-white select-none">NexaHUB</h1>
+        <p class="text-xs text-muted select-none">Premium Script Hub</p>
       </div>
     </div>
-
-    <a href="#home">Home</a>
-    <a href="#showcase">Showcase</a>
-    <a href="#script">Script</a>
-    <a href="#features">Features</a>
-    <a href="#faq">FAQ</a>
-
-    <div style="width:12px"></div>
-    <button id="toggleTheme" class="chip" title="Toggle theme">Dark</button>
+    <a href="#home" class="text-sm font-semibold text-muted hover:text-white transition">Home</a>
+    <a href="#showcase" class="text-sm font-semibold text-muted hover:text-white transition">Showcase</a>
+    <a href="#script" class="text-sm font-semibold text-muted hover:text-white transition">Script</a>
+    <a href="#features" class="text-sm font-semibold text-muted hover:text-white transition">Features</a>
+    <a href="#faq" class="text-sm font-semibold text-muted hover:text-white transition">FAQ</a>
+    <button id="toggleTheme" class="ml-auto chip text-sm px-3 py-1 rounded-full font-semibold cursor-pointer select-none">Dark</button>
   </nav>
 
-  <!-- MAIN -->
-  <main>
+  <!-- Main Content -->
+  <main class="pt-36">
 
-    <!-- HERO -->
-    <header id="home" class="hero">
-      <div class="hero-inner">
-        <div data-aos="fade-right">
-          <div style="display:flex; align-items:center; gap:18px;">
-            <img src="https://i.imgur.com/6h1Te7r.png" alt="logo" class="glass" style="width:120px; height:120px; padding:8px; border-radius:14px;"/>
-            <div>
-              <div class="neon">NexaHUB</div>
-              <div class="muted" style="margin-top:6px">Premium Roblox script hub — simple, fast & powerful.</div>
-            </div>
-          </div>
+    <!-- Hero -->
+    <section id="home" class="max-w-7xl mx-auto px-6 pb-16 grid md:grid-cols-2 gap-10 items-center">
 
-          <p class="sub" style="margin-top:22px">
-            Nexa Premium is the best top script with lots of features. Use NexaHub to manage, preview, and download scripts for Roblox — built with speed and style.
-          </p>
-
-          <div class="mt-6 flex flex-wrap gap-3 items-center" style="justify-content:center; margin-bottom:14px">
-            <button class="btn btn-primary" id="watchShow"><i class="fa-solid fa-play"></i> Watch Showcase</button>
-            <button class="btn btn-ghost" id="copyScriptBtn"><i class="fa-solid fa-copy"></i> Copy Script</button>
-            <button class="btn btn-ghost" id="downloadScriptBtn"><i class="fa-solid fa-download"></i> Download</button>
-          </div>
-
-          <div style="display:flex; gap:10px; justify-content:center; margin-top:10px">
-            <span class="chip"><i class="fa-solid fa-star" style="color:var(--accent1)"></i> Premium</span>
-            <span class="chip">Auto-update</span>
-            <span class="chip">Secure Loader</span>
-          </div>
-        </div>
-
-        <!-- Right: Showcase card -->
-        <div data-aos="fade-left" class="showcase-wrap">
-          <div class="showcase-card glass" id="showcaseCard" style="padding:14px">
-            <div style="display:flex; gap:12px; align-items:center; justify-content:space-between">
-              <div>
-                <div style="font-weight:800; font-size:18px">Showcase</div>
-                <div class="muted" style="font-size:13px">Live preview</div>
-              </div>
-              <div class="chip">v1.0 Web</div>
-            </div>
-
-            <div style="margin-top:12px; border-radius:12px; overflow:hidden; margin-bottom:6px">
-              <iframe id="showcaseIframe" class="w-full aspect-video" src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Showcase" frameborder="0" allowfullscreen loading="lazy"></iframe>
-            </div>
-
-            <div style="display:flex; gap:10px; justify-content:flex-end">
-              <button class="btn btn-ghost" id="expandVideo"><i class="fa-solid fa-expand"></i></button>
-              <button class="btn btn-ghost" id="miniPlay"><i class="fa-solid fa-play"></i></button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </header>
-
-    <!-- SCRIPT SECTION -->
-    <section id="script" class="py-20 px-6">
-      <div class="max-w-4xl mx-auto" data-aos="fade-up">
-        <div class="flex justify-between items-center mb-6">
+      <div data-aos="fade-right" class="space-y-6 text-center md:text-left">
+        <div class="flex items-center gap-6 justify-center md:justify-start">
+          <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB Logo" class="w-28 h-28 rounded-lg glass p-4" loading="lazy" />
           <div>
-            <h2 class="text-3xl font-bold">Copy / Download Script</h2>
-            <p class="muted" style="margin-top:6px">Grab the loader script quickly. Works with most executors.</p>
+            <h2 class="neon-text">NexaHUB</h2>
+            <p class="text-sm text-muted mt-1">Premium Roblox script hub — cepat, mudah, dan powerful.</p>
           </div>
-          <div class="muted">Ready to use • <span id="lastUpdated">Updated: 2025-10-19</span></div>
+        </div>
+        <p class="text-muted max-w-xl mx-auto md:mx-0">Nexa Premium top script dengan berbagai fitur lengkap. Kelola, lihat preview, dan download script Roblox favoritmu dengan kecepatan maksimal dan tampilan stylish.</p>
+
+        <div class="flex flex-wrap justify-center md:justify-start gap-4">
+          <button id="watchShow" class="btn-primary flex items-center gap-2"><i class="fa-solid fa-play"></i> Watch Showcase</button>
+          <button id="copyScriptBtn" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-copy"></i> Copy Script</button>
+          <button id="downloadScriptBtn" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-download"></i> Download</button>
         </div>
 
-        <div class="glass p-4">
-          <div class="code-actions">
-            <button id="copyBtn" class="btn btn-primary"><i class="fa-solid fa-copy"></i> Copy</button>
-            <button id="downloadBtn" class="btn btn-ghost"><i class="fa-solid fa-download"></i> Download .lua</button>
-            <button id="soundToggle" class="btn btn-ghost"><i class="fa-solid fa-volume-high"></i> Sound</button>
-          </div>
+        <div class="flex justify-center md:justify-start gap-4 mt-4 text-xs text-muted">
+          <span class="chip flex items-center gap-1"><i class="fa-solid fa-star text-accent1"></i> Premium</span>
+          <span class="chip">Auto-update</span>
+          <span class="chip">Secure Loader</span>
+        </div>
+      </div>
 
-          <pre id="codeBlock" class="codebox" aria-label="Script code" contenteditable="false">
+      <div data-aos="fade-left" class="showcase-wrap glass p-4 rounded-lg shadow-lg relative">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h3 class="font-semibold text-white text-lg">Showcase</h3>
+            <span class="text-muted text-xs">Live preview</span>
+          </div>
+          <span class="chip text-xs">v1.0 Web</span>
+        </div>
+        <iframe id="showcaseIframe" class="w-full aspect-video rounded-md" src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Showcase video" frameborder="0" allowfullscreen loading="lazy"></iframe>
+        <div class="flex justify-end gap-3 mt-2">
+          <button id="expandVideo" class="btn-ghost p-2"><i class="fa-solid fa-expand"></i></button>
+          <button id="miniPlay" class="btn-ghost p-2"><i class="fa-solid fa-play"></i></button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Script Section -->
+    <section id="script" class="max-w-4xl mx-auto px-6 py-16" data-aos="fade-up">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h2 class="text-3xl font-bold text-white">Copy / Download Script</h2>
+          <p class="text-muted mt-1">Ambil script loader dengan cepat. Kompatibel dengan berbagai executor.</p>
+        </div>
+        <div class="text-muted text-sm">Ready to use • <span id="lastUpdated">Updated: 2025-10-19</span></div>
+      </div>
+
+      <div class="glass p-6 rounded-lg shadow-inner">
+        <div class="flex justify-center gap-4 mb-4 flex-wrap">
+          <button id="copyBtn" class="btn-primary flex items-center gap-2"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button id="downloadBtn" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-download"></i> Download .lua</button>
+          <button id="soundToggle" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-volume-high"></i> Sound</button>
+        </div>
+        <pre id="codeBlock" tabindex="0" class="codebox bg-[rgba(155,107,255,0.1)] rounded-md p-4 overflow-auto font-mono text-sm text-indigo-100 select-text">
 script_key = "PASTEKEYHERE"
 loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
-          </pre>
-        </div>
+        </pre>
       </div>
     </section>
 
-    <!-- FEATURES -->
-    <section id="features" class="py-20 px-6 bg-[rgba(255,255,255,0.01)]">
-      <div class="max-w-6xl mx-auto" data-aos="fade-up">
+    <!-- Features Section -->
+    <section id="features" class="bg-[rgba(255,255,255,0.01)] py-20 px-6" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto">
         <div class="flex justify-between items-center mb-8">
           <div>
-            <h2 class="text-3xl font-bold">Fitur Unggulan</h2>
-            <p class="muted" style="margin-top:6px">Semua fitur dirancang untuk kenyamanan dan performa.</p>
+            <h2 class="text-3xl font-bold text-white">Fitur Unggulan</h2>
+            <p class="text-muted mt-1">Semua fitur dirancang untuk performa dan kenyamanan maksimal.</p>
           </div>
-          <div class="muted">Hand-picked • Lightweight</div>
+          <div class="text-muted text-sm">Hand-picked • Lightweight</div>
         </div>
 
-        <div class="features">
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-            <div style="display:flex; gap:12px; align-items:center">
-              <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-rocket"></i></div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center text-white text-xl">
+                <i class="fa-solid fa-rocket"></i>
+              </div>
               <div>
-                <div style="font-weight:800">Executor</div>
-                <div class="muted" style="margin-top:6px">Support All Executor</div>
+                <h3 class="font-semibold text-white">Executor</h3>
+                <p class="text-muted mt-1">Support semua executor</p>
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="160">
-            <div style="display:flex; gap:12px; align-items:center">
-              <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#5ce1e6,#4cbef0);display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-shield-halved"></i></div>
+          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white text-xl">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
               <div>
-                <div style="font-weight:800">Secure Loader</div>
-                <div class="muted" style="margin-top:6px">Signed loader and checksum verification.</div>
+                <h3 class="font-semibold text-white">Secure Loader</h3>
+                <p class="text-muted mt-1">Loader signed dan verifikasi checksum</p>
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="220">
-            <div style="display:flex; gap:12px; align-items:center">
-              <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ffd86b,#ff9a4d);display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-bolt"></i></div>
+          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-xl">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
               <div>
-                <div style="font-weight:800">Low Lag</div>
-                <div class="muted" style="margin-top:6px">Optimized scripts with minimal performance impact.</div>
+                <h3 class="font-semibold text-white">Low Lag</h3>
+                <p class="text-muted mt-1">Script ringan dan optimal performa</p>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TESTIMONIALS + STATS -->
-    <section class="py-20 px-6">
-      <div class="max-w-6xl mx-auto" data-aos="fade-up">
-        <div class="grid grid-cols-1 gap-8 md:grid-cols-3 items-start">
-          <div class="md:col-span-2">
-            <h3 class="text-2xl font-bold mb-4">Apa kata pengguna</h3>
-            <div class="slider" id="testimonialSlider" style="overflow:hidden">
-              <div class="slide glass" data-aos="fade-right">
-                <div style="display:flex; gap:10px; align-items:center">
-                  <img src="https" alt="" style="border-radius:10px" />
-                  <div>
-                    <div style="font-weight:800">Han</div>
-                    <div class="muted" style="font-size:12px">Premium</div>
-                  </div>
-                </div>
-                <p class="muted" style="margin-top:8px">Loading</p>
-              </div>
-
-              <div class="slide glass" data-aos="fade-right" data-aos-delay="80">
-                <div style="display:flex; gap:10px; align-items:center">
-                  <img src="https" alt="" style="border-radius:10px" />
-                  <div>
-                    <div style="font-weight:800">Han</div>
-                    <div class="muted" style="font-size:12px">Premium</div>
-                  </div>
-                </div>
-                <p class="muted" style="margin-top:8px">Loading</p>
-              </div>
-
-              <div class="slide glass" data-aos="fade-right" data-aos-delay="160">
-                <div style="display:flex; gap:10px; align-items:center">
-                  <img src="https" alt="" style="border-radius:10px" />
-                  <div>
-                    <div style="font-weight:800">Han</div>
-                    <div class="muted" style="font-size:12px">Premium</div>
-                  </div>
-                </div>
-                <p class="muted" style="margin-top:8px">Loading</p>
-              </div>
-            </div>
-            <div style="display:flex; gap:8px; margin-top:12px">
-              <button id="prevTest" class="btn btn-ghost"><i class="fa-solid fa-chevron-left"></i></button>
-              <button id="nextTest" class="btn btn-ghost"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-          </div>
-
-          <div class="glass p-6">
-            <h4 class="font-bold">Stats</h4>
-            <div class="mt-4 grid grid-cols-2 gap-4">
-              <div class="stat">
-                <div class="num" data-target="0">0</div>
-                <div class="muted">Downloads</div>
-              </div>
-              <div class="stat">
-                <div class="num" data-target="0">0</div>
-                <div class="muted">Active users</div>
-              </div>
-              <div class="stat">
-                <div class="num" data-target="0">0</div>
-                <div class="muted">Features</div>
-              </div>
-              <div class="stat">
-                <div class="num" data-target="0">0</div>
-                <div class="muted">Stars</div>
-              </div>
-            </div>
-          </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq" class="py-20 px-6 bg-[rgba(255,255,255,0.01)]">
-      <div class="max-w-4xl mx-auto" data-aos="fade-up">
-        <h3 class="text-2xl font-bold mb-4">FAQ</h3>
-        <div class="space-y-3">
-          <div class="faq-item">
-            <div class="faq-q"><div><strong>Apa itu NexaHUB?</strong></div><div class="muted">+</div></div>
-            <div class="faq-a">NexaHUB adalah kumpulan script premium Roblox yang mudah digunakan, dengan loader dan update rutin.</div>
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 px-6 bg-[rgba(255,255,255,0.01)] max-w-4xl mx-auto" data-aos="fade-up">
+      <h3 class="text-2xl font-bold text-white mb-6">FAQ</h3>
+      <div class="space-y-3">
+        <div class="faq-item glass p-4 rounded-md cursor-pointer select-none border border-[rgba(255,255,255,0.03)]">
+          <div class="faq-q flex justify-between items-center font-semibold text-white">
+            <span>Apa itu NexaHUB?</span>
+            <span class="faq-toggle">+</span>
           </div>
-
-          <div class="faq-item">
-            <div class="faq-q"><div><strong>Apakah aman?</strong></div><div class="muted">+</div></div>
-            <div class="faq-a">Kami menyediakan loader dengan checksum dan pembaruan reguler. Selalu gunakan script sesuai kebijakan platformmu.</div>
+          <div class="faq-a mt-2 text-muted hidden">
+            NexaHUB adalah kumpulan script premium Roblox yang mudah digunakan, dengan loader dan update rutin.
           </div>
+        </div>
 
-          <div class="faq-item">
-            <div class="faq-q"><div><strong>Bagaimana cara meng-copy?</strong></div><div class="muted">+</div></div>
-            <div class="faq-a">Klik tombol "Copy" pada bagian Script. Sistem akan memberi animasi & suara bila aktif.</div>
+        <div class="faq-item glass p-4 rounded-md cursor-pointer select-none border border-[rgba(255,255,255,0.03)]">
+          <div class="faq-q flex justify-between items-center font-semibold text-white">
+            <span>Apakah aman?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-a mt-2 text-muted hidden">
+            Kami menyediakan loader dengan checksum dan pembaruan reguler. Gunakan script sesuai kebijakan platform.
+          </div>
+        </div>
+
+        <div class="faq-item glass p-4 rounded-md cursor-pointer select-none border border-[rgba(255,255,255,0.03)]">
+          <div class="faq-q flex justify-between items-center font-semibold text-white">
+            <span>Bagaimana cara meng-copy?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-a mt-2 text-muted hidden">
+            Klik tombol "Copy" pada bagian Script. Sistem akan memberi animasi dan suara bila aktif.
           </div>
         </div>
       </div>
@@ -418,34 +273,36 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
   </main>
 
   <!-- Footer -->
-  <footer>
-    <div class="max-w-6xl mx-auto">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
-        <div class="muted">© 2025 NexaHUB • Built with ❤️</div>
-        <div style="display:flex; gap:10px; align-items:center">
-          <a class="muted" href="https://www.youtube.com/@Hanblox96" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-          <a class="muted" href="https://www.tiktok.com/@scriptrandom_988" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-          <a class="muted" href="#" id="backToTop">Back to top</a>
-        </div>
+  <footer class="py-10 text-center text-muted text-sm border-t border-[rgba(255,255,255,0.02)] select-none">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 px-6">
+      <div>© 2025 NexaHUB • Built with ❤️</div>
+      <div class="flex gap-6 text-muted">
+        <a href="https://www.youtube.com/@Hanblox96" target="_blank" aria-label="YouTube Channel" class="hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.tiktok.com/@scriptrandom_988" target="_blank" aria-label="TikTok Profile" class="hover:text-white transition"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" id="backToTop" class="hover:text-white transition cursor-pointer">Back to top</a>
       </div>
     </div>
   </footer>
 
-  <!-- JS -->
   <script>
-    // Init AOS
+    // Initialize AOS animations
     AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
 
-    // Loader hide
+    // Loader hide after page load
     window.addEventListener('load', () => {
-      setTimeout(() => { document.getElementById('loader').classList.add('hidden'); }, 600);
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.style.display = 'none', 500);
+        }
+      }, 600);
     });
 
-    // Simple theme toggle (dark/light stored in localStorage)
+    // Theme toggle
     const toggleThemeBtn = document.getElementById('toggleTheme');
-    const currentTheme = localStorage.getItem('nexahub_theme') || 'dark';
-    const applyTheme = (t) => {
-      if (t === 'light') {
+    const applyTheme = (mode) => {
+      if (mode === 'light') {
         document.documentElement.style.setProperty('--bg', '#f7f8fb');
         document.documentElement.style.setProperty('--glass', 'rgba(2,6,23,0.03)');
         document.documentElement.style.setProperty('--glass-border', 'rgba(0,0,0,0.06)');
@@ -453,37 +310,47 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
         toggleThemeBtn.textContent = 'Light';
       } else {
         document.documentElement.style.setProperty('--bg', '#05030a');
-        document.documentElement.style.setProperty('--glass', 'rgba(255,255,255,0.04)');
-        document.documentElement.style.setProperty('--glass-border', 'rgba(255,255,255,0.06)');
+        document.documentElement.style.setProperty('--glass', 'rgba(255,255,255,0.06)');
+        document.documentElement.style.setProperty('--glass-border', 'rgba(255,255,255,0.1)');
         document.body.style.color = '#eef0ff';
         toggleThemeBtn.textContent = 'Dark';
       }
     };
-    applyTheme(currentTheme);
+
+    let theme = localStorage.getItem('nexahub_theme') || 'dark';
+    applyTheme(theme);
+
     toggleThemeBtn.addEventListener('click', () => {
-      const next = (localStorage.getItem('nexahub_theme') || 'dark') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('nexahub_theme', next);
-      applyTheme(next);
+      theme = theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('nexahub_theme', theme);
+      applyTheme(theme);
     });
 
-    // Navbar shrink on scroll
+    // Navbar smaller on scroll
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) navbar.classList.add('small'); else navbar.classList.remove('small');
+      if (window.scrollY > 40) {
+        navbar.classList.add('scale-95', 'bg-[rgba(6,6,10,0.6)]');
+      } else {
+        navbar.classList.remove('scale-95', 'bg-[rgba(6,6,10,0.6)]');
+      }
     });
 
-    // Copy / download script actions
+    // Copy script to clipboard
     const codeBlock = document.getElementById('codeBlock');
     document.getElementById('copyBtn').addEventListener('click', async () => {
       const text = codeBlock.innerText.trim();
       try {
         await navigator.clipboard.writeText(text);
-        showToast('Copied to clipboard ✓');
+        showToast('Tersalin ke clipboard ✓');
         playClick();
-      } catch (e) {
-        showToast('Copy failed — manual copy available');
+      } catch {
+        showToast('Gagal menyalin, silakan salin manual');
       }
     });
+    document.getElementById('copyScriptBtn').addEventListener('click', () => document.getElementById('copyBtn').click());
+
+    // Download script file
     document.getElementById('downloadBtn').addEventListener('click', () => {
       const text = codeBlock.innerText.trim();
       const blob = new Blob([text], { type: 'text/plain' });
@@ -493,181 +360,125 @@ loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
       document.body.appendChild(a);
       a.click();
       a.remove();
-      showToast('Download started');
+      showToast('Unduhan dimulai');
       playClick();
     });
-
-    // Quick copy / download buttons in hero
-    document.getElementById('copyScriptBtn').addEventListener('click', () => document.getElementById('copyBtn').click());
     document.getElementById('downloadScriptBtn').addEventListener('click', () => document.getElementById('downloadBtn').click());
-    document.getElementById('watchShow').addEventListener('click', () => {
-      document.getElementById('showcaseIframe').scrollIntoView({behavior:'smooth'});
-    });
 
-    // Simple toast
-    function showToast(msg) {
-      const t = document.createElement('div');
-      t.textContent = msg;
-      t.style.position = 'fixed';
-      t.style.right = '18px';
-      t.style.bottom = '18px';
-      t.style.padding = '12px 16px';
-      t.style.background = 'linear-gradient(90deg,var(--accent1),var(--accent2))';
-      t.style.color = 'white';
-      t.style.borderRadius = '10px';
-      t.style.boxShadow = '0 8px 30px rgba(92,47,255,0.12)';
-      t.style.zIndex = 9999;
-      document.body.appendChild(t);
-      setTimeout(()=> t.style.opacity = '0', 1800);
-      setTimeout(()=> t.remove(), 2200);
-    }
-
-    // Tiny click sound using WebAudio
+    // Toggle sound
+    const soundToggle = document.getElementById('soundToggle');
     let audioEnabled = true;
-    const audioCtx = typeof AudioContext !== 'undefined' ? new AudioContext() : null;
-    function playClick(){
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playClick() {
       if (!audioEnabled || !audioCtx) return;
-      const o = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      o.type = 'sine';
-      o.frequency.value = 660;
-      g.gain.value = 0.02;
-      o.connect(g); g.connect(audioCtx.destination);
-      o.start();
-      setTimeout(()=>{ o.stop(); }, 60);
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = 660;
+      gain.gain.value = 0.02;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      setTimeout(() => osc.stop(), 60);
     }
-    document.getElementById('soundToggle').addEventListener('click', () => {
+    soundToggle.addEventListener('click', () => {
       audioEnabled = !audioEnabled;
-      document.getElementById('soundToggle').classList.toggle('opacity-50', !audioEnabled);
-      showToast(audioEnabled ? 'Sound on' : 'Sound off');
+      soundToggle.classList.toggle('opacity-50', !audioEnabled);
+      showToast(audioEnabled ? 'Suara aktif' : 'Suara mati');
     });
 
-    // Testimonial slider (simple scroll carousel)
-    const slider = document.getElementById('testimonialSlider');
-    const slides = Array.from(slider.querySelectorAll('.slide'));
-    let sIndex = 0;
-    function showSlide(i){
-      sIndex = (i + slides.length) % slides.length;
-      const offset = slides.slice(0,sIndex).reduce((sum, el)=> sum + el.offsetWidth + 16, 0);
-      slider.scrollTo({ left: offset, behavior: 'smooth' });
+    // Toast notifications
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      toast.className = 'fixed right-5 bottom-5 px-5 py-3 rounded-lg text-white z-50 shadow-lg';
+      toast.style.background = 'linear-gradient(90deg, var(--accent1), var(--accent2))';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.style.opacity = '0', 1800);
+      setTimeout(() => toast.remove(), 2200);
     }
-    document.getElementById('prevTest').addEventListener('click', ()=> showSlide(sIndex-1));
-    document.getElementById('nextTest').addEventListener('click', ()=> showSlide(sIndex+1));
 
-    // Auto counter animation when visible
-    const counters = document.querySelectorAll('.num');
-    const counterObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = +el.getAttribute('data-target');
-          let start = 0;
-          const dur = 1400;
-          const step = Math.max(1, Math.floor(target / (dur / 30)));
-          const t = setInterval(()=> {
-            start += step;
-            if (start >= target) { el.textContent = target; clearInterval(t); }
-            else el.textContent = start;
-          }, 30);
-          counterObserver.unobserve(el);
-        }
-      })
-    }, {threshold:0.5});
-    counters.forEach(c => counterObserver.observe(c));
-
-    // FAQ accordion
+    // FAQ toggle
     document.querySelectorAll('.faq-item').forEach(item => {
       const q = item.querySelector('.faq-q');
       const a = item.querySelector('.faq-a');
       q.addEventListener('click', () => {
-        const is = a.style.display === 'block';
-        document.querySelectorAll('.faq-a').forEach(x => x.style.display='none');
-        if (!is) a.style.display = 'block';
+        const isVisible = !a.classList.contains('hidden');
+        document.querySelectorAll('.faq-a').forEach(x => x.classList.add('hidden'));
+        if (isVisible) {
+          a.classList.add('hidden');
+          q.querySelector('.faq-toggle').textContent = '+';
+        } else {
+          a.classList.remove('hidden');
+          q.querySelector('.faq-toggle').textContent = '–';
+        }
       });
     });
 
-    // Back to top
-    document.getElementById('backToTop').addEventListener('click', e => { e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'}); });
+    // Back to top link smooth scroll
+    document.getElementById('backToTop').addEventListener('click', e => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-    // Expand video small action toggle
+    // Expand video toggle height
+    const showcaseIframe = document.getElementById('showcaseIframe');
     document.getElementById('expandVideo').addEventListener('click', () => {
-      const iframe = document.getElementById('showcaseIframe');
-      if (!iframe.style.height || iframe.style.height === '') {
-        iframe.style.height = '600px';
+      if (showcaseIframe.style.height === '600px') {
+        showcaseIframe.style.height = '';
       } else {
-        iframe.style.height = '';
+        showcaseIframe.style.height = '600px';
       }
     });
 
     // Simple 3D tilt effect on showcase card
-    const scard = document.getElementById('showcaseCard');
-    scard.addEventListener('mousemove', (e) => {
-      const rect = scard.getBoundingClientRect();
+    const showcaseCard = document.querySelector('.showcase-wrap');
+    showcaseCard.addEventListener('mousemove', (e) => {
+      const rect = showcaseCard.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      const rx = (y - 0.5) * 6; const ry = (x - 0.5) * -8;
-      scard.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+      const rotateX = (y - 0.5) * 6;
+      const rotateY = (x - 0.5) * -8;
+      showcaseCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(6px)`;
     });
-    scard.addEventListener('mouseleave', () => scard.style.transform = 'rotateX(0) rotateY(0)');
-
-    // Cursor trail (lightweight)
-    const trail = document.getElementById('cursorTrail');
-    const DOTS = [];
-    for (let i=0;i<8;i++){
-      const d = document.createElement('div');
-      d.className = 'trail-dot';
-      d.style.width = d.style.height = (6 + i*0.7) + 'px';
-      d.style.left = d.style.top = '0px';
-      d.style.background = `linear-gradient(180deg, rgba(155,107,255,${0.12 + i*0.08}), rgba(108,71,255,${0.06 + i*0.04}))`;
-      d.style.opacity = String(0.9 - i*0.08);
-      trail.appendChild(d);
-      DOTS.push(d);
-    }
-    let mouse = {x: window.innerWidth/2, y: window.innerHeight/2};
-    window.addEventListener('mousemove', (e) => { mouse.x=e.clientX; mouse.y=e.clientY });
-    function renderTrail() {
-      let x = mouse.x, y = mouse.y;
-      DOTS.forEach((el, idx) => {
-        const k = 0.12 + idx*0.02;
-        const ex = parseFloat(el.dataset.x || x), ey = parseFloat(el.dataset.y || y);
-        const nx = ex + (x - ex) * k;
-        const ny = ey + (y - ey) * k;
-        el.style.transform = `translate3d(${nx - 6}px, ${ny - 6}px, 0)`;
-        el.dataset.x = nx; el.dataset.y = ny;
-        x = nx; y = ny;
-      });
-      requestAnimationFrame(renderTrail);
-    }
-    renderTrail();
-
-    // Small accessibility: skip heavy animations if user prefers reduced motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('[data-aos]').forEach(n => n.removeAttribute('data-aos'));
-    }
-
-    // Tiny helper to show "Copied" state on main hero copy button
-    document.getElementById('copyScriptBtn').addEventListener('click', async () => {
-      const btn = document.getElementById('copyScriptBtn');
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
-      setTimeout(()=> btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy Script', 1400);
+    showcaseCard.addEventListener('mouseleave', () => {
+      showcaseCard.style.transform = 'rotateX(0) rotateY(0)';
     });
 
-    // Optional: keyboard shortcut (C) to copy
-    window.addEventListener('keydown', (e) => {
-      if ((e.key === 'c' || e.key === 'C') && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault();
-        document.getElementById('copyBtn').click();
+    // Cursor trail effect
+    const cursorTrail = document.getElementById('cursorTrail');
+    if (cursorTrail) {
+      const DOTS = [];
+      for (let i = 0; i < 8; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'trail-dot rounded-full pointer-events-none absolute opacity-90';
+        const size = 6 + i * 0.7;
+        dot.style.width = `${size}px`;
+        dot.style.height = `${size}px`;
+        dot.style.background = `linear-gradient(180deg, rgba(155,107,255,${0.12 + i * 0.08}), rgba(108,71,255,${0.06 + i * 0.04}))`;
+        cursorTrail.appendChild(dot);
+        DOTS.push(dot);
       }
-    });
-
-    // last updated date auto set to today (UTC+0 to avoid confusion), but here we use fixed date as example
-    document.getElementById('lastUpdated').textContent = 'Updated: 2025-10-19';
-
-    // Accessibility: ensure focus outlines
-    document.body.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') document.documentElement.style.setProperty('outline', 'auto 1px rgba(255,255,255,0.08)');
-    });
-
+      let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      (function renderTrail() {
+        let x = mouse.x, y = mouse.y;
+        DOTS.forEach((el, i) => {
+          const k = 0.12 + i * 0.02;
+          const ex = parseFloat(el.dataset.x || x);
+          const ey = parseFloat(el.dataset.y || y);
+          const nx = ex + (x - ex) * k;
+          const ny = ey + (y - ey) * k;
+          el.style.transform = `translate3d(${nx - el.offsetWidth / 2}px, ${ny - el.offsetHeight / 2}px, 0)`;
+          el.dataset.x = nx;
+          el.dataset.y = ny;
+          x = nx;
+          y = ny;
+        });
+        requestAnimationFrame(renderTrail);
+      })();
+    }
   </script>
+
 </body>
 </html>
