@@ -12,6 +12,19 @@
 Next Update
 ]]
 
+local StarterGui = game:GetService("StarterGui")
+
+local LOAD_TIME = 20
+
+-- Notifikasi loading
+for i = LOAD_TIME, 1, -1 do
+    StarterGui:SetCore("SendNotification", {
+        Title = "Loading Script",
+        Text = "Script akan load dalam " .. i .. " detik",
+        Duration = 1
+    })
+    task.wait(1)
+end
 
 
 
@@ -55,19 +68,9 @@ Next Update
 
 loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/54ef530c2395d3ae65cdfdb8c06e108787eef85262409bc1d8b35f1b519a429a/download"))()
 
-local StarterGui = game:GetService("StarterGui")
-
-for i = 20, 1, -1 do
-    StarterGui:SetCore("SendNotification", {
-        Title = "Loading Script",
-        Text = "Script akan load dalam " .. i .. " detik",
-        Duration = 1
-    })
-    task.wait(1)
-end
-
+-- Notifikasi selesai
 StarterGui:SetCore("SendNotification", {
     Title = "Loaded",
-    Text = "Script berhasil di-load!",
-    Duration = 5
+    Text = "Script siap digunakan!",
+    Duration = 4
 })
