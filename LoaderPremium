@@ -9,19 +9,6 @@
 Next Update
 ]]
 
-local StarterGui = game:GetService("StarterGui")
-
-local LOAD_TIME = 20
-
--- Notifikasi loading
-for i = LOAD_TIME, 1, -1 do
-    StarterGui:SetCore("SendNotification", {
-        Title = "Loading Script",
-        Text = "Script akan load dalam " .. i .. " detik",
-        Duration = 1
-    })
-    task.wait(1)
-end
 
 
 
@@ -79,13 +66,175 @@ end
 
 
 
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Lighting = game:GetService("Lighting")
+
+local player = Players.LocalPlayer
+
+-- =========================
+-- Blur Effect
+-- =========================
+local blur = Instance.new("BlurEffect")
+blur.Size = 0
+blur.Parent = Lighting
+TweenService:Create(blur, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = 20}):Play()
+
+-- =========================
+-- ScreenGui
+-- =========================
+local gui = Instance.new("ScreenGui")
+gui.Name = "UltraLoader"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- =========================
+-- Overlay (Fullscreen)
+-- =========================
+local overlay = Instance.new("Frame")
+overlay.Size = UDim2.fromScale(1,1)
+overlay.BackgroundColor3 = Color3.fromRGB(8,8,10)
+overlay.BackgroundTransparency = 1
+overlay.Parent = gui
+
+TweenService:Create(overlay, TweenInfo.new(0.4), {
+    BackgroundTransparency = 0.25
+}):Play()
+
+-- =========================
+-- Center Holder
+-- =========================
+local holder = Instance.new("Frame")
+holder.AnchorPoint = Vector2.new(0.5,0.5)
+holder.Position = UDim2.fromScale(0.5,0.5)
+holder.Size = UDim2.fromScale(0.14,0.14)
+holder.BackgroundTransparency = 1
+holder.Parent = overlay
+
+-- Responsive
+local aspect = Instance.new("UIAspectRatioConstraint")
+aspect.AspectRatio = 1
+aspect.Parent = holder
+
+-- =========================
+-- Outer Ring
+-- =========================
+local outer = Instance.new("Frame")
+outer.Size = UDim2.fromScale(1,1)
+outer.BackgroundTransparency = 1
+outer.Parent = holder
+Instance.new("UICorner", outer).CornerRadius = UDim.new(1,0)
+
+local outerStroke = Instance.new("UIStroke")
+outerStroke.Thickness = 4
+outerStroke.Parent = outer
+
+local grad = Instance.new("UIGradient")
+grad.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0,180,255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(180,0,255))
+}
+grad.Parent = outerStroke
+
+-- =========================
+-- Inner Ring
+-- =========================
+local inner = Instance.new("Frame")
+inner.Size = UDim2.fromScale(0.62,0.62)
+inner.Position = UDim2.fromScale(0.5,0.5)
+inner.AnchorPoint = Vector2.new(0.5,0.5)
+inner.BackgroundTransparency = 1
+inner.Parent = holder
+Instance.new("UICorner", inner).CornerRadius = UDim.new(1,0)
+
+local innerStroke = Instance.new("UIStroke")
+innerStroke.Thickness = 3
+innerStroke.Color = Color3.fromRGB(255,255,255)
+innerStroke.Transparency = 0.25
+innerStroke.Parent = inner
+
+-- =========================
+-- Glow Effect
+-- =========================
+local glow = Instance.new("UIStroke")
+glow.Thickness = 10
+glow.Color = Color3.fromRGB(120,0,255)
+glow.Transparency = 0.85
+glow.Parent = outer
+
+-- =========================
+-- Text
+-- =========================
+local text = Instance.new("TextLabel")
+text.AnchorPoint = Vector2.new(0.5,0)
+text.Position = UDim2.fromScale(0.5,1.15)
+text.Size = UDim2.fromScale(2.2,0.5)
+text.BackgroundTransparency = 1
+text.Font = Enum.Font.GothamBold
+text.Text = "INITIALIZING"
+text.TextScaled = true
+text.TextColor3 = Color3.fromRGB(255,255,255)
+text.TextTransparency = 0.15
+text.Parent = holder
+
+-- =========================
+-- State Flag
+-- =========================
+_G.LoadingDone = false
+
+-- =========================
+-- Rotation Loop
+-- =========================
+task.spawn(function()
+    while not _G.LoadingDone do
+        outer.Rotation += 2.4
+        inner.Rotation -= 4
+        grad.Rotation += 1
+        RunService.RenderStepped:Wait()
+    end
+end)
+
+-- =========================
+-- Text Dot Animation
+-- =========================
+task.spawn(function()
+    local dots = {".","..","..."}
+    local i = 1
+    while not _G.LoadingDone do
+        text.Text = "INITIALIZING"..dots[i]
+        i = (i % #dots) + 1
+        task.wait(0.4)
+    end
+end)
+
+-- =========================
+-- Finish Animation
+-- =========================
+task.spawn(function()
+    repeat task.wait() until _G.LoadingDone
+
+    text.Text = "SCRIPT READY"
+
+    TweenService:Create(holder, TweenInfo.new(0.45, Enum.EasingStyle.Quint), {
+        Size = UDim2.fromScale(0.2,0.2)
+    }):Play()
+
+    TweenService:Create(outerStroke, TweenInfo.new(0.4), {Transparency = 1}):Play()
+    TweenService:Create(innerStroke, TweenInfo.new(0.4), {Transparency = 1}):Play()
+    TweenService:Create(glow, TweenInfo.new(0.4), {Transparency = 1}):Play()
+
+    task.wait(0.45)
+
+    TweenService:Create(overlay, TweenInfo.new(0.5), {BackgroundTransparency = 1}):Play()
+    TweenService:Create(blur, TweenInfo.new(0.5), {Size = 0}):Play()
+    TweenService:Create(text, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
+
+    task.wait(0.6)
+    gui:Destroy()
+    blur:Destroy()
+end)
 
 
 loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/a464f821e4d6d0382ea7ef594bc537e93ed6fcf4a3a8c45b5cbd13c334e838ff/download"))()
-
--- Notifikasi selesai
-StarterGui:SetCore("SendNotification", {
-    Title = "Loaded",
-    Text = "Script siap digunakan!",
-    Duration = 4
-})
