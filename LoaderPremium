@@ -203,7 +203,7 @@ task.spawn(function()
     local dots = {".","..","..."}
     local i = 1
     while not _G.LoadingDone do
-        text.Text = "INITIALIZING"..dots[i]
+        text.Text = "Loading"..dots[i]
         i = (i % #dots) + 1
         task.wait(0.4)
     end
