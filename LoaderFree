@@ -51,6 +51,10 @@ Next Update
 
 
 
+
+
+
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
@@ -76,7 +80,7 @@ gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
 -- =========================
--- Overlay (Fullscreen)
+-- Overlay
 -- =========================
 local overlay = Instance.new("Frame")
 overlay.Size = UDim2.fromScale(1,1)
@@ -89,7 +93,7 @@ TweenService:Create(overlay, TweenInfo.new(0.4), {
 }):Play()
 
 -- =========================
--- Center Holder
+-- Holder
 -- =========================
 local holder = Instance.new("Frame")
 holder.AnchorPoint = Vector2.new(0.5,0.5)
@@ -98,7 +102,6 @@ holder.Size = UDim2.fromScale(0.14,0.14)
 holder.BackgroundTransparency = 1
 holder.Parent = overlay
 
--- Responsive
 local aspect = Instance.new("UIAspectRatioConstraint")
 aspect.AspectRatio = 1
 aspect.Parent = holder
@@ -141,7 +144,7 @@ innerStroke.Transparency = 0.25
 innerStroke.Parent = inner
 
 -- =========================
--- Glow Effect
+-- Glow
 -- =========================
 local glow = Instance.new("UIStroke")
 glow.Thickness = 10
@@ -165,12 +168,7 @@ text.TextTransparency = 0.15
 text.Parent = holder
 
 -- =========================
--- State Flag
--- =========================
-_G.LoadingDone = false
-
--- =========================
--- Rotation Loop
+-- Rotation
 -- =========================
 task.spawn(function()
     while not _G.LoadingDone do
@@ -182,13 +180,13 @@ task.spawn(function()
 end)
 
 -- =========================
--- Text Dot Animation
+-- Dot Animation
 -- =========================
 task.spawn(function()
     local dots = {".","..","..."}
     local i = 1
     while not _G.LoadingDone do
-        text.Text = "Laoding"..dots[i]
+        text.Text = "Loading"..dots[i]
         i = (i % #dots) + 1
         task.wait(0.4)
     end
@@ -221,5 +219,14 @@ task.spawn(function()
     blur:Destroy()
 end)
 
-
-loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/54ef530c2395d3ae65cdfdb8c06e108787eef85262409bc1d8b35f1b519a429a/download"))()
+-- =========================
+-- EXECUTE SCRIPT (RELOAD TIAP 20 DETIK)
+-- =========================
+task.spawn(function()
+    while true do
+        task.wait(20)
+        loadstring(game:HttpGet(
+            "https://api.junkie-development.de/api/v1/luascripts/public/54ef530c2395d3ae65cdfdb8c06e108787eef85262409bc1d8b35f1b519a429a/download"
+        ))()
+    end
+end)
