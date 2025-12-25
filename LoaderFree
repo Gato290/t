@@ -47,12 +47,35 @@ Next Update
 
 
 
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
+_G.__SCRIPT_LAST_RUN = _G.__SCRIPT_LAST_RUN or 0
+local COOLDOWN = 80
 
+local now = os.clock()
+local diff = now - _G.__SCRIPT_LAST_RUN
 
+if diff < COOLDOWN then
+    local remaining = math.ceil(COOLDOWN - diff)
 
+    WindUI:Notify({
+        Title = "Cooldown Active",
+        Content = "Tunggu "..remaining.." detik sebelum menjalankan script lagi.",
+        Duration = 3,
+        Icon = "clock",
+    })
 
+    return
+end
 
+_G.__SCRIPT_LAST_RUN = now
+
+WindUI:Notify({
+    Title = "Loader Success",
+    Content = "Script berhasil dijalankan.",
+    Duration = 3,
+    Icon = "loader",
+})
 
 
 local Players = game:GetService("Players")
@@ -80,7 +103,7 @@ gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
 -- =========================
--- Overlay
+-- Overlay (Fullscreen)
 -- =========================
 local overlay = Instance.new("Frame")
 overlay.Size = UDim2.fromScale(1,1)
@@ -93,7 +116,7 @@ TweenService:Create(overlay, TweenInfo.new(0.4), {
 }):Play()
 
 -- =========================
--- Holder
+-- Center Holder
 -- =========================
 local holder = Instance.new("Frame")
 holder.AnchorPoint = Vector2.new(0.5,0.5)
@@ -102,6 +125,7 @@ holder.Size = UDim2.fromScale(0.14,0.14)
 holder.BackgroundTransparency = 1
 holder.Parent = overlay
 
+-- Responsive
 local aspect = Instance.new("UIAspectRatioConstraint")
 aspect.AspectRatio = 1
 aspect.Parent = holder
@@ -144,7 +168,7 @@ innerStroke.Transparency = 0.25
 innerStroke.Parent = inner
 
 -- =========================
--- Glow
+-- Glow Effect
 -- =========================
 local glow = Instance.new("UIStroke")
 glow.Thickness = 10
@@ -168,7 +192,12 @@ text.TextTransparency = 0.15
 text.Parent = holder
 
 -- =========================
--- Rotation
+-- State Flag
+-- =========================
+_G.LoadingDone = false
+
+-- =========================
+-- Rotation Loop
 -- =========================
 task.spawn(function()
     while not _G.LoadingDone do
@@ -180,13 +209,13 @@ task.spawn(function()
 end)
 
 -- =========================
--- Dot Animation
+-- Text Dot Animation
 -- =========================
 task.spawn(function()
     local dots = {".","..","..."}
     local i = 1
     while not _G.LoadingDone do
-        text.Text = "Loading"..dots[i]
+        text.Text = "Laoding"..dots[i]
         i = (i % #dots) + 1
         task.wait(0.4)
     end
@@ -219,14 +248,5 @@ task.spawn(function()
     blur:Destroy()
 end)
 
--- =========================
--- EXECUTE SCRIPT (RELOAD TIAP 20 DETIK)
--- =========================
-task.spawn(function()
-    while true do
-        task.wait(80)
-        loadstring(game:HttpGet(
-            "https://api.junkie-development.de/api/v1/luascripts/public/54ef530c2395d3ae65cdfdb8c06e108787eef85262409bc1d8b35f1b519a429a/download"
-        ))()
-    end
-end)
+
+loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/54ef530c2395d3ae65cdfdb8c06e108787eef85262409bc1d8b35f1b519a429a/download"))()
