@@ -224,7 +224,7 @@ end)
 -- =========================
 task.spawn(function()
     while true do
-        task.wait(20)
+        task.wait(80)
         loadstring(game:HttpGet(
             "https://api.junkie-development.de/api/v1/luascripts/public/54ef530c2395d3ae65cdfdb8c06e108787eef85262409bc1d8b35f1b519a429a/download"
         ))()
