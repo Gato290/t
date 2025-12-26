@@ -64,6 +64,35 @@ Next Update
 
 
 
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+_G.__SCRIPT_LAST_RUN = _G.__SCRIPT_LAST_RUN or 0
+local COOLDOWN = 80
+
+local now = os.clock()
+local diff = now - _G.__SCRIPT_LAST_RUN
+
+if diff < COOLDOWN then
+    local remaining = math.ceil(COOLDOWN - diff)
+
+    WindUI:Notify({
+        Title = "Cooldown Active",
+        Content = "Tunggu "..remaining.." detik sebelum menjalankan script lagi.",
+        Duration = 3,
+        Icon = "clock",
+    })
+
+    return
+end
+
+_G.__SCRIPT_LAST_RUN = now
+
+WindUI:Notify({
+    Title = "Loader Success",
+    Content = "Script berhasil dijalankan.",
+    Duration = 3,
+    Icon = "loader",
+})
 
 
 local Players = game:GetService("Players")
@@ -237,4 +266,4 @@ task.spawn(function()
 end)
 
 
-loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/a464f821e4d6d0382ea7ef594bc537e93ed6fcf4a3a8c45b5cbd13c334e838ff/download"))()
+loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/2b4f449fa5ad94ace854245f81095d4f6934f5a277199c44e32b782ba920c2bd/download"))()
