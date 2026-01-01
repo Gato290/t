@@ -265,5 +265,4 @@ task.spawn(function()
     blur:Destroy()
 end)
 
-
-loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/2b4f449fa5ad94ace854245f81095d4f6934f5a277199c44e32b782ba920c2bd/download"))()
+loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/a464f821e4d6d0382ea7ef594bc537e93ed6fcf4a3a8c45b5cbd13c334e838ff/download"))()
