@@ -2,14 +2,49 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
   <title>NexaHUB — Premium Script Hub (Animated)</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent1: '#9b6bff',
+            accent2: '#6c47ff',
+            accent3: '#5ce1e6',
+            muted: '#bfc0d6',
+          },
+          screens: {
+            'xs': '475px',
+            '3xl': '1920px',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 3s ease-in-out infinite',
+            'slide-up': 'slideUp 0.5s ease-out',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- AOS (scroll animations) -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
@@ -29,68 +64,109 @@
       --muted: #bfc0d6;
     }
     /* Base */
-    html,body { height: 100%; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body { 
+      height: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
     body {
       font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background:
         radial-gradient(ellipse at 15% 10%, rgba(155, 107, 255, 0.06), transparent 30%),
+        radial-gradient(ellipse at 85% 90%, rgba(92, 225, 230, 0.04), transparent 30%),
         var(--bg);
       color: #eef0ff;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
-      margin: 0;
       min-height: 100vh;
       transition: background 0.6s ease, color 0.4s ease;
     }
+    
+    /* Improved Glass Effect */
     .glass {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
     }
+    
+    /* Buttons */
     .btn-primary {
       background: linear-gradient(90deg, var(--accent1), var(--accent2));
       color: white;
-      font-weight: 700;
-      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      padding: 0.875rem 1.75rem;
       border-radius: 9999px;
-      transition: transform 0.28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
-      box-shadow: 0 8px 30px rgba(108,71,255,0.12);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 
+        0 4px 14px rgba(108, 71, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
     }
     .btn-primary:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 18px 48px rgba(108,71,255,0.18);
+      transform: translateY(-4px);
+      box-shadow: 
+        0 12px 32px rgba(108, 71, 255, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
+    .btn-primary:active {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 20px rgba(108, 71, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    
     .btn-ghost {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.05);
       color: var(--muted);
-      border: 1px solid rgba(255 255 255 / 0.08);
-      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.75rem 1.5rem;
       border-radius: 9999px;
-      font-weight: 600;
-      transition: color 0.2s ease, transform .18s ease;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
     }
-    .btn-ghost:hover { color: white; transform: translateY(-3px); }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
 
+    /* Typography */
     .neon-text {
-      font-size: clamp(3rem, 7vw, 5rem);
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
       font-weight: 800;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 6px 40px rgba(108, 71, 255, 0.18);
-      letter-spacing: -1.2px;
-      display: inline-block;
-      line-height: 1;
-      animation: neon-breathe 3.6s ease-in-out infinite;
+      text-shadow: 0 4px 30px rgba(108, 71, 255, 0.15);
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      animation: neon-breathe 4s ease-in-out infinite;
     }
 
-    /* Neon breathe */
+    /* Animations */
     @keyframes neon-breathe {
-      0% { filter: drop-shadow(0 6px 20px rgba(155,107,255,0.08)); transform: translateY(0) scale(1); }
-      50% { filter: drop-shadow(0 16px 48px rgba(108,71,255,0.22)); transform: translateY(-4px) scale(1.01); }
-      100% { filter: drop-shadow(0 6px 20px rgba(155,107,255,0.08)); transform: translateY(0) scale(1); }
+      0%, 100% { 
+        filter: drop-shadow(0 4px 15px rgba(155, 107, 255, 0.1));
+        opacity: 1;
+      }
+      50% { 
+        filter: drop-shadow(0 8px 40px rgba(108, 71, 255, 0.25));
+        opacity: 0.95;
+      }
     }
 
     /* Loader */
@@ -100,88 +176,169 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 2000;
-      background: linear-gradient(180deg, rgba(2,2,6,0.95), rgba(6,6,10,0.95));
-      transition: opacity 0.6s ease, visibility 0.6s;
+      z-index: 9999;
+      background: linear-gradient(135deg, rgba(5, 3, 10, 0.95), rgba(8, 5, 20, 0.95));
+      transition: opacity 0.6s ease-out, visibility 0.6s;
     }
-    .lds-ring { position: relative; width: 110px; height: 110px; }
-    .lds-ring .ring {
+    .loader-spinner {
+      width: 100px;
+      height: 100px;
+      position: relative;
+    }
+    .loader-spinner div {
       position: absolute;
-      inset: 0;
-      border: 6px solid rgba(255,255,255,0.06);
-      border-top-color: var(--accent1);
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      animation: spin 1.6s linear infinite;
-      filter: blur(2px);
+      border: 3px solid transparent;
+      border-top-color: var(--accent1);
+      animation: spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
-    .lds-ring .ring.r2 { transform: rotate(45deg); border-top-color: var(--accent2); animation-duration: 1.9s; }
-    .lds-ring .ring.r3 { transform: rotate(90deg); border-top-color: var(--accent3); animation-duration: 2.2s; }
-    .loader-subtext { margin-top: 18px; text-align:center; color: rgba(255,255,255,0.9); font-weight:700; letter-spacing: .6px;}
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Particles background canvas */
-    #particles-canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: 0.9;
+    .loader-spinner div:nth-child(2) {
+      border-top-color: var(--accent2);
+      animation-delay: 0.1s;
     }
-
-    /* Showcase tilt container improvements */
-    .showcase-wrap {
-      transform-style: preserve-3d;
-      transition: transform 0.35s ease, box-shadow .35s;
+    .loader-spinner div:nth-child(3) {
+      border-top-color: var(--accent3);
+      animation-delay: 0.2s;
     }
-    .showcase-wrap:hover { box-shadow: 0 30px 80px rgba(12,8,24,0.6); }
-
-    /* Typing effect for subtitle */
-    .typing {
-      font-weight: 600;
-      color: var(--muted);
-      display:inline-block;
-      min-height: 1.1em;
-    }
-    @keyframes caret {
-      0%, 100% { border-color: transparent; }
-      50% { border-color: rgba(255,255,255,0.9); }
-    }
-    .typing::after {
-      content: "";
-      display: inline-block;
-      width: 2px;
-      height: 1.1em;
-      vertical-align: -0.18em;
-      margin-left: 6px;
-      background: rgba(255,255,255,0.9);
-      animation: caret 1s steps(2) infinite;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    /* Floating badges animation */
-    .chip { background: rgba(255,255,255,0.03); padding: .35rem .6rem; border-radius: 999px; font-weight:700; display:inline-flex; gap:.5rem; align-items:center;}
-    .chip .icon { transform-origin:center; animation: floaty 4.6s ease-in-out infinite; }
-    @keyframes floaty {
-      0% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-6px) rotate(3deg); }
-      100% { transform: translateY(0) rotate(0deg); }
+    /* Responsive Grids */
+    .responsive-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     }
 
-    /* FAQ nicer reveal */
-    .faq-item { transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s; will-change: transform; }
-    .faq-item.open { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(12,8,24,0.6); }
-    .faq-a { transition: max-height .35s ease, opacity .28s ease; overflow:hidden; }
+    /* Mobile Navigation */
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
 
-    /* Cursor trail dots */
-    .trail-dot { position: fixed; z-index: 9999; opacity: 0.9; pointer-events:none; mix-blend-mode: screen; transition: transform .08s linear; }
+    /* Improved Video Container */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
 
-    /* code box styling */
-    .codebox { border-radius: 12px; box-shadow: inset 0 -6px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.04); }
+    /* Code Box Improvements */
+    .code-box {
+      background: linear-gradient(135deg, rgba(155, 107, 255, 0.05), rgba(108, 71, 255, 0.03));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      position: relative;
+      overflow: hidden;
+    }
+    .code-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(155, 107, 255, 0.3), transparent);
+    }
 
-    /* Responsive niceties */
-    @media (max-width: 768px) {
-      .neon-text { font-size: clamp(2.4rem, 9vw, 3.6rem); }
-      nav#navbar { left: 50%; transform: translateX(-50%); padding-left: 16px; padding-right: 16px; gap: 8px; }
+    /* FAQ Improvements */
+    .faq-item {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .faq-item:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+
+    /* Better Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, var(--accent1), var(--accent2));
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(to bottom, var(--accent2), var(--accent1));
+    }
+
+    /* Touch Device Optimizations */
+    @media (hover: none) and (pointer: coarse) {
+      .btn-primary:hover,
+      .btn-ghost:hover {
+        transform: none;
+      }
+      .glass {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+    }
+
+    /* Small Mobile Devices */
+    @media (max-width: 360px) {
+      .neon-text {
+        font-size: 2rem;
+      }
+      .btn-primary,
+      .btn-ghost {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.875rem;
+      }
+    }
+
+    /* Tablet Optimizations */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Large Desktop */
+    @media (min-width: 1920px) {
+      .container-custom {
+        max-width: 1440px;
+        margin: 0 auto;
+      }
+    }
+
+    /* Safe Area Insets for Notched Devices */
+    @supports (padding: max(0px)) {
+      body {
+        padding-left: min(0px, env(safe-area-inset-left));
+        padding-right: min(0px, env(safe-area-inset-right));
+      }
     }
   </style>
 </head>
@@ -190,580 +347,746 @@
   <!-- Particles Canvas -->
   <canvas id="particles-canvas" aria-hidden="true"></canvas>
 
-  <!-- Cursor trail container -->
-  <div id="cursorTrail" aria-hidden="true"></div>
-
   <!-- Loader -->
-  <div id="loader" class="fixed inset-0 flex items-center justify-center z-[2000]">
-    <div class="text-center">
-      <div class="lds-ring mx-auto relative">
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-        <div class="ring r3"></div>
-      </div>
-      <div class="loader-subtext mt-5 text-accent1">Loading NexaHUB...</div>
+  <div id="loader" class="fixed inset-0 flex flex-col items-center justify-center z-[9999]">
+    <div class="loader-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="mt-6 text-center">
+      <p class="text-xl font-semibold text-white mb-2">NexaHUB</p>
+      <p class="text-accent1 animate-pulse">Loading premium experience...</p>
     </div>
   </div>
 
+  <!-- Mobile Menu Overlay -->
+  <div id="mobileMenu" class="mobile-menu fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center lg:hidden">
+    <button id="closeMenu" class="absolute top-6 right-6 text-white text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <nav class="flex flex-col items-center gap-8">
+      <a href="#home" class="text-2xl font-semibold text-white hover:text-accent1 transition">Home</a>
+      <a href="#showcase" class="text-2xl font-semibold text-white hover:text-accent1 transition">Showcase</a>
+      <a href="#script" class="text-2xl font-semibold text-white hover:text-accent1 transition">Script</a>
+      <a href="#features" class="text-2xl font-semibold text-white hover:text-accent1 transition">Features</a>
+      <a href="#faq" class="text-2xl font-semibold text-white hover:text-accent1 transition">FAQ</a>
+      <button id="themeToggleMobile" class="px-6 py-3 glass rounded-full text-white font-semibold">
+        Toggle Theme
+      </button>
+    </nav>
+  </div>
+
   <!-- Navbar -->
-  <nav id="navbar" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] backdrop-blur-md rounded-full px-6 py-2 flex gap-6 items-center shadow-lg z-50 transition-all duration-300">
-    <div class="flex items-center gap-3 pr-6 border-r border-[rgba(255,255,255,0.03)]">
-      <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-12 h-12 rounded-lg shadow-lg" loading="lazy" />
+  <nav id="navbar" class="fixed top-0 left-0 right-0 glass mx-4 md:mx-8 lg:mx-auto lg:max-w-6xl mt-4 rounded-2xl px-4 md:px-6 py-3 flex items-center justify-between z-40 transition-all duration-300">
+    <div class="flex items-center gap-3">
+      <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-10 h-10 md:w-12 md:h-12 rounded-lg" loading="lazy" />
       <div>
-        <h1 class="font-extrabold text-white select-none">NexaHUB</h1>
-        <p class="text-xs text-muted select-none">Premium Script Hub</p>
+        <h1 class="font-extrabold text-white text-lg md:text-xl">NexaHUB</h1>
+        <p class="text-xs text-muted">Premium Script Hub</p>
       </div>
     </div>
-    <a href="#home" class="text-sm font-semibold text-muted hover:text-white transition">Home</a>
-    <a href="#showcase" class="text-sm font-semibold text-muted hover:text-white transition">Showcase</a>
-    <a href="#script" class="text-sm font-semibold text-muted hover:text-white transition">Script</a>
-    <a href="#features" class="text-sm font-semibold text-muted hover:text-white transition">Features</a>
-    <a href="#faq" class="text-sm font-semibold text-muted hover:text-white transition">FAQ</a>
-    <button id="toggleTheme" class="ml-auto chip text-sm px-3 py-1 rounded-full font-semibold cursor-pointer select-none">Dark</button>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden lg:flex items-center gap-6">
+      <a href="#home" class="text-sm font-semibold text-muted hover:text-white transition">Home</a>
+      <a href="#showcase" class="text-sm font-semibold text-muted hover:text-white transition">Showcase</a>
+      <a href="#script" class="text-sm font-semibold text-muted hover:text-white transition">Script</a>
+      <a href="#features" class="text-sm font-semibold text-muted hover:text-white transition">Features</a>
+      <a href="#faq" class="text-sm font-semibold text-muted hover:text-white transition">FAQ</a>
+      <button id="themeToggle" class="ml-4 px-4 py-2 glass rounded-full text-sm font-semibold text-white">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menuButton" class="lg:hidden p-2 glass rounded-lg text-white">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </button>
   </nav>
 
   <!-- Main Content -->
-  <main class="pt-36 relative z-10">
+  <main class="pt-24 md:pt-28 lg:pt-32 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
 
-    <!-- Hero -->
-    <section id="home" class="max-w-7xl mx-auto px-6 pb-16 grid md:grid-cols-2 gap-10 items-center relative">
-      <div data-aos="fade-right" class="space-y-6 text-center md:text-left z-20">
-        <div class="flex items-center gap-6 justify-center md:justify-start">
-          <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB Logo" class="w-28 h-28 rounded-lg glass p-4 shadow-lg" loading="lazy" />
-          <div>
-            <h2 class="neon-text">NexaHUB</h2>
-            <p class="text-sm text-muted mt-1"><span id="typedSubtitle" class="typing"></span></p>
+    <!-- Hero Section -->
+    <section id="home" class="mb-16 md:mb-24">
+      <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div class="space-y-6 md:space-y-8">
+          <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+            <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB Logo" 
+                 class="w-24 h-24 md:w-32 md:h-32 glass p-4 rounded-2xl shadow-lg" 
+                 loading="lazy" />
+            <div class="text-center md:text-left">
+              <h1 class="neon-text mb-2">NexaHUB</h1>
+              <p class="text-muted text-sm md:text-base">
+                <span id="typedSubtitle" class="typing"></span>
+              </p>
+            </div>
+          </div>
+
+          <p class="text-muted text-center md:text-left text-base md:text-lg leading-relaxed">
+            Nexa Premium top script dengan berbagai fitur lengkap. Kelola, lihat preview, dan download script Roblox favoritmu dengan kecepatan maksimal dan tampilan stylish.
+          </p>
+
+          <div class="flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
+            <button id="watchShow" class="btn-primary flex items-center gap-2 px-6 py-3">
+              <i class="fa-solid fa-play"></i>
+              <span>Watch Showcase</span>
+            </button>
+            <button id="copyScriptBtn" class="btn-ghost flex items-center gap-2 px-5 py-3">
+              <i class="fa-solid fa-copy"></i>
+              <span>Copy Script</span>
+            </button>
+            <button id="downloadScriptBtn" class="btn-ghost flex items-center gap-2 px-5 py-3">
+              <i class="fa-solid fa-download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+
+          <div class="flex flex-wrap gap-3 justify-center md:justify-start pt-4">
+            <span class="px-3 py-1.5 glass rounded-full text-xs font-semibold flex items-center gap-1.5">
+              <i class="fa-solid fa-star text-accent1"></i>
+              Premium
+            </span>
+            <span class="px-3 py-1.5 glass rounded-full text-xs font-semibold">Auto-update</span>
+            <span class="px-3 py-1.5 glass rounded-full text-xs font-semibold">Secure Loader</span>
+            <span class="px-3 py-1.5 glass rounded-full text-xs font-semibold">Low Latency</span>
           </div>
         </div>
 
-        <p class="text-muted max-w-xl mx-auto md:mx-0">Nexa Premium top script dengan berbagai fitur lengkap. Kelola, lihat preview, dan download script Roblox favoritmu dengan kecepatan maksimal dan tampilan stylish.</p>
-
-        <div class="flex flex-wrap justify-center md:justify-start gap-4">
-          <button id="watchShow" class="btn-primary flex items-center gap-2 transform-gpu" data-tilt><i class="fa-solid fa-play"></i> Watch Showcase</button>
-          <button id="copyScriptBtn" class="btn-ghost flex items-center gap-2" data-tilt><i class="fa-solid fa-copy"></i> Copy Script</button>
-          <button id="downloadScriptBtn" class="btn-ghost flex items-center gap-2" data-tilt><i class="fa-solid fa-download"></i> Download</button>
-        </div>
-
-        <div class="flex justify-center md:justify-start gap-4 mt-4 text-xs text-muted">
-          <span class="chip flex items-center gap-1"><i class="fa-solid fa-star text-accent1 icon"></i> Premium</span>
-          <span class="chip">Auto-update</span>
-          <span class="chip">Secure Loader</span>
-        </div>
-      </div>
-
-      <div id="showcase" data-aos="fade-left" class="showcase-wrap glass p-4 rounded-lg shadow-lg relative">
-        <div class="flex items-center justify-between mb-3">
-          <div>
-            <h3 class="font-semibold text-white text-lg">Showcase</h3>
-            <span class="text-muted text-xs">Live preview</span>
+        <!-- Showcase Video -->
+        <div class="glass p-4 md:p-6 rounded-2xl shadow-xl">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-bold text-white text-lg md:text-xl">Live Showcase</h3>
+              <p class="text-muted text-sm">Real-time preview</p>
+            </div>
+            <span class="px-3 py-1 glass rounded-full text-xs font-semibold">v2.0</span>
           </div>
-          <span class="chip text-xs">v1.0 Web</span>
-        </div>
-        <iframe id="showcaseIframe" class="w-full aspect-video rounded-md transform-gpu" src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Showcase video" frameborder="0" allowfullscreen loading="lazy"></iframe>
-        <div class="flex justify-end gap-3 mt-2">
-          <button id="expandVideo" class="btn-ghost p-2"><i class="fa-solid fa-expand"></i></button>
-          <button id="miniPlay" class="btn-ghost p-2"><i class="fa-solid fa-play"></i></button>
+          <div class="video-container">
+            <iframe id="showcaseIframe" 
+                    src="https://www.youtube.com/embed/ScMzIvxBSi4" 
+                    title="NexaHUB Showcase" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                    loading="lazy">
+            </iframe>
+          </div>
+          <div class="flex justify-end gap-2 mt-4">
+            <button id="fullscreenBtn" class="p-2 glass rounded-lg hover:bg-white/10 transition">
+              <i class="fa-solid fa-expand"></i>
+            </button>
+            <button id="playPauseBtn" class="p-2 glass rounded-lg hover:bg-white/10 transition">
+              <i class="fa-solid fa-play"></i>
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Script Section -->
-    <section id="script" class="max-w-4xl mx-auto px-6 py-16" data-aos="fade-up">
-      <div class="flex justify-between items-center mb-6">
-        <div>
-          <h2 class="text-3xl font-bold text-white">Copy / Download Script</h2>
-          <p class="text-muted mt-1">Ambil script loader dengan cepat. Kompatibel dengan berbagai executor.</p>
+    <section id="script" class="mb-16 md:mb-24">
+      <div class="glass p-6 md:p-8 rounded-2xl">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Script Loader</h2>
+            <p class="text-muted">Copy atau download script loader yang kompatibel dengan semua executor.</p>
+          </div>
+          <div class="flex items-center gap-2 glass px-4 py-2 rounded-full">
+            <i class="fa-solid fa-circle-check text-green-400"></i>
+            <span class="text-sm font-semibold">Updated: <span id="lastUpdated">Today</span></span>
+          </div>
         </div>
-        <div class="text-muted text-sm">Ready to use • <span id="lastUpdated">Updated: 2025-10-19</span></div>
-      </div>
 
-      <div class="glass p-6 rounded-lg shadow-inner">
-        <div class="flex justify-center gap-4 mb-4 flex-wrap">
-          <button id="copyBtn" class="btn-primary flex items-center gap-2"><i class="fa-solid fa-copy"></i> Copy</button>
-          <button id="downloadBtn" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-download"></i> Download .lua</button>
-          <button id="soundToggle" class="btn-ghost flex items-center gap-2"><i class="fa-solid fa-volume-high"></i> Sound</button>
+        <div class="space-y-4">
+          <div class="flex flex-wrap gap-3">
+            <button id="copyBtn" class="btn-primary flex items-center gap-2 px-5 py-2.5">
+              <i class="fa-solid fa-copy"></i>
+              Copy Script
+            </button>
+            <button id="downloadBtn" class="btn-ghost flex items-center gap-2 px-5 py-2.5">
+              <i class="fa-solid fa-download"></i>
+              Download .lua
+            </button>
+            <button id="soundToggle" class="btn-ghost flex items-center gap-2 px-5 py-2.5">
+              <i class="fa-solid fa-volume-high"></i>
+              Sound Effects
+            </button>
+          </div>
+
+          <div class="code-box p-4 md:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+              </div>
+              <span class="text-xs text-muted font-mono">loader.lua</span>
+            </div>
+            <pre id="codeBlock" class="overflow-x-auto text-sm md:text-base font-mono text-indigo-100 select-text">
+<span class="text-purple-400">local</span> <span class="text-cyan-400">key</span> = <span class="text-yellow-400">"YOUR_KEY_HERE"</span>
+<span class="text-purple-400">local</span> <span class="text-cyan-400">loader</span> = <span class="text-blue-400">game</span>:<span class="text-green-400">HttpGet</span>(<span class="text-yellow-400">"https://nexahub.com/api/loader"</span>)
+
+<span class="text-purple-400">if</span> <span class="text-cyan-400">key</span> == <span class="text-yellow-400">"YOUR_KEY_HERE"</span> <span class="text-purple-400">then</span>
+    <span class="text-blue-400">warn</span>(<span class="text-yellow-400">"Please insert your key!"</span>)
+<span class="text-purple-400">else</span>
+    <span class="text-blue-400">loadstring</span>(<span class="text-cyan-400">loader</span>)()
+<span class="text-purple-400">end</span></pre>
+          </div>
         </div>
-        <pre id="codeBlock" tabindex="0" class="codebox bg-[rgba(155,107,255,0.08)] rounded-md p-4 overflow-auto font-mono text-sm text-indigo-100 select-text">
-script_key = "PASTEKEYHERE"
-loadstring(game:HttpGet("https://nexahubb.netlify.app/loader"))()
-        </pre>
       </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="bg-[rgba(255,255,255,0.01)] py-20 px-6" data-aos="fade-up">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-8">
-          <div>
-            <h2 class="text-3xl font-bold text-white">Fitur Unggulan</h2>
-            <p class="text-muted mt-1">Semua fitur dirancang untuk performa dan kenyamanan maksimal.</p>
+    <section id="features" class="mb-16 md:mb-24">
+      <div class="text-center mb-10 md:mb-12">
+        <h2 class="text-2xl md:text-4xl font-bold text-white mb-3">Premium Features</h2>
+        <p class="text-muted text-lg max-w-2xl mx-auto">Didesain untuk performa maksimal di semua device</p>
+      </div>
+
+      <div class="responsive-grid">
+        <!-- Feature 1 -->
+        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-rocket text-white text-2xl"></i>
           </div>
-          <div class="text-muted text-sm">Hand-picked • Lightweight</div>
+          <h3 class="text-xl font-bold text-white mb-2">Multi-Executor</h3>
+          <p class="text-muted">Support semua executor populer dengan performa optimal.</p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
-          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]" data-aos="zoom-in" data-aos-delay="60">
-            <div class="flex items-center gap-4">
-              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center text-white text-xl">
-                <i class="fa-solid fa-rocket"></i>
-              </div>
-              <div>
-                <h3 class="font-semibold text-white">Executor</h3>
-                <p class="text-muted mt-1">Support semua executor</p>
-              </div>
-            </div>
-          </article>
+        <!-- Feature 2 -->
+        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-shield-halved text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Secure Loader</h3>
+          <p class="text-muted">Loader terenkripsi dengan sistem keamanan berlapis.</p>
+        </div>
 
-          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]" data-aos="zoom-in" data-aos-delay="120">
-            <div class="flex items-center gap-4">
-              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white text-xl">
-                <i class="fa-solid fa-shield-halved"></i>
-              </div>
-              <div>
-                <h3 class="font-semibold text-white">Secure Loader</h3>
-                <p class="text-muted mt-1">Loader signed dan verifikasi checksum</p>
-              </div>
-            </div>
-          </article>
+        <!-- Feature 3 -->
+        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-bolt text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Optimized Performance</h3>
+          <p class="text-muted">Script ringan dengan zero lag dan optimalisasi memori.</p>
+        </div>
 
-          <article class="feature-card glass p-6 rounded-xl hover:shadow-xl transition-transform hover:scale-[1.05]" data-aos="zoom-in" data-aos-delay="180">
-            <div class="flex items-center gap-4">
-              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-xl">
-                <i class="fa-solid fa-bolt"></i>
-              </div>
-              <div>
-                <h3 class="font-semibold text-white">Low Lag</h3>
-                <p class="text-muted mt-1">Script ringan dan optimal performa</p>
-              </div>
-            </div>
-          </article>
+        <!-- Feature 4 -->
+        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-sync text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Auto Update</h3>
+          <p class="text-muted">Update otomatis tanpa perlu download ulang.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-code text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Clean Code</h3>
+          <p class="text-muted">Struktur kode yang rapi dan mudah dimodifikasi.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-headset text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">24/7 Support</h3>
+          <p class="text-muted">Dukungan teknis tersedia kapan saja.</p>
         </div>
       </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="py-20 px-6 bg-[rgba(255,255,255,0.01)] max-w-4xl mx-auto" data-aos="fade-up">
-      <h3 class="text-2xl font-bold text-white mb-6">FAQ</h3>
-      <div class="space-y-3">
-        <div class="faq-item glass p-4 rounded-md cursor-pointer select-none border border-[rgba(255,255,255,0.03)]">
-          <div class="faq-q flex justify-between items-center font-semibold text-white">
-            <span>Apa itu NexaHUB?</span>
-            <span class="faq-toggle">+</span>
-          </div>
-          <div class="faq-a mt-2 text-muted hidden">
-            NexaHUB adalah kumpulan script premium Roblox yang mudah digunakan, dengan loader dan update rutin.
-          </div>
+    <section id="faq" class="mb-16 md:mb-20">
+      <div class="glass p-6 md:p-8 rounded-2xl">
+        <div class="text-center mb-8">
+          <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Frequently Asked Questions</h2>
+          <p class="text-muted">Temukan jawaban untuk pertanyaan umum</p>
         </div>
 
-        <div class="faq-item glass p-4 rounded-md cursor-pointer select-none border border-[rgba(255,255,255,0.03)]">
-          <div class="faq-q flex justify-between items-center font-semibold text-white">
-            <span>Apakah aman?</span>
-            <span class="faq-toggle">+</span>
+        <div class="space-y-4">
+          <!-- FAQ Item 1 -->
+          <div class="faq-item glass p-5 rounded-xl">
+            <div class="faq-question flex justify-between items-center">
+              <h3 class="font-semibold text-white text-lg">Apa itu NexaHUB?</h3>
+              <span class="faq-toggle text-accent1 text-xl transition-transform">+</span>
+            </div>
+            <div class="faq-answer mt-3">
+              <p class="text-muted">NexaHUB adalah platform premium untuk script Roblox dengan fitur lengkap, update rutin, dan performa optimal untuk pengalaman gaming yang lebih baik.</p>
+            </div>
           </div>
-          <div class="faq-a mt-2 text-muted hidden">
-            Kami menyediakan loader dengan checksum dan pembaruan reguler. Gunakan script sesuai kebijakan platform.
-          </div>
-        </div>
 
-        <div class="faq-item glass p-4 rounded-md cursor-pointer select-none border border-[rgba(255,255,255,0.03)]">
-          <div class="faq-q flex justify-between items-center font-semibold text-white">
-            <span>Bagaimana cara meng-copy?</span>
-            <span class="faq-toggle">+</span>
+          <!-- FAQ Item 2 -->
+          <div class="faq-item glass p-5 rounded-xl">
+            <div class="faq-question flex justify-between items-center">
+              <h3 class="font-semibold text-white text-lg">Apakah aman digunakan?</h3>
+              <span class="faq-toggle text-accent1 text-xl transition-transform">+</span>
+            </div>
+            <div class="faq-answer mt-3">
+              <p class="text-muted">Ya, semua script melalui proses verifikasi dan enkripsi. Kami juga menerapkan sistem keamanan berlapis untuk melindungi pengguna.</p>
+            </div>
           </div>
-          <div class="faq-a mt-2 text-muted hidden">
-            Klik tombol "Copy" pada bagian Script. Sistem akan memberi animasi dan suara bila aktif.
+
+          <!-- FAQ Item 3 -->
+          <div class="faq-item glass p-5 rounded-xl">
+            <div class="faq-question flex justify-between items-center">
+              <h3 class="font-semibold text-white text-lg">Bagaimana cara menggunakannya?</h3>
+              <span class="faq-toggle text-accent1 text-xl transition-transform">+</span>
+            </div>
+            <div class="faq-answer mt-3">
+              <p class="text-muted">Copy script dari section di atas, paste ke executor pilihan Anda, dan ikuti instruksi yang muncul. Pastikan Anda memiliki key yang valid.</p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 4 -->
+          <div class="faq-item glass p-5 rounded-xl">
+            <div class="faq-question flex justify-between items-center">
+              <h3 class="font-semibold text-white text-lg">Apakah gratis atau berbayar?</h3>
+              <span class="faq-toggle text-accent1 text-xl transition-transform">+</span>
+            </div>
+            <div class="faq-answer mt-3">
+              <p class="text-muted">Kami menyediakan versi gratis dengan fitur dasar, namun untuk akses ke semua fitur premium diperlukan subscription.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 
   <!-- Footer -->
-  <footer class="py-10 text-center text-muted text-sm border-t border-[rgba(255,255,255,0.02)] select-none">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 px-6">
-      <div>© 2025 NexaHUB • Built with ❤️</div>
-      <div class="flex gap-6 text-muted">
-        <a href="https://www.youtube.com/@Hanblox96" target="_blank" aria-label="YouTube Channel" class="hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://www.tiktok.com/@scriptrandom_988" target="_blank" aria-label="TikTok Profile" class="hover:text-white transition"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="#" id="backToTop" class="hover:text-white transition cursor-pointer">Back to top</a>
+  <footer class="glass mt-20 mx-4 md:mx-8 lg:mx-auto lg:max-w-6xl rounded-2xl p-6 md:p-8">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-3 mb-3">
+          <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-10 h-10 rounded-lg" />
+          <div>
+            <h3 class="font-bold text-white">NexaHUB</h3>
+            <p class="text-xs text-muted">Premium Script Hub</p>
+          </div>
+        </div>
+        <p class="text-muted text-sm">© 2024 NexaHUB. All rights reserved.</p>
+      </div>
+
+      <div class="flex flex-col items-center md:items-end gap-4">
+        <div class="flex gap-4">
+          <a href="https://www.youtube.com/@Hanblox96" target="_blank" 
+             class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
+            <i class="fa-brands fa-youtube text-white"></i>
+          </a>
+          <a href="https://www.tiktok.com/@scriptrandom_988" target="_blank"
+             class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
+            <i class="fa-brands fa-tiktok text-white"></i>
+          </a>
+          <a href="#" 
+             class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
+            <i class="fa-brands fa-discord text-white"></i>
+          </a>
+        </div>
+        <button id="backToTop" class="btn-ghost px-4 py-2 text-sm flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up"></i>
+          Back to Top
+        </button>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script>
-    // Initialize AOS animations
-    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-4 right-4 glass px-6 py-3 rounded-xl shadow-xl transform translate-y-10 opacity-0 transition-all duration-300 z-50">
+    <div class="flex items-center gap-3">
+      <i class="fa-solid fa-check-circle text-green-400 text-xl"></i>
+      <span class="text-white font-semibold" id="toastMessage">Copied to clipboard!</span>
+    </div>
+  </div>
 
-    /* -------------------------
-       Loader hide & entrance
-       ------------------------- */
-    window.addEventListener('load', () => {
-      // small delay for aesthetics
-      setTimeout(() => {
-        const loader = document.getElementById('loader');
-        if (loader) {
-          loader.style.opacity = '0';
-          setTimeout(() => { loader.style.display = 'none'; }, 700);
-        }
-        // gentle entrance for content
-        document.querySelectorAll('main [data-aos]').forEach(el => {
-          el.style.opacity = 0;
-          el.style.transform = 'translateY(10px)';
-          setTimeout(() => {
-            el.style.transition = 'opacity .6s ease, transform .6s ease';
-            el.style.opacity = 1;
-            el.style.transform = 'translateY(0)';
-          }, 300);
-        });
-      }, 680);
+  <!-- JavaScript -->
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100,
+      easing: 'ease-out-cubic'
     });
 
-    /* -------------------------
-       Theme toggle (dark/light)
-       ------------------------- */
-    const toggleThemeBtn = document.getElementById('toggleTheme');
-    const applyTheme = (mode) => {
-      if (mode === 'light') {
-        document.documentElement.style.setProperty('--bg', '#f7f8fb');
-        document.documentElement.style.setProperty('--glass', 'rgba(2,6,23,0.03)');
-        document.documentElement.style.setProperty('--glass-border', 'rgba(0,0,0,0.06)');
-        document.body.style.color = '#061025';
-        toggleThemeBtn.textContent = 'Light';
+    // Loader
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      setTimeout(() => {
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+      }, 800);
+    });
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeToggleMobile = document.getElementById('themeToggleMobile');
+    const body = document.body;
+    
+    const setTheme = (theme) => {
+      if (theme === 'light') {
+        body.style.setProperty('--bg', '#f7f8fb');
+        body.style.setProperty('--glass', 'rgba(2,6,23,0.03)');
+        body.style.setProperty('--glass-border', 'rgba(0,0,0,0.06)');
+        body.style.color = '#061025';
+        localStorage.setItem('theme', 'light');
       } else {
-        document.documentElement.style.setProperty('--bg', '#05030a');
-        document.documentElement.style.setProperty('--glass', 'rgba(255,255,255,0.06)');
-        document.documentElement.style.setProperty('--glass-border', 'rgba(255,255,255,0.1)');
-        document.body.style.color = '#eef0ff';
-        toggleThemeBtn.textContent = 'Dark';
+        body.style.setProperty('--bg', '#05030a');
+        body.style.setProperty('--glass', 'rgba(255,255,255,0.06)');
+        body.style.setProperty('--glass-border', 'rgba(255,255,255,0.1)');
+        body.style.color = '#eef0ff';
+        localStorage.setItem('theme', 'dark');
       }
     };
-    let theme = localStorage.getItem('nexahub_theme') || 'dark';
-    applyTheme(theme);
-    toggleThemeBtn.addEventListener('click', () => {
-      theme = theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('nexahub_theme', theme);
-      applyTheme(theme);
-      // small pulse
-      toggleThemeBtn.animate([{ transform:'scale(1)' }, { transform:'scale(1.06)' }, { transform:'scale(1)' }], { duration: 260 });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+
+    themeToggle?.addEventListener('click', () => {
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
 
-    /* -------------------------
-       Navbar shrink on scroll
-       ------------------------- */
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        navbar.classList.add('scale-95', 'bg-[rgba(6,6,10,0.6)]');
-      } else {
-        navbar.classList.remove('scale-95', 'bg-[rgba(6,6,10,0.6)]');
-      }
+    themeToggleMobile?.addEventListener('click', () => {
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
 
-    /* -------------------------
-       Copy & Download (same logic)
-       ------------------------- */
+    // Mobile Menu
+    const menuButton = document.getElementById('menuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMenu = document.getElementById('closeMenu');
+
+    menuButton?.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeMenu?.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // Close mobile menu when clicking links
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Copy Script Functionality
+    const copyBtn = document.getElementById('copyBtn');
+    const copyScriptBtn = document.getElementById('copyScriptBtn');
     const codeBlock = document.getElementById('codeBlock');
-    document.getElementById('copyBtn').addEventListener('click', async () => {
-      const text = codeBlock.innerText.trim();
+    
+    const copyToClipboard = async () => {
+      const text = codeBlock.textContent;
       try {
         await navigator.clipboard.writeText(text);
-        showToast('Tersalin ke clipboard ✓');
-        playClick();
-      } catch {
-        showToast('Gagal menyalin, silakan salin manual');
+        showToast('Script copied to clipboard!');
+      } catch (err) {
+        showToast('Failed to copy!');
       }
-    });
-    document.getElementById('copyScriptBtn').addEventListener('click', () => document.getElementById('copyBtn').click());
+    };
 
-    document.getElementById('downloadBtn').addEventListener('click', () => {
-      const text = codeBlock.innerText.trim();
+    copyBtn?.addEventListener('click', copyToClipboard);
+    copyScriptBtn?.addEventListener('click', copyToClipboard);
+
+    // Download Script
+    const downloadBtn = document.getElementById('downloadBtn');
+    const downloadScriptBtn = document.getElementById('downloadScriptBtn');
+    
+    downloadBtn?.addEventListener('click', () => {
+      const text = codeBlock.textContent;
       const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'nexahub-script.lua';
+      a.href = url;
+      a.download = 'nexahub-loader.lua';
       document.body.appendChild(a);
       a.click();
-      a.remove();
-      showToast('Unduhan dimulai');
-      playClick();
-    });
-    document.getElementById('downloadScriptBtn').addEventListener('click', () => document.getElementById('downloadBtn').click());
-
-    /* -------------------------
-       Sound toggle and click
-       ------------------------- */
-    const soundToggle = document.getElementById('soundToggle');
-    let audioEnabled = true;
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playClick() {
-      if (!audioEnabled || !audioCtx) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = 660;
-      gain.gain.value = 0.02;
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      setTimeout(() => osc.stop(), 60);
-    }
-    soundToggle.addEventListener('click', () => {
-      audioEnabled = !audioEnabled;
-      soundToggle.classList.toggle('opacity-50', !audioEnabled);
-      showToast(audioEnabled ? 'Suara aktif' : 'Suara mati');
-      playClick();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Download started!');
     });
 
-    /* -------------------------
-       Toast notifications
-       ------------------------- */
+    downloadScriptBtn?.addEventListener('click', () => downloadBtn?.click());
+
+    // Toast Notification
     function showToast(message) {
-      const toast = document.createElement('div');
-      toast.textContent = message;
-      toast.className = 'fixed right-5 bottom-5 px-5 py-3 rounded-lg text-white z-50 shadow-lg';
-      toast.style.background = 'linear-gradient(90deg, var(--accent1), var(--accent2))';
-      toast.style.transition = 'opacity .4s ease, transform .4s ease';
-      document.body.appendChild(toast);
-      setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(12px)'; }, 1600);
-      setTimeout(() => toast.remove(), 2100);
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      
+      toastMessage.textContent = message;
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
+      
+      setTimeout(() => {
+        toast.style.transform = 'translateY(10px)';
+        toast.style.opacity = '0';
+      }, 3000);
     }
 
-    /* -------------------------
-       FAQ toggle with animation
-       ------------------------- */
+    // FAQ Toggle
     document.querySelectorAll('.faq-item').forEach(item => {
-      const q = item.querySelector('.faq-q');
-      const a = item.querySelector('.faq-a');
-      q.addEventListener('click', () => {
-        const isVisible = !a.classList.contains('hidden');
-        // close all
-        document.querySelectorAll('.faq-a').forEach(x => {
-          x.classList.add('hidden');
-          x.parentElement.classList.remove('open');
-          x.previousElementSibling.querySelector('.faq-toggle').textContent = '+';
+      const question = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+      const toggle = item.querySelector('.faq-toggle');
+      
+      question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        
+        // Close all FAQ items
+        document.querySelectorAll('.faq-item').forEach(faq => {
+          faq.classList.remove('active');
+          faq.querySelector('.faq-toggle').textContent = '+';
         });
-        if (isVisible) {
-          a.classList.add('hidden');
-          q.querySelector('.faq-toggle').textContent = '+';
-          item.classList.remove('open');
-        } else {
-          a.classList.remove('hidden');
-          q.querySelector('.faq-toggle').textContent = '–';
-          item.classList.add('open');
+        
+        // Toggle current item
+        if (!isActive) {
+          item.classList.add('active');
+          toggle.textContent = '-';
         }
       });
     });
 
-    // Back to top link smooth scroll
-    document.getElementById('backToTop').addEventListener('click', e => {
+    // Back to Top
+    const backToTop = document.getElementById('backToTop');
+    backToTop?.addEventListener('click', (e) => {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
 
-    // Expand video toggle height
+    // Video Controls
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const playPauseBtn = document.getElementById('playPauseBtn');
     const showcaseIframe = document.getElementById('showcaseIframe');
-    document.getElementById('expandVideo').addEventListener('click', () => {
-      if (showcaseIframe.style.height === '600px') {
-        showcaseIframe.style.height = '';
+    
+    fullscreenBtn?.addEventListener('click', () => {
+      if (showcaseIframe.requestFullscreen) {
+        showcaseIframe.requestFullscreen();
+      } else if (showcaseIframe.webkitRequestFullscreen) {
+        showcaseIframe.webkitRequestFullscreen();
+      }
+    });
+
+    let isPlaying = false;
+    playPauseBtn?.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      playPauseBtn.innerHTML = isPlaying ? 
+        '<i class="fa-solid fa-pause"></i>' : 
+        '<i class="fa-solid fa-play"></i>';
+    });
+
+    // Typing Effect
+    function typingEffect() {
+      const element = document.getElementById('typedSubtitle');
+      if (!element) return;
+      
+      const phrases = [
+        "Premium Roblox script hub",
+        "Fast • Secure • Reliable",
+        "Built for performance",
+        "Optimized for all devices"
+      ];
+      
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let isEnd = false;
+      
+      function type() {
+        const currentPhrase = phrases[phraseIndex];
+        
+        if (isDeleting) {
+          element.textContent = currentPhrase.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          element.textContent = currentPhrase.substring(0, charIndex + 1);
+          charIndex++;
+        }
+        
+        if (!isDeleting && charIndex === currentPhrase.length) {
+          isEnd = true;
+          setTimeout(type, 2000);
+          return;
+        }
+        
+        if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+        }
+        
+        if (isEnd) {
+          isDeleting = true;
+          isEnd = false;
+          setTimeout(type, 100);
+          return;
+        }
+        
+        const speed = isDeleting ? 50 : 100;
+        setTimeout(type, speed + Math.random() * 50);
+      }
+      
+      setTimeout(type, 1000);
+    }
+    
+    typingEffect();
+
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    let lastScroll = 0;
+    
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll <= 0) {
+        navbar.style.transform = 'translateY(0)';
+        navbar.style.backdropFilter = 'blur(12px)';
+        return;
+      }
+      
+      if (currentScroll > lastScroll && currentScroll > 100) {
+        // Scrolling down
+        navbar.style.transform = 'translateY(-100%)';
       } else {
-        showcaseIframe.style.height = '600px';
+        // Scrolling up
+        navbar.style.transform = 'translateY(0)';
       }
+      
+      lastScroll = currentScroll;
     });
 
-    /* -------------------------
-       Showcase card 3D tilt
-       ------------------------- */
-    const showcaseCard = document.querySelector('.showcase-wrap');
-    showcaseCard.addEventListener('mousemove', (e) => {
-      const rect = showcaseCard.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      const rotateX = (y - 0.5) * 8;
-      const rotateY = (x - 0.5) * -12;
-      showcaseCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(12px)`;
-    });
-    showcaseCard.addEventListener('mouseleave', () => {
-      showcaseCard.style.transform = 'rotateX(0) rotateY(0)';
+    // Sound Toggle
+    const soundToggle = document.getElementById('soundToggle');
+    let soundEnabled = true;
+    
+    soundToggle?.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundToggle.innerHTML = soundEnabled ? 
+        '<i class="fa-solid fa-volume-high"></i> Sound On' : 
+        '<i class="fa-solid fa-volume-xmark"></i> Sound Off';
+      showToast(soundEnabled ? 'Sound enabled' : 'Sound disabled');
     });
 
-    /* -------------------------
-       Cursor trail effect
-       ------------------------- */
-    (function initCursorTrail() {
-      const cursorTrail = document.getElementById('cursorTrail');
-      const DOTS = [];
-      for (let i = 0; i < 8; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'trail-dot rounded-full pointer-events-none absolute opacity-90';
-        const size = 6 + i * 1.2;
-        dot.style.width = `${size}px`;
-        dot.style.height = `${size}px`;
-        dot.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,${0.08 + i * 0.03}), rgba(108,71,255,${0.06 + i * 0.04}))`;
-        dot.style.filter = 'blur(.6px)';
-        dot.style.zIndex = 9999 - i;
-        cursorTrail.appendChild(dot);
-        DOTS.push(dot);
-      }
-      let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-      (function renderTrail() {
-        let x = mouse.x, y = mouse.y;
-        DOTS.forEach((el, i) => {
-          const k = 0.14 + i * 0.03;
-          const ex = parseFloat(el.dataset.x || x);
-          const ey = parseFloat(el.dataset.y || y);
-          const nx = ex + (x - ex) * k;
-          const ny = ey + (y - ey) * k;
-          el.style.transform = `translate3d(${nx - el.offsetWidth / 2}px, ${ny - el.offsetHeight / 2}px, 0)`;
-          el.dataset.x = nx;
-          el.dataset.y = ny;
-          x = nx;
-          y = ny;
-        });
-        requestAnimationFrame(renderTrail);
-      })();
-    })();
-
-    /* -------------------------
-       Simple particles system (canvas)
-       ------------------------- */
-    (function initParticles() {
+    // Particles Background
+    function initParticles() {
       const canvas = document.getElementById('particles-canvas');
       if (!canvas) return;
+      
       const ctx = canvas.getContext('2d');
-      let W = canvas.width = innerWidth;
-      let H = canvas.height = innerHeight;
-      window.addEventListener('resize', () => { W = canvas.width = innerWidth; H = canvas.height = innerHeight; });
-
-      const num = Math.max(60, Math.floor((W * H) / 60000)); // scale with screen
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+      
       const particles = [];
-      for (let i = 0; i < num; i++) {
+      const particleCount = Math.min(100, Math.floor(width * height / 10000));
+      
+      for (let i = 0; i < particleCount; i++) {
         particles.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: -0.15 - Math.random() * 0.25,
-          r: 1 + Math.random() * 3,
-          hue: 230 + Math.random() * 80,
-          life: 40 + Math.random() * 80
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 2 + 0.5,
+          speedX: Math.random() * 0.5 - 0.25,
+          speedY: Math.random() * 0.5 - 0.25,
+          color: `rgba(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 100 + 100)}, 255, 0.1)`
         });
       }
-
-      function draw() {
-        ctx.clearRect(0,0,W,H);
-        for (let p of particles) {
+      
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        
+        particles.forEach(particle => {
           ctx.beginPath();
-          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 6);
-          g.addColorStop(0, `hsla(${p.hue},100%,80%,0.9)`);
-          g.addColorStop(0.3, `hsla(${p.hue},90%,60%,0.25)`);
-          g.addColorStop(1, `hsla(${p.hue},80%,50%,0)`);
-          ctx.fillStyle = g;
-          ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fillStyle = particle.color;
           ctx.fill();
-
-          // move
-          p.x += p.vx;
-          p.y += p.vy;
-          p.life -= 0.2;
-          if (p.y < -50 || p.life <= 0) {
-            p.x = Math.random() * W;
-            p.y = H + 20 + Math.random() * 80;
-            p.vx = (Math.random() - 0.5) * 0.3;
-            p.vy = -0.1 - Math.random() * 0.25;
-            p.life = 40 + Math.random() * 80;
-            p.r = 1 + Math.random() * 3;
-          }
-        }
-        requestAnimationFrame(draw);
+          
+          particle.x += particle.speedX;
+          particle.y += particle.speedY;
+          
+          if (particle.x < 0 || particle.x > width) particle.speedX *= -1;
+          if (particle.y < 0 || particle.y > height) particle.speedY *= -1;
+        });
+        
+        requestAnimationFrame(animate);
       }
-      draw();
-    })();
+      
+      animate();
+      
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+    }
+    
+    initParticles();
 
-    /* -------------------------
-       Typing subtitle (multiple phrases)
-       ------------------------- */
-    (function typingEffect() {
-      const el = document.getElementById('typedSubtitle');
-      if (!el) return;
-      const phrases = [
-        "Premium Roblox script — cepat & aman.",
-        "Auto-update • Secure Loader • Low Lag.",
-        "Built for performance and style."
-      ];
-      let pi = 0, ci = 0, forward = true;
-      function tick() {
-        const text = phrases[pi];
-        if (forward) {
-          ci++;
-          el.textContent = text.slice(0, ci);
-          if (ci >= text.length) { forward = false; setTimeout(tick, 1200); return; }
-        } else {
-          ci--;
-          el.textContent = text.slice(0, ci);
-          if (ci === 0) { forward = true; pi = (pi + 1) % phrases.length; }
-        }
-        setTimeout(tick, forward ? 45 + Math.random()*30 : 30 + Math.random()*16);
-      }
-      tick();
-    })();
-
-    /* -------------------------
-       Small tilt effect for buttons (parallax)
-       ------------------------- */
-    document.querySelectorAll('[data-tilt]').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
-        const rx = (y - 0.5) * -6;
-        const ry = (x - 0.5) * 8;
-        btn.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translateY(0) translateZ(0)';
-      });
-      btn.addEventListener('mousedown', () => {
-        btn.style.transform += ' scale(.98)';
-      });
-      btn.addEventListener('mouseup', () => {
-        btn.style.transform = btn.style.transform.replace(' scale(.98)', '');
+    // Watch Showcase Button
+    const watchShowBtn = document.getElementById('watchShow');
+    watchShowBtn?.addEventListener('click', () => {
+      document.getElementById('showcase').scrollIntoView({ 
+        behavior: 'smooth' 
       });
     });
 
-    /* -------------------------
-       IntersectionObserver: subtle reveal for elements without AOS
-       ------------------------- */
-    (function observerReveal() {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.style.transition = 'opacity .7s ease, transform .7s ease';
-            e.target.style.opacity = 1;
-            e.target.style.transform = 'translateY(0)';
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.18 });
-      document.querySelectorAll('[data-reveal]').forEach(el => {
-        el.style.opacity = 0;
-        el.style.transform = 'translateY(12px)';
-        io.observe(el);
+    // Add active class to nav links on scroll
+    const sections = document.querySelectorAll('section[id]');
+    
+    function updateActiveNav() {
+      const scrollY = window.pageYOffset;
+      
+      sections.forEach(section => {
+        const sectionHeight = section.offsetHeight;
+        const sectionTop = section.offsetTop - 100;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          document.querySelector(`a[href="#${sectionId}"]`)?.classList.add('text-white');
+          document.querySelector(`a[href="#${sectionId}"]`)?.classList.remove('text-muted');
+        } else {
+          document.querySelector(`a[href="#${sectionId}"]`)?.classList.add('text-muted');
+          document.querySelector(`a[href="#${sectionId}"]`)?.classList.remove('text-white');
+        }
       });
-    })();
+    }
+    
+    window.addEventListener('scroll', updateActiveNav);
 
-    /* -------------------------
-       Small accessibility: enable keyboard copy (Ctrl+C on codebox)
-       ------------------------- */
-    const code = document.getElementById('codeBlock');
-    code.addEventListener('focus', (e) => { /* do nothing, but allow keyboard interactions */ });
-
-    /* -------------------------
-       Finish - small polish on load
-       ------------------------- */
-    // Ensure AOS refresh after dynamic changes
-    setTimeout(() => AOS.refresh(), 1200);
+    // Initialize tooltips for buttons
+    function initTooltips() {
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(button => {
+        if (button.id) {
+          button.addEventListener('mouseenter', () => {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'fixed glass px-3 py-1 rounded text-xs font-semibold pointer-events-none z-50';
+            tooltip.textContent = button.getAttribute('title') || '';
+            document.body.appendChild(tooltip);
+            
+            const rect = button.getBoundingClientRect();
+            tooltip.style.left = `${rect.left + rect.width / 2 - tooltip.offsetWidth / 2}px`;
+            tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`;
+            
+            button.addEventListener('mouseleave', () => {
+              tooltip.remove();
+            }, { once: true });
+          });
+        }
+      });
+    }
+    
+    // Run after page loads
+    setTimeout(initTooltips, 1000);
   </script>
 </body>
 </html>
