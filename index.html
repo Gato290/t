@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-  <title>NexaHUB — Premium Script Hub (Animated)</title>
+  <title>NexaHUB — Premium Script Hub (Enhanced)</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,16 +17,37 @@
             accent1: '#9b6bff',
             accent2: '#6c47ff',
             accent3: '#5ce1e6',
+            accent4: '#ff6b9d',
+            accent5: '#ffd166',
             muted: '#bfc0d6',
+            dark: '#05030a',
+            light: '#f7f8fb'
           },
           screens: {
-            'xs': '475px',
+            'xs': '375px',
+            '2xl': '1440px',
             '3xl': '1920px',
           },
           animation: {
             'float': 'float 6s ease-in-out infinite',
-            'pulse-slow': 'pulse 3s ease-in-out infinite',
-            'slide-up': 'slideUp 0.5s ease-out',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'slide-up': 'slideUp 0.6s ease-out forwards',
+            'slide-down': 'slideDown 0.6s ease-out forwards',
+            'fade-in': 'fadeIn 0.8s ease-out forwards',
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+            'fade-in-down': 'fadeInDown 0.8s ease-out forwards',
+            'scale-in': 'scaleIn 0.6s ease-out forwards',
+            'glow': 'glow 2s ease-in-out infinite alternate',
+            'spin-slow': 'spin 8s linear infinite',
+            'bounce-slow': 'bounce 3s infinite',
+            'gradient-x': 'gradientX 3s ease infinite',
+            'shimmer': 'shimmer 2s linear infinite',
+            'wiggle': 'wiggle 0.5s ease-in-out',
+            'parallax': 'parallax 20s linear infinite',
+            'ripple': 'ripple 1s linear infinite',
+            'text-gradient': 'textGradient 3s ease infinite',
+            'blob': 'blob 7s infinite',
+            'tilt': 'tilt 10s infinite linear alternate',
           },
           keyframes: {
             float: {
@@ -34,9 +55,67 @@
               '50%': { transform: 'translateY(-20px)' },
             },
             slideUp: {
-              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '0%': { transform: 'translateY(100px)', opacity: '0' },
               '100%': { transform: 'translateY(0)', opacity: '1' },
-            }
+            },
+            slideDown: {
+              '0%': { transform: 'translateY(-100px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            fadeInUp: {
+              '0%': { transform: 'translateY(30px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            fadeInDown: {
+              '0%': { transform: 'translateY(-30px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            scaleIn: {
+              '0%': { transform: 'scale(0.9)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' },
+            },
+            glow: {
+              '0%': { filter: 'drop-shadow(0 0 2px rgba(155, 107, 255, 0.3))' },
+              '100%': { filter: 'drop-shadow(0 0 20px rgba(155, 107, 255, 0.6))' },
+            },
+            gradientX: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200px 0' },
+              '100%': { backgroundPosition: 'calc(200px + 100%) 0' },
+            },
+            wiggle: {
+              '0%, 100%': { transform: 'rotate(-3deg)' },
+              '50%': { transform: 'rotate(3deg)' },
+            },
+            parallax: {
+              '0%': { transform: 'translateY(0)' },
+              '100%': { transform: 'translateY(-50%)' },
+            },
+            ripple: {
+              '0%': { transform: 'scale(0.8)', opacity: '1' },
+              '100%': { transform: 'scale(2.4)', opacity: '0' },
+            },
+            textGradient: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            },
+            blob: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+              '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+              '100%': { transform: 'translate(0px, 0px) scale(1)' },
+            },
+            tilt: {
+              '0%, 100%': { transform: 'rotate(-1deg)' },
+              '50%': { transform: 'rotate(1deg)' },
+            },
           }
         }
       }
@@ -44,7 +123,7 @@
   </script>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <!-- AOS (scroll animations) -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
@@ -52,6 +131,11 @@
 
   <!-- Font Awesome Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- GSAP for advanced animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
 
   <style>
     :root {
@@ -61,115 +145,254 @@
       --accent1: #9b6bff;
       --accent2: #6c47ff;
       --accent3: #5ce1e6;
+      --accent4: #ff6b9d;
+      --accent5: #ffd166;
       --muted: #bfc0d6;
     }
-    /* Base */
+    
+    /* Base Styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    html, body { 
+    
+    html, body {
       height: 100%;
       overflow-x: hidden;
       scroll-behavior: smooth;
     }
+    
     body {
       font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background:
-        radial-gradient(ellipse at 15% 10%, rgba(155, 107, 255, 0.06), transparent 30%),
-        radial-gradient(ellipse at 85% 90%, rgba(92, 225, 230, 0.04), transparent 30%),
+      background: 
+        radial-gradient(ellipse at 15% 10%, rgba(155, 107, 255, 0.15), transparent 40%),
+        radial-gradient(ellipse at 85% 90%, rgba(92, 225, 230, 0.1), transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 107, 157, 0.05), transparent 60%),
         var(--bg);
       color: #eef0ff;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       min-height: 100vh;
-      transition: background 0.6s ease, color 0.4s ease;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow-x: hidden;
     }
     
-    /* Improved Glass Effect */
+    /* Animated Background Elements */
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.15;
+      z-index: -1;
+      animation: blob 15s infinite;
+    }
+    
+    .bg-blob-1 {
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, var(--accent1), var(--accent4));
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+    
+    .bg-blob-2 {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      bottom: 10%;
+      right: 5%;
+      animation-delay: 5s;
+    }
+    
+    .bg-blob-3 {
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, var(--accent4), var(--accent5));
+      top: 50%;
+      left: 80%;
+      animation-delay: 10s;
+    }
+    
+    /* Floating Particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent1), var(--accent3));
+      opacity: 0.1;
+      z-index: -1;
+    }
+    
+    /* Advanced Glass Effect */
     .glass {
       background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
+      border-radius: 24px;
       box-shadow: 
-        0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-    
-    /* Buttons */
-    .btn-primary {
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      color: white;
-      font-weight: 600;
-      padding: 0.875rem 1.75rem;
-      border-radius: 9999px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 
-        0 4px 14px rgba(108, 71, 255, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
       position: relative;
       overflow: hidden;
     }
-    .btn-primary:hover {
-      transform: translateY(-4px);
-      box-shadow: 
-        0 12px 32px rgba(108, 71, 255, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    
+    .glass::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent
+      );
+      transition: left 0.7s ease;
+      z-index: 1;
     }
-    .btn-primary:active {
-      transform: translateY(-2px);
+    
+    .glass:hover::before {
+      left: 100%;
+    }
+    
+    /* Enhanced Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent1), var(--accent2), var(--accent4));
+      background-size: 200% 200%;
+      color: white;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 
-        0 6px 20px rgba(108, 71, 255, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 8px 32px rgba(108, 71, 255, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 20px rgba(155, 107, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      animation: gradient-x 3s ease infinite;
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: left 0.7s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-6px) scale(1.05);
+      box-shadow: 
+        0 16px 48px rgba(108, 71, 255, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 40px rgba(155, 107, 255, 0.4);
+      animation-play-state: paused;
+    }
+    
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+    
+    .btn-primary:active {
+      transform: translateY(-2px) scale(1.02);
     }
     
     .btn-ghost {
       background: rgba(255, 255, 255, 0.05);
       color: var(--muted);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 0.75rem 1.5rem;
+      padding: 0.875rem 1.75rem;
       border-radius: 9999px;
       font-weight: 500;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
     }
+    
+    .btn-ghost::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .btn-ghost:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
     .btn-ghost:hover {
       background: rgba(255, 255, 255, 0.08);
       color: white;
       border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
-
-    /* Typography */
+    
+    /* Advanced Typography */
     .neon-text {
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 900;
+      background: linear-gradient(
+        135deg,
+        var(--accent1) 0%,
+        var(--accent2) 25%,
+        var(--accent3) 50%,
+        var(--accent4) 75%,
+        var(--accent5) 100%
+      );
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 4px 30px rgba(108, 71, 255, 0.15);
+      background-clip: text;
+      text-shadow: 
+        0 4px 30px rgba(155, 107, 255, 0.3),
+        0 8px 40px rgba(108, 71, 255, 0.2);
       letter-spacing: -0.025em;
-      line-height: 1.1;
-      animation: neon-breathe 4s ease-in-out infinite;
+      line-height: 1;
+      animation: text-gradient 4s ease infinite;
+      position: relative;
+      display: inline-block;
     }
-
-    /* Animations */
-    @keyframes neon-breathe {
-      0%, 100% { 
-        filter: drop-shadow(0 4px 15px rgba(155, 107, 255, 0.1));
-        opacity: 1;
-      }
-      50% { 
-        filter: drop-shadow(0 8px 40px rgba(108, 71, 255, 0.25));
-        opacity: 0.95;
-      }
+    
+    .neon-text::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: scaleIn 0.8s ease-out 0.5s forwards;
     }
-
-    /* Loader */
+    
+    /* Enhanced Loader */
     #loader {
       position: fixed;
       inset: 0;
@@ -177,80 +400,291 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      background: linear-gradient(135deg, rgba(5, 3, 10, 0.95), rgba(8, 5, 20, 0.95));
-      transition: opacity 0.6s ease-out, visibility 0.6s;
+      background: linear-gradient(135deg, rgba(5, 3, 10, 0.98), rgba(8, 5, 20, 0.95));
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
     }
-    .loader-spinner {
-      width: 100px;
-      height: 100px;
+    
+    .loader-container {
+      text-align: center;
+    }
+    
+    .loader-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 2rem;
       position: relative;
     }
-    .loader-spinner div {
+    
+    .loader-logo::before,
+    .loader-logo::after {
+      content: '';
       position: absolute;
-      width: 100%;
-      height: 100%;
       border-radius: 50%;
       border: 3px solid transparent;
       border-top-color: var(--accent1);
-      animation: spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation: spin 2s linear infinite;
     }
-    .loader-spinner div:nth-child(2) {
-      border-top-color: var(--accent2);
+    
+    .loader-logo::before {
+      width: 100%;
+      height: 100%;
+      border-width: 4px;
       animation-delay: 0.1s;
     }
-    .loader-spinner div:nth-child(3) {
-      border-top-color: var(--accent3);
+    
+    .loader-logo::after {
+      width: 80%;
+      height: 80%;
+      top: 10%;
+      left: 10%;
+      border-width: 3px;
+      border-top-color: var(--accent2);
       animation-delay: 0.2s;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    
+    .loader-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent1), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      overflow: hidden;
     }
-
-    /* Responsive Grids */
+    
+    .loader-text::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    /* Floating Animation for Elements */
+    .float-element {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .float-element-delay-1 {
+      animation-delay: 1s;
+    }
+    
+    .float-element-delay-2 {
+      animation-delay: 2s;
+    }
+    
+    /* Card Hover Effects */
+    .feature-card {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-20px) rotateX(5deg) rotateY(-5deg);
+      box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.3),
+        0 0 60px rgba(155, 107, 255, 0.2);
+    }
+    
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      background: linear-gradient(
+        135deg,
+        rgba(155, 107, 255, 0.1),
+        rgba(92, 225, 230, 0.05)
+      );
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: -1;
+    }
+    
+    .feature-card:hover::after {
+      opacity: 1;
+    }
+    
+    /* Animated Progress Bars */
+    .progress-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      border-radius: 3px;
+      position: relative;
+      animation: shimmer 2s infinite;
+    }
+    
+    /* Ripple Effect */
+    .ripple-effect {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ripple-effect::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      animation: ripple 1s linear;
+      pointer-events: none;
+    }
+    
+    /* Parallax Scrolling */
+    .parallax-layer {
+      position: absolute;
+      will-change: transform;
+    }
+    
+    /* Animated Gradient Border */
+    .gradient-border {
+      position: relative;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        var(--accent1),
+        var(--accent2),
+        var(--accent3),
+        var(--accent4)
+      );
+      background-size: 300% 300%;
+      animation: gradient-x 4s ease infinite;
+    }
+    
+    .gradient-border > * {
+      border-radius: 23px;
+    }
+    
+    /* Responsive Grid System */
     .responsive-grid {
       display: grid;
-      gap: 1.5rem;
+      gap: 2rem;
       grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     }
-
-    /* Mobile Navigation */
+    
+    /* Mobile Menu */
     .mobile-menu {
       transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(20px);
     }
+    
     .mobile-menu.active {
       transform: translateX(0);
     }
-
-    /* Improved Video Container */
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(
+        to bottom,
+        var(--accent1),
+        var(--accent2),
+        var(--accent3)
+      );
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(
+        to bottom,
+        var(--accent3),
+        var(--accent2),
+        var(--accent1)
+      );
+      box-shadow: 0 0 10px rgba(155, 107, 255, 0.3);
+    }
+    
+    /* Typing Animation */
+    .typing-container {
+      min-height: 2em;
+      position: relative;
+    }
+    
+    .typing-text {
+      display: inline;
+    }
+    
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.2em;
+      background: var(--accent1);
+      margin-left: 2px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    /* Responsive Video Container */
     .video-container {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
-      border-radius: 12px;
+      border-radius: 16px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
     }
+    
     .video-container iframe {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      border-radius: 12px;
+      border-radius: 16px;
+      transform: translateZ(20px);
+      transition: transform 0.5s ease;
     }
-
-    /* Code Box Improvements */
+    
+    .video-container:hover iframe {
+      transform: translateZ(30px);
+    }
+    
+    /* Advanced Code Box */
     .code-box {
-      background: linear-gradient(135deg, rgba(155, 107, 255, 0.05), rgba(108, 71, 255, 0.03));
+      background: linear-gradient(
+        135deg,
+        rgba(155, 107, 255, 0.05),
+        rgba(108, 71, 255, 0.03)
+      );
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.875rem;
-      line-height: 1.5;
+      border-radius: 16px;
       position: relative;
       overflow: hidden;
     }
+    
     .code-box::before {
       content: '';
       position: absolute;
@@ -258,400 +692,693 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(155, 107, 255, 0.3), transparent);
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--accent1),
+        var(--accent2),
+        transparent
+      );
+      animation: shimmer 3s infinite;
     }
-
-    /* FAQ Improvements */
-    .faq-item {
-      transition: all 0.3s ease;
-      cursor: pointer;
+    
+    /* Interactive Stats */
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent1), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
     }
-    .faq-item:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.05);
+    
+    /* Pulse Animation */
+    .pulse-ring {
+      position: absolute;
+      border: 2px solid var(--accent1);
+      border-radius: 50%;
+      animation: ripple 2s infinite;
     }
-    .faq-answer {
-      max-height: 0;
+    
+    /* Hover 3D Effect */
+    .hover-3d {
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-3d:hover {
+      transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+    }
+    
+    /* Shine Effect */
+    .shine-effect {
+      position: relative;
       overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .faq-item.active .faq-answer {
-      max-height: 500px;
+    
+    .shine-effect::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: rotate(30deg);
+      transition: left 0.7s ease;
     }
-
-    /* Better Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
+    
+    .shine-effect:hover::after {
+      left: 100%;
     }
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(to bottom, var(--accent1), var(--accent2));
-      border-radius: 5px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(to bottom, var(--accent2), var(--accent1));
-    }
-
-    /* Touch Device Optimizations */
-    @media (hover: none) and (pointer: coarse) {
-      .btn-primary:hover,
-      .btn-ghost:hover {
-        transform: none;
-      }
-      .glass {
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-      }
-    }
-
-    /* Small Mobile Devices */
-    @media (max-width: 360px) {
+    
+    /* Media Queries */
+    @media (max-width: 768px) {
       .neon-text {
-        font-size: 2rem;
+        font-size: clamp(2.5rem, 8vw, 4rem);
       }
+      
+      .glass {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      
       .btn-primary,
       .btn-ghost {
-        padding: 0.75rem 1.25rem;
-        font-size: 0.875rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-10px);
       }
     }
-
-    /* Tablet Optimizations */
-    @media (min-width: 768px) and (max-width: 1024px) {
-      .responsive-grid {
-        grid-template-columns: repeat(2, 1fr);
+    
+    @media (max-width: 480px) {
+      .neon-text {
+        font-size: 2.5rem;
+      }
+      
+      .loader-logo {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .stat-number {
+        font-size: 2rem;
       }
     }
-
-    /* Large Desktop */
-    @media (min-width: 1920px) {
-      .container-custom {
-        max-width: 1440px;
-        margin: 0 auto;
+    
+    /* Print Styles */
+    @media print {
+      .glass,
+      .btn-primary,
+      .btn-ghost {
+        box-shadow: none;
+        background: white;
+        color: black;
+        border: 1px solid #ddd;
       }
     }
-
-    /* Safe Area Insets for Notched Devices */
-    @supports (padding: max(0px)) {
-      body {
-        padding-left: min(0px, env(safe-area-inset-left));
-        padding-right: min(0px, env(safe-area-inset-right));
+    
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+    /* High Contrast Mode */
+    @media (prefers-contrast: high) {
+      .glass {
+        border: 2px solid black;
+      }
+    }
+    
+    /* Dark Mode Support */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #05030a;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Particles Canvas -->
-  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+  <!-- Animated Background Elements -->
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+  <div class="bg-blob bg-blob-3"></div>
+  
+  <!-- Floating Particles -->
+  <div id="particles-container"></div>
 
   <!-- Loader -->
-  <div id="loader" class="fixed inset-0 flex flex-col items-center justify-center z-[9999]">
-    <div class="loader-spinner">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <div class="mt-6 text-center">
-      <p class="text-xl font-semibold text-white mb-2">NexaHUB</p>
-      <p class="text-accent1 animate-pulse">Loading premium experience...</p>
+  <div id="loader" class="fixed inset-0 z-[9999]">
+    <div class="loader-container">
+      <div class="loader-logo">
+        <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-full h-full object-contain relative z-10">
+      </div>
+      <div class="loader-text animate-pulse">
+        Loading Experience
+      </div>
+      <div class="progress-bar w-48 mx-auto mt-8">
+        <div class="progress-fill w-full"></div>
+      </div>
     </div>
   </div>
 
-  <!-- Mobile Menu Overlay -->
-  <div id="mobileMenu" class="mobile-menu fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center lg:hidden">
-    <button id="closeMenu" class="absolute top-6 right-6 text-white text-2xl">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    <nav class="flex flex-col items-center gap-8">
-      <a href="#home" class="text-2xl font-semibold text-white hover:text-accent1 transition">Home</a>
-      <a href="#showcase" class="text-2xl font-semibold text-white hover:text-accent1 transition">Showcase</a>
-      <a href="#script" class="text-2xl font-semibold text-white hover:text-accent1 transition">Script</a>
-      <a href="#features" class="text-2xl font-semibold text-white hover:text-accent1 transition">Features</a>
-      <a href="#faq" class="text-2xl font-semibold text-white hover:text-accent1 transition">FAQ</a>
-      <button id="themeToggleMobile" class="px-6 py-3 glass rounded-full text-white font-semibold">
-        Toggle Theme
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="mobile-menu fixed inset-0 bg-black/95 z-50 lg:hidden">
+    <div class="relative h-full p-8">
+      <button id="closeMenu" class="absolute top-8 right-8 text-3xl text-white hover:text-accent1 transition">
+        <i class="fa-solid fa-xmark"></i>
       </button>
-    </nav>
+      
+      <div class="flex flex-col items-center justify-center h-full gap-8">
+        <div class="mb-12">
+          <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-24 h-24 mx-auto mb-4">
+          <h2 class="text-3xl font-bold text-center bg-gradient-to-r from-accent1 to-accent3 bg-clip-text text-transparent">
+            NexaHUB
+          </h2>
+        </div>
+        
+        <nav class="flex flex-col items-center gap-6">
+          <a href="#home" class="text-2xl font-semibold text-white hover:text-accent1 transition-all hover:scale-110">
+            Home
+          </a>
+          <a href="#showcase" class="text-2xl font-semibold text-white hover:text-accent1 transition-all hover:scale-110">
+            Showcase
+          </a>
+          <a href="#script" class="text-2xl font-semibold text-white hover:text-accent1 transition-all hover:scale-110">
+            Script
+          </a>
+          <a href="#features" class="text-2xl font-semibold text-white hover:text-accent1 transition-all hover:scale-110">
+            Features
+          </a>
+          <a href="#stats" class="text-2xl font-semibold text-white hover:text-accent1 transition-all hover:scale-110">
+            Stats
+          </a>
+          <a href="#faq" class="text-2xl font-semibold text-white hover:text-accent1 transition-all hover:scale-110">
+            FAQ
+          </a>
+        </nav>
+        
+        <div class="mt-12 flex gap-4">
+          <button id="themeToggleMobile" class="px-6 py-3 glass rounded-full text-white font-semibold hover:scale-105 transition">
+            <i class="fa-solid fa-moon mr-2"></i> Theme
+          </button>
+          <button class="px-6 py-3 btn-primary">
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Navbar -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 glass mx-4 md:mx-8 lg:mx-auto lg:max-w-6xl mt-4 rounded-2xl px-4 md:px-6 py-3 flex items-center justify-between z-40 transition-all duration-300">
-    <div class="flex items-center gap-3">
-      <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-10 h-10 md:w-12 md:h-12 rounded-lg" loading="lazy" />
-      <div>
-        <h1 class="font-extrabold text-white text-lg md:text-xl">NexaHUB</h1>
-        <p class="text-xs text-muted">Premium Script Hub</p>
+  <nav id="navbar" class="fixed top-4 left-1/2 transform -translate-x-1/2 glass px-6 py-3 z-40 w-[calc(100%-2rem)] max-w-6xl transition-all duration-500">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" 
+               class="w-12 h-12 rounded-xl hover-3d cursor-pointer">
+          <div class="pulse-ring w-14 h-14 -top-1 -left-1"></div>
+        </div>
+        <div>
+          <h1 class="font-black text-white text-xl">NexaHUB</h1>
+          <p class="text-xs text-muted">Premium Script Hub</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Desktop Navigation -->
-    <div class="hidden lg:flex items-center gap-6">
-      <a href="#home" class="text-sm font-semibold text-muted hover:text-white transition">Home</a>
-      <a href="#showcase" class="text-sm font-semibold text-muted hover:text-white transition">Showcase</a>
-      <a href="#script" class="text-sm font-semibold text-muted hover:text-white transition">Script</a>
-      <a href="#features" class="text-sm font-semibold text-muted hover:text-white transition">Features</a>
-      <a href="#faq" class="text-sm font-semibold text-muted hover:text-white transition">FAQ</a>
-      <button id="themeToggle" class="ml-4 px-4 py-2 glass rounded-full text-sm font-semibold text-white">
-        <i class="fa-solid fa-moon"></i>
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center gap-6">
+        <a href="#home" class="nav-link text-sm font-semibold text-muted hover:text-white transition-all hover:scale-105">
+          Home
+        </a>
+        <a href="#showcase" class="nav-link text-sm font-semibold text-muted hover:text-white transition-all hover:scale-105">
+          Showcase
+        </a>
+        <a href="#script" class="nav-link text-sm font-semibold text-muted hover:text-white transition-all hover:scale-105">
+          Script
+        </a>
+        <a href="#features" class="nav-link text-sm font-semibold text-muted hover:text-white transition-all hover:scale-105">
+          Features
+        </a>
+        <a href="#stats" class="nav-link text-sm font-semibold text-muted hover:text-white transition-all hover:scale-105">
+          Stats
+        </a>
+        <a href="#faq" class="nav-link text-sm font-semibold text-muted hover:text-white transition-all hover:scale-105">
+          FAQ
+        </a>
+        
+        <div class="flex items-center gap-3 ml-6">
+          <button id="themeToggle" class="p-2 glass rounded-lg hover:scale-105 transition">
+            <i class="fa-solid fa-moon text-white"></i>
+          </button>
+          <button class="btn-primary px-4 py-2 text-sm">
+            Get Access
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="menuButton" class="lg:hidden p-2 glass rounded-lg hover:scale-105 transition">
+        <i class="fa-solid fa-bars text-xl text-white"></i>
       </button>
     </div>
-
-    <!-- Mobile Menu Button -->
-    <button id="menuButton" class="lg:hidden p-2 glass rounded-lg text-white">
-      <i class="fa-solid fa-bars text-xl"></i>
-    </button>
   </nav>
 
   <!-- Main Content -->
-  <main class="pt-24 md:pt-28 lg:pt-32 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
-
+  <main class="relative z-10">
+    
     <!-- Hero Section -->
-    <section id="home" class="mb-16 md:mb-24">
-      <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
-        <div class="space-y-6 md:space-y-8">
-          <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-            <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB Logo" 
-                 class="w-24 h-24 md:w-32 md:h-32 glass p-4 rounded-2xl shadow-lg" 
-                 loading="lazy" />
-            <div class="text-center md:text-left">
-              <h1 class="neon-text mb-2">NexaHUB</h1>
-              <p class="text-muted text-sm md:text-base">
-                <span id="typedSubtitle" class="typing"></span>
-              </p>
+    <section id="home" class="min-h-screen flex items-center justify-center px-4 pt-16 pb-24">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          
+          <!-- Left Content -->
+          <div class="text-center lg:text-left space-y-8">
+            <div class="space-y-4">
+              <h1 class="neon-text">
+                NexaHUB
+              </h1>
+              
+              <div class="typing-container">
+                <p class="text-2xl md:text-3xl font-semibold text-muted">
+                  <span id="typedSubtitle" class="typing-text"></span>
+                  <span class="typing-cursor"></span>
+                </p>
+              </div>
+            </div>
+
+            <p class="text-lg text-muted leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              Experience the ultimate Roblox scripting platform with cutting-edge features, 
+              unparalleled performance, and seamless integration across all devices.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+              <button id="watchShow" class="btn-primary ripple-effect shine-effect">
+                <i class="fa-solid fa-play mr-2"></i>
+                Live Demo
+              </button>
+              
+              <button id="copyScriptBtn" class="btn-ghost ripple-effect">
+                <i class="fa-solid fa-copy mr-2"></i>
+                Copy Script
+              </button>
+              
+              <button id="downloadScriptBtn" class="btn-ghost ripple-effect">
+                <i class="fa-solid fa-download mr-2"></i>
+                Download
+              </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8">
+              <div class="glass p-4 rounded-xl text-center hover-3d">
+                <div class="stat-number">99.9%</div>
+                <p class="text-sm text-muted">Uptime</p>
+              </div>
+              
+              <div class="glass p-4 rounded-xl text-center hover-3d">
+                <div class="stat-number">50K+</div>
+                <p class="text-sm text-muted">Users</p>
+              </div>
+              
+              <div class="glass p-4 rounded-xl text-center hover-3d">
+                <div class="stat-number">24/7</div>
+                <p class="text-sm text-muted">Support</p>
+              </div>
+              
+              <div class="glass p-4 rounded-xl text-center hover-3d">
+                <div class="stat-number">∞</div>
+                <p class="text-sm text-muted">Updates</p>
+              </div>
             </div>
           </div>
 
-          <p class="text-muted text-center md:text-left text-base md:text-lg leading-relaxed">
-            Nexa Premium top script dengan berbagai fitur lengkap. Kelola, lihat preview, dan download script Roblox favoritmu dengan kecepatan maksimal dan tampilan stylish.
-          </p>
-
-          <div class="flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
-            <button id="watchShow" class="btn-primary flex items-center gap-2 px-6 py-3">
-              <i class="fa-solid fa-play"></i>
-              <span>Watch Showcase</span>
-            </button>
-            <button id="copyScriptBtn" class="btn-ghost flex items-center gap-2 px-5 py-3">
-              <i class="fa-solid fa-copy"></i>
-              <span>Copy Script</span>
-            </button>
-            <button id="downloadScriptBtn" class="btn-ghost flex items-center gap-2 px-5 py-3">
-              <i class="fa-solid fa-download"></i>
-              <span>Download</span>
-            </button>
-          </div>
-
-          <div class="flex flex-wrap gap-3 justify-center md:justify-start pt-4">
-            <span class="px-3 py-1.5 glass rounded-full text-xs font-semibold flex items-center gap-1.5">
-              <i class="fa-solid fa-star text-accent1"></i>
-              Premium
-            </span>
-            <span class="px-3 py-1.5 glass rounded-full text-xs font-semibold">Auto-update</span>
-            <span class="px-3 py-1.5 glass rounded-full text-xs font-semibold">Secure Loader</span>
-            <span class="px-3 py-1.5 glass rounded-full text-xs font-semibold">Low Latency</span>
-          </div>
-        </div>
-
-        <!-- Showcase Video -->
-        <div class="glass p-4 md:p-6 rounded-2xl shadow-xl">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-bold text-white text-lg md:text-xl">Live Showcase</h3>
-              <p class="text-muted text-sm">Real-time preview</p>
+          <!-- Right Content - Showcase -->
+          <div class="relative">
+            <div class="glass p-6 rounded-3xl transform-gpu">
+              <div class="flex items-center justify-between mb-6">
+                <div>
+                  <h3 class="text-2xl font-bold text-white">Live Showcase</h3>
+                  <p class="text-muted">Real-time demonstration</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="px-3 py-1 glass rounded-full text-xs font-semibold animate-pulse">
+                    🔴 LIVE
+                  </span>
+                  <span class="px-3 py-1 glass rounded-full text-xs font-semibold">
+                    v3.0
+                  </span>
+                </div>
+              </div>
+              
+              <div class="video-container mb-6">
+                <iframe id="showcaseIframe" 
+                        src="https://www.youtube.com/embed/ScMzIvxBSi4" 
+                        title="NexaHUB Showcase"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy">
+                </iframe>
+              </div>
+              
+              <div class="flex justify-between items-center">
+                <div class="flex gap-2">
+                  <button id="playPauseBtn" class="p-3 glass rounded-lg hover:scale-105 transition">
+                    <i class="fa-solid fa-play text-white"></i>
+                  </button>
+                  <button id="fullscreenBtn" class="p-3 glass rounded-lg hover:scale-105 transition">
+                    <i class="fa-solid fa-expand text-white"></i>
+                  </button>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <span class="text-sm text-muted">Streaming now</span>
+                </div>
+              </div>
             </div>
-            <span class="px-3 py-1 glass rounded-full text-xs font-semibold">v2.0</span>
-          </div>
-          <div class="video-container">
-            <iframe id="showcaseIframe" 
-                    src="https://www.youtube.com/embed/ScMzIvxBSi4" 
-                    title="NexaHUB Showcase" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen
-                    loading="lazy">
-            </iframe>
-          </div>
-          <div class="flex justify-end gap-2 mt-4">
-            <button id="fullscreenBtn" class="p-2 glass rounded-lg hover:bg-white/10 transition">
-              <i class="fa-solid fa-expand"></i>
-            </button>
-            <button id="playPauseBtn" class="p-2 glass rounded-lg hover:bg-white/10 transition">
-              <i class="fa-solid fa-play"></i>
-            </button>
+            
+            <!-- Floating Elements -->
+            <div class="absolute -top-6 -left-6 w-12 h-12 glass rounded-lg flex items-center justify-center float-element">
+              <i class="fa-solid fa-bolt text-accent1"></i>
+            </div>
+            <div class="absolute -bottom-6 -right-6 w-12 h-12 glass rounded-lg flex items-center justify-center float-element float-element-delay-1">
+              <i class="fa-solid fa-shield-halved text-accent3"></i>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Script Section -->
-    <section id="script" class="mb-16 md:mb-24">
-      <div class="glass p-6 md:p-8 rounded-2xl">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-          <div>
-            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Script Loader</h2>
-            <p class="text-muted">Copy atau download script loader yang kompatibel dengan semua executor.</p>
-          </div>
-          <div class="flex items-center gap-2 glass px-4 py-2 rounded-full">
-            <i class="fa-solid fa-circle-check text-green-400"></i>
-            <span class="text-sm font-semibold">Updated: <span id="lastUpdated">Today</span></span>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <div class="flex flex-wrap gap-3">
-            <button id="copyBtn" class="btn-primary flex items-center gap-2 px-5 py-2.5">
-              <i class="fa-solid fa-copy"></i>
-              Copy Script
-            </button>
-            <button id="downloadBtn" class="btn-ghost flex items-center gap-2 px-5 py-2.5">
-              <i class="fa-solid fa-download"></i>
-              Download .lua
-            </button>
-            <button id="soundToggle" class="btn-ghost flex items-center gap-2 px-5 py-2.5">
-              <i class="fa-solid fa-volume-high"></i>
-              Sound Effects
-            </button>
-          </div>
-
-          <div class="code-box p-4 md:p-6">
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-2">
-                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+    <section id="script" class="py-20 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="gradient-border mb-12">
+          <div class="glass p-8 rounded-[23px]">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+              <div class="space-y-2">
+                <h2 class="text-4xl font-bold text-white">
+                  <span class="bg-gradient-to-r from-accent1 to-accent3 bg-clip-text text-transparent">
+                    Script Loader
+                  </span>
+                </h2>
+                <p class="text-muted">Copy or download our optimized script loader</p>
               </div>
-              <span class="text-xs text-muted font-mono">loader.lua</span>
+              
+              <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <span class="text-sm font-semibold">Verified</span>
+                </div>
+                <div class="glass px-4 py-2 rounded-full">
+                  <span class="text-sm font-semibold">Updated: <span id="lastUpdated">Today</span></span>
+                </div>
+              </div>
             </div>
-            <pre id="codeBlock" class="overflow-x-auto text-sm md:text-base font-mono text-indigo-100 select-text">
-<span class="text-purple-400">local</span> <span class="text-cyan-400">key</span> = <span class="text-yellow-400">"YOUR_KEY_HERE"</span>
-<span class="text-purple-400">local</span> <span class="text-cyan-400">loader</span> = <span class="text-blue-400">game</span>:<span class="text-green-400">HttpGet</span>(<span class="text-yellow-400">"https://nexahub.com/api/loader"</span>)
 
-<span class="text-purple-400">if</span> <span class="text-cyan-400">key</span> == <span class="text-yellow-400">"YOUR_KEY_HERE"</span> <span class="text-purple-400">then</span>
-    <span class="text-blue-400">warn</span>(<span class="text-yellow-400">"Please insert your key!"</span>)
-<span class="text-purple-400">else</span>
-    <span class="text-blue-400">loadstring</span>(<span class="text-cyan-400">loader</span>)()
-<span class="text-purple-400">end</span></pre>
+            <!-- Code Box -->
+            <div class="code-box p-6 mb-8">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                  <span class="ml-2 text-sm text-muted font-mono">nexahub-loader.lua</span>
+                </div>
+                <button id="copyAllBtn" class="text-xs glass px-3 py-1 rounded">
+                  Copy All
+                </button>
+              </div>
+              
+              <pre id="codeBlock" class="overflow-x-auto text-sm md:text-base font-mono">
+<span class="text-purple-400">-- NexaHUB Premium Loader v3.0</span>
+<span class="text-purple-400">-- Auto-update • Secure • Optimized</span>
+
+<span class="text-blue-400">local</span> <span class="text-cyan-400">NexaHUB</span> = {}
+
+<span class="text-blue-400">function</span> <span class="text-cyan-400">NexaHUB</span>.<span class="text-yellow-400">Initialize</span>()
+    <span class="text-blue-400">local</span> <span class="text-cyan-400">key</span> = <span class="text-green-400">"YOUR_PREMIUM_KEY_HERE"</span>
+    <span class="text-blue-400">local</span> <span class="text-cyan-400">endpoint</span> = <span class="text-green-400">"https://api.nexahub.com/v3/loader"</span>
+    
+    <span class="text-blue-400">if</span> <span class="text-cyan-400">key</span> == <span class="text-green-400">""</span> <span class="text-blue-400">then</span>
+        <span class="text-blue-400">warn</span>(<span class="text-green-400">"[NexaHUB] Please insert your premium key!"</span>)
+        <span class="text-blue-400">return</span>
+    <span class="text-blue-400">end</span>
+    
+    <span class="text-blue-400">local</span> <span class="text-cyan-400">success</span>, <span class="text-cyan-400">loader</span> = <span class="text-blue-400">pcall</span>(<span class="text-blue-400">function</span>()
+        <span class="text-blue-400">return</span> <span class="text-blue-400">game</span>:<span class="text-yellow-400">HttpGet</span>(<span class="text-cyan-400">endpoint</span> .. <span class="text-green-400">"?key="</span> .. <span class="text-cyan-400">key</span>)
+    <span class="text-blue-400">end</span>)
+    
+    <span class="text-blue-400">if</span> <span class="text-cyan-400">success</span> <span class="text-blue-400">then</span>
+        <span class="text-blue-400">loadstring</span>(<span class="text-cyan-400">loader</span>)()
+        <span class="text-blue-400">print</span>(<span class="text-green-400">"[NexaHUB] Successfully loaded premium features!"</span>)
+    <span class="text-blue-400">else</span>
+        <span class="text-blue-400">warn</span>(<span class="text-green-400">"[NexaHUB] Failed to load: "</span> .. <span class="text-cyan-400">loader</span>)
+    <span class="text-blue-400">end</span>
+<span class="text-blue-400">end</span>
+
+<span class="text-blue-400">return</span> <span class="text-cyan-400">NexaHUB</span></pre>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-4 justify-center">
+              <button id="copyBtn" class="btn-primary shine-effect">
+                <i class="fa-solid fa-copy mr-2"></i>
+                Copy Script
+              </button>
+              
+              <button id="downloadBtn" class="btn-ghost">
+                <i class="fa-solid fa-download mr-2"></i>
+                Download .lua
+              </button>
+              
+              <button id="soundToggle" class="btn-ghost">
+                <i class="fa-solid fa-volume-high mr-2"></i>
+                Sound Effects
+              </button>
+              
+              <button id="animateBtn" class="btn-ghost">
+                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+                Animate
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="mb-16 md:mb-24">
-      <div class="text-center mb-10 md:mb-12">
-        <h2 class="text-2xl md:text-4xl font-bold text-white mb-3">Premium Features</h2>
-        <p class="text-muted text-lg max-w-2xl mx-auto">Didesain untuk performa maksimal di semua device</p>
+    <section id="features" class="py-20 px-4 bg-gradient-to-b from-transparent to-black/20">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-5xl font-bold text-white mb-6">
+            <span class="bg-gradient-to-r from-accent1 via-accent2 to-accent3 bg-clip-text text-transparent">
+              Premium Features
+            </span>
+          </h2>
+          <p class="text-xl text-muted max-w-3xl mx-auto">
+            Packed with cutting-edge features designed for optimal performance
+          </p>
+        </div>
+
+        <div class="responsive-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card glass p-8 rounded-3xl">
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+                <i class="fa-solid fa-rocket text-white text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Ultra Fast</h3>
+                <div class="progress-bar w-full mt-2">
+                  <div class="progress-fill" style="width: 95%"></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted">Optimized for maximum speed with minimal latency</p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-card glass p-8 rounded-3xl">
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                <i class="fa-solid fa-shield-halved text-white text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Military Security</h3>
+                <div class="progress-bar w-full mt-2">
+                  <div class="progress-fill" style="width: 99%"></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted">Advanced encryption and protection systems</p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-card glass p-8 rounded-3xl">
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center">
+                <i class="fa-solid fa-bolt text-white text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Zero Lag</h3>
+                <div class="progress-bar w-full mt-2">
+                  <div class="progress-fill" style="width: 98%"></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted">Optimized memory usage and CPU performance</p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="feature-card glass p-8 rounded-3xl">
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                <i class="fa-solid fa-sync text-white text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Auto Updates</h3>
+                <div class="progress-bar w-full mt-2">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted">Seamless updates without interruptions</p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="feature-card glass p-8 rounded-3xl">
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center">
+                <i class="fa-solid fa-code text-white text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Clean Code</h3>
+                <div class="progress-bar w-full mt-2">
+                  <div class="progress-fill" style="width: 97%"></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted">Well-structured and documented source code</p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="feature-card glass p-8 rounded-3xl">
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
+                <i class="fa-solid fa-headset text-white text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-white mb-2">24/7 Support</h3>
+                <div class="progress-bar w-full mt-2">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted">Round-the-clock technical assistance</p>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="responsive-grid">
-        <!-- Feature 1 -->
-        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
-          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center mb-4">
-            <i class="fa-solid fa-rocket text-white text-2xl"></i>
+    <!-- Stats Section -->
+    <section id="stats" class="py-20 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="glass p-12 rounded-3xl">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center space-y-2">
+              <div class="text-5xl font-bold text-white animate-count" data-target="100000">0</div>
+              <p class="text-muted">Active Users</p>
+            </div>
+            
+            <div class="text-center space-y-2">
+              <div class="text-5xl font-bold text-white animate-count" data-target="???">0</div>
+              <p class="text-muted">Uptime %</p>
+            </div>
+            
+            <div class="text-center space-y-2">
+              <div class="text-5xl font-bold text-white animate-count" data-target="???">0</div>
+              <p class="text-muted">/7 Support</p>
+            </div>
+            
+            <div class="text-center space-y-2">
+              <div class="text-5xl font-bold text-white animate-count" data-target="???">0</div>
+              <p class="text-muted">Scripts</p>
+            </div>
           </div>
-          <h3 class="text-xl font-bold text-white mb-2">Multi-Executor</h3>
-          <p class="text-muted">Support semua executor populer dengan performa optimal.</p>
-        </div>
-
-        <!-- Feature 2 -->
-        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
-          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-4">
-            <i class="fa-solid fa-shield-halved text-white text-2xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-2">Secure Loader</h3>
-          <p class="text-muted">Loader terenkripsi dengan sistem keamanan berlapis.</p>
-        </div>
-
-        <!-- Feature 3 -->
-        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
-          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center mb-4">
-            <i class="fa-solid fa-bolt text-white text-2xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-2">Optimized Performance</h3>
-          <p class="text-muted">Script ringan dengan zero lag dan optimalisasi memori.</p>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
-          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-4">
-            <i class="fa-solid fa-sync text-white text-2xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-2">Auto Update</h3>
-          <p class="text-muted">Update otomatis tanpa perlu download ulang.</p>
-        </div>
-
-        <!-- Feature 5 -->
-        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
-          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center mb-4">
-            <i class="fa-solid fa-code text-white text-2xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-2">Clean Code</h3>
-          <p class="text-muted">Struktur kode yang rapi dan mudah dimodifikasi.</p>
-        </div>
-
-        <!-- Feature 6 -->
-        <div class="glass p-6 rounded-2xl hover:transform hover:-translate-y-2 transition-all duration-300">
-          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center mb-4">
-            <i class="fa-solid fa-headset text-white text-2xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-2">24/7 Support</h3>
-          <p class="text-muted">Dukungan teknis tersedia kapan saja.</p>
         </div>
       </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="mb-16 md:mb-20">
-      <div class="glass p-6 md:p-8 rounded-2xl">
-        <div class="text-center mb-8">
-          <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Frequently Asked Questions</h2>
-          <p class="text-muted">Temukan jawaban untuk pertanyaan umum</p>
+    <section id="faq" class="py-20 px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-5xl font-bold text-white mb-6">
+            <span class="bg-gradient-to-r from-accent1 to-accent3 bg-clip-text text-transparent">
+              Frequently Asked Questions
+            </span>
+          </h2>
+          <p class="text-xl text-muted">Find answers to common questions</p>
         </div>
 
         <div class="space-y-4">
           <!-- FAQ Item 1 -->
-          <div class="faq-item glass p-5 rounded-xl">
-            <div class="faq-question flex justify-between items-center">
-              <h3 class="font-semibold text-white text-lg">Apa itu NexaHUB?</h3>
-              <span class="faq-toggle text-accent1 text-xl transition-transform">+</span>
+          <div class="faq-item glass p-6 rounded-2xl cursor-pointer hover:scale-[1.02] transition-transform">
+            <div class="flex justify-between items-center">
+              <h3 class="text-xl font-semibold text-white">What makes NexaHUB different?</h3>
+              <span class="text-accent1 text-2xl transition-transform">+</span>
             </div>
-            <div class="faq-answer mt-3">
-              <p class="text-muted">NexaHUB adalah platform premium untuk script Roblox dengan fitur lengkap, update rutin, dan performa optimal untuk pengalaman gaming yang lebih baik.</p>
+            <div class="faq-answer mt-4 text-muted hidden">
+              NexaHUB combines cutting-edge technology with user-friendly design, offering unparalleled performance, security, and regular updates that keep you ahead of the game.
             </div>
           </div>
 
           <!-- FAQ Item 2 -->
-          <div class="faq-item glass p-5 rounded-xl">
-            <div class="faq-question flex justify-between items-center">
-              <h3 class="font-semibold text-white text-lg">Apakah aman digunakan?</h3>
-              <span class="faq-toggle text-accent1 text-xl transition-transform">+</span>
+          <div class="faq-item glass p-6 rounded-2xl cursor-pointer hover:scale-[1.02] transition-transform">
+            <div class="flex justify-between items-center">
+              <h3 class="text-xl font-semibold text-white">Is it safe to use?</h3>
+              <span class="text-accent1 text-2xl transition-transform">+</span>
             </div>
-            <div class="faq-answer mt-3">
-              <p class="text-muted">Ya, semua script melalui proses verifikasi dan enkripsi. Kami juga menerapkan sistem keamanan berlapis untuk melindungi pengguna.</p>
+            <div class="faq-answer mt-4 text-muted hidden">
+              Absolutely. We use military-grade encryption, regular security audits, and advanced protection systems to ensure your safety and privacy.
             </div>
           </div>
 
           <!-- FAQ Item 3 -->
-          <div class="faq-item glass p-5 rounded-xl">
-            <div class="faq-question flex justify-between items-center">
-              <h3 class="font-semibold text-white text-lg">Bagaimana cara menggunakannya?</h3>
-              <span class="faq-toggle text-accent1 text-xl transition-transform">+</span>
+          <div class="faq-item glass p-6 rounded-2xl cursor-pointer hover:scale-[1.02] transition-transform">
+            <div class="flex justify-between items-center">
+              <h3 class="text-xl font-semibold text-white">How do I get started?</h3>
+              <span class="text-accent1 text-2xl transition-transform">+</span>
             </div>
-            <div class="faq-answer mt-3">
-              <p class="text-muted">Copy script dari section di atas, paste ke executor pilihan Anda, dan ikuti instruksi yang muncul. Pastikan Anda memiliki key yang valid.</p>
+            <div class="faq-answer mt-4 text-muted hidden">
+              Simply copy the script above, paste it into your preferred executor, and follow the on-screen instructions to activate your premium access.
             </div>
           </div>
 
           <!-- FAQ Item 4 -->
-          <div class="faq-item glass p-5 rounded-xl">
-            <div class="faq-question flex justify-between items-center">
-              <h3 class="font-semibold text-white text-lg">Apakah gratis atau berbayar?</h3>
-              <span class="faq-toggle text-accent1 text-xl transition-transform">+</span>
+          <div class="faq-item glass p-6 rounded-2xl cursor-pointer hover:scale-[1.02] transition-transform">
+            <div class="flex justify-between items-center">
+              <h3 class="text-xl font-semibold text-white">What executors are supported?</h3>
+              <span class="text-accent1 text-2xl transition-transform">+</span>
             </div>
-            <div class="faq-answer mt-3">
-              <p class="text-muted">Kami menyediakan versi gratis dengan fitur dasar, namun untuk akses ke semua fitur premium diperlukan subscription.</p>
+            <div class="faq-answer mt-4 text-muted hidden">
+              NexaHUB supports all major executors including Synapse X, Script-Ware, KRNL, and others. Our script is optimized for maximum compatibility.
             </div>
           </div>
         </div>
@@ -660,53 +1387,77 @@
   </main>
 
   <!-- Footer -->
-  <footer class="glass mt-20 mx-4 md:mx-8 lg:mx-auto lg:max-w-6xl rounded-2xl p-6 md:p-8">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="text-center md:text-left">
-        <div class="flex items-center justify-center md:justify-start gap-3 mb-3">
-          <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-10 h-10 rounded-lg" />
-          <div>
-            <h3 class="font-bold text-white">NexaHUB</h3>
-            <p class="text-xs text-muted">Premium Script Hub</p>
+  <footer class="glass mx-4 mb-4 rounded-3xl p-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-3 gap-8 items-center">
+        <!-- Logo & Description -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="https://i.imgur.com/6h1Te7r.png" alt="NexaHUB" class="w-12 h-12 rounded-xl">
+            <div>
+              <h3 class="font-bold text-white text-xl">NexaHUB</h3>
+              <p class="text-sm text-muted">Premium Script Hub</p>
+            </div>
+          </div>
+          <p class="text-muted text-sm">
+            The ultimate Roblox scripting experience. Fast, secure, and feature-packed.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="flex flex-col items-center space-y-4">
+          <div class="flex gap-4">
+            <a href="#home" class="text-muted hover:text-white transition">Home</a>
+            <a href="#features" class="text-muted hover:text-white transition">Features</a>
+            <a href="#faq" class="text-muted hover:text-white transition">FAQ</a>
+          </div>
+          <div class="flex gap-4">
+            <a href="#" class="w-10 h-10 glass rounded-full flex items-center justify-center hover:scale-110 transition">
+              <i class="fab fa-youtube text-white"></i>
+            </a>
+            <a href="#" class="w-10 h-10 glass rounded-full flex items-center justify-center hover:scale-110 transition">
+              <i class="fab fa-tiktok text-white"></i>
+            </a>
+            <a href="#" class="w-10 h-10 glass rounded-full flex items-center justify-center hover:scale-110 transition">
+              <i class="fab fa-discord text-white"></i>
+            </a>
           </div>
         </div>
-        <p class="text-muted text-sm">© 2024 NexaHUB. All rights reserved.</p>
+
+        <!-- Back to Top -->
+        <div class="flex justify-end">
+          <button id="backToTop" class="btn-primary px-6 py-3">
+            <i class="fa-solid fa-arrow-up mr-2"></i>
+            Back to Top
+          </button>
+        </div>
       </div>
 
-      <div class="flex flex-col items-center md:items-end gap-4">
-        <div class="flex gap-4">
-          <a href="https://www.youtube.com/@Hanblox96" target="_blank" 
-             class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
-            <i class="fa-brands fa-youtube text-white"></i>
-          </a>
-          <a href="https://www.tiktok.com/@scriptrandom_988" target="_blank"
-             class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
-            <i class="fa-brands fa-tiktok text-white"></i>
-          </a>
-          <a href="#" 
-             class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
-            <i class="fa-brands fa-discord text-white"></i>
-          </a>
-        </div>
-        <button id="backToTop" class="btn-ghost px-4 py-2 text-sm flex items-center gap-2">
-          <i class="fa-solid fa-arrow-up"></i>
-          Back to Top
-        </button>
+      <div class="border-t border-white/10 mt-8 pt-8 text-center">
+        <p class="text-sm text-muted">
+          © 2024 NexaHUB. All rights reserved. | Made with <i class="fa-solid fa-heart text-red-400"></i> for the community
+        </p>
       </div>
     </div>
   </footer>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-4 right-4 glass px-6 py-3 rounded-xl shadow-xl transform translate-y-10 opacity-0 transition-all duration-300 z-50">
+  <div id="toast" class="fixed bottom-8 right-8 glass px-6 py-3 rounded-xl shadow-2xl transform translate-y-10 opacity-0 transition-all duration-500 z-50">
     <div class="flex items-center gap-3">
-      <i class="fa-solid fa-check-circle text-green-400 text-xl"></i>
-      <span class="text-white font-semibold" id="toastMessage">Copied to clipboard!</span>
+      <div class="w-8 h-8 rounded-full bg-gradient-to-r from-accent1 to-accent2 flex items-center justify-center">
+        <i class="fa-solid fa-check text-white"></i>
+      </div>
+      <div>
+        <p class="font-semibold text-white" id="toastTitle">Success!</p>
+        <p class="text-sm text-muted" id="toastMessage">Operation completed successfully</p>
+      </div>
     </div>
   </div>
 
   <!-- JavaScript -->
   <script>
-    // Initialize AOS
+    // Initialize GSAP and AOS
+    gsap.registerPlugin(ScrollTrigger, TextPlugin);
     AOS.init({
       duration: 800,
       once: true,
@@ -714,47 +1465,313 @@
       easing: 'ease-out-cubic'
     });
 
-    // Loader
+    // Loader Animation
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
-      setTimeout(() => {
-        loader.style.opacity = '0';
-        loader.style.visibility = 'hidden';
-      }, 800);
+      
+      // Animate loader out
+      gsap.to(loader, {
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.inOut",
+        onComplete: () => {
+          loader.style.display = 'none';
+          initAnimations();
+        }
+      });
+      
+      // Animate progress bar
+      gsap.to('.progress-fill', {
+        width: '100%',
+        duration: 2,
+        ease: "power2.inOut"
+      });
     });
+
+    // Initialize all animations
+    function initAnimations() {
+      // Create floating particles
+      createParticles();
+      
+      // Animate hero elements
+      gsap.from('.neon-text', {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "back.out(1.7)"
+      });
+      
+      gsap.from('#typedSubtitle', {
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.5,
+        ease: "power2.out"
+      });
+      
+      // Animate action buttons
+      gsap.from('.btn-primary, .btn-ghost', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        delay: 0.8,
+        ease: "power2.out"
+      });
+      
+      // Animate showcase card
+      gsap.from('.video-container', {
+        scale: 0.9,
+        opacity: 0,
+        duration: 1,
+        delay: 0.6,
+        ease: "power2.out",
+        rotateY: 10
+      });
+      
+      // Initialize scroll animations
+      initScrollAnimations();
+      
+      // Start typing animation
+      startTypingAnimation();
+      
+      // Start counting animation
+      startCountingAnimation();
+    }
+
+    // Create floating particles
+    function createParticles() {
+      const container = document.getElementById('particles-container');
+      if (!container) return;
+      
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random properties
+        const size = Math.random() * 4 + 1;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        
+        // Apply styles
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}vw`;
+        particle.style.top = `${posY}vh`;
+        particle.style.opacity = Math.random() * 0.1 + 0.05;
+        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        
+        // Random gradient
+        const gradients = [
+          `linear-gradient(135deg, var(--accent1), var(--accent2))`,
+          `linear-gradient(135deg, var(--accent2), var(--accent3))`,
+          `linear-gradient(135deg, var(--accent3), var(--accent4))`
+        ];
+        particle.style.background = gradients[Math.floor(Math.random() * gradients.length)];
+        
+        container.appendChild(particle);
+      }
+    }
+
+    // Typing Animation
+    function startTypingAnimation() {
+      const element = document.getElementById('typedSubtitle');
+      if (!element) return;
+      
+      const phrases = [
+        "Premium Roblox Script Hub",
+        "Ultra Fast Performance",
+        "Military Grade Security",
+        "Auto Updates • 24/7 Support",
+        "Zero Lag Experience"
+      ];
+      
+      let currentPhrase = 0;
+      let currentChar = 0;
+      let isDeleting = false;
+      let isEnd = false;
+      
+      function type() {
+        const text = phrases[currentPhrase];
+        
+        if (isDeleting) {
+          element.textContent = text.substring(0, currentChar - 1);
+          currentChar--;
+        } else {
+          element.textContent = text.substring(0, currentChar + 1);
+          currentChar++;
+        }
+        
+        // Typing speed
+        let speed = isDeleting ? 50 : 100;
+        
+        // Add random variation for natural feel
+        speed += Math.random() * 50;
+        
+        if (!isDeleting && currentChar === text.length) {
+          isEnd = true;
+          speed = 2000; // Pause at end
+        }
+        
+        if (isDeleting && currentChar === 0) {
+          isDeleting = false;
+          currentPhrase = (currentPhrase + 1) % phrases.length;
+          speed = 500;
+        }
+        
+        if (isEnd) {
+          isDeleting = true;
+          isEnd = false;
+          speed = 1000;
+        }
+        
+        setTimeout(type, speed);
+      }
+      
+      setTimeout(type, 1000);
+    }
+
+    // Counting Animation
+    function startCountingAnimation() {
+      const counters = document.querySelectorAll('.animate-count');
+      
+      counters.forEach(counter => {
+        const target = parseFloat(counter.getAttribute('data-target'));
+        const suffix = counter.textContent.includes('%') ? '%' : '';
+        const duration = 2000;
+        const startTime = Date.now();
+        
+        function updateCount() {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          
+          let value;
+          if (suffix === '%') {
+            value = (target * easeOutQuart).toFixed(1);
+          } else {
+            value = Math.floor(target * easeOutQuart);
+          }
+          
+          counter.textContent = value + suffix;
+          
+          if (progress < 1) {
+            requestAnimationFrame(updateCount);
+          } else {
+            counter.textContent = target + suffix;
+          }
+        }
+        
+        // Start counting when element is in view
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              updateCount();
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+        
+        observer.observe(counter);
+      });
+    }
+
+    // Scroll Animations
+    function initScrollAnimations() {
+      // Animate feature cards on scroll
+      gsap.utils.toArray('.feature-card').forEach((card, i) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            end: "top 20%",
+            toggleActions: "play none none reverse"
+          },
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          delay: i * 0.1,
+          ease: "power2.out"
+        });
+      });
+      
+      // Parallax effect for background elements
+      gsap.to('.bg-blob-1', {
+        scrollTrigger: {
+          scrub: true
+        },
+        y: -100,
+        x: -50
+      });
+      
+      gsap.to('.bg-blob-2', {
+        scrollTrigger: {
+          scrub: true
+        },
+        y: 100,
+        x: 50
+      });
+      
+      // Navbar background on scroll
+      const navbar = document.getElementById('navbar');
+      gsap.to(navbar, {
+        scrollTrigger: {
+          start: "top -100",
+          end: 99999,
+          toggleActions: "play none none reverse"
+        },
+        background: "rgba(255, 255, 255, 0.08)",
+        backdropFilter: "blur(20px)",
+        duration: 0.3
+      });
+    }
 
     // Theme Toggle
     const themeToggle = document.getElementById('themeToggle');
     const themeToggleMobile = document.getElementById('themeToggleMobile');
-    const body = document.body;
     
-    const setTheme = (theme) => {
+    function setTheme(theme) {
       if (theme === 'light') {
-        body.style.setProperty('--bg', '#f7f8fb');
-        body.style.setProperty('--glass', 'rgba(2,6,23,0.03)');
-        body.style.setProperty('--glass-border', 'rgba(0,0,0,0.06)');
-        body.style.color = '#061025';
-        localStorage.setItem('theme', 'light');
+        document.documentElement.style.setProperty('--bg', '#f7f8fb');
+        document.documentElement.style.setProperty('--glass', 'rgba(2,6,23,0.03)');
+        document.documentElement.style.setProperty('--glass-border', 'rgba(0,0,0,0.06)');
+        document.documentElement.style.setProperty('--muted', '#4a5568');
+        localStorage.setItem('nexahub-theme', 'light');
+        
+        // Update icon
+        const icons = document.querySelectorAll('#themeToggle i, #themeToggleMobile i');
+        icons.forEach(icon => {
+          icon.className = 'fa-solid fa-sun';
+        });
       } else {
-        body.style.setProperty('--bg', '#05030a');
-        body.style.setProperty('--glass', 'rgba(255,255,255,0.06)');
-        body.style.setProperty('--glass-border', 'rgba(255,255,255,0.1)');
-        body.style.color = '#eef0ff';
-        localStorage.setItem('theme', 'dark');
+        document.documentElement.style.setProperty('--bg', '#05030a');
+        document.documentElement.style.setProperty('--glass', 'rgba(255,255,255,0.06)');
+        document.documentElement.style.setProperty('--glass-border', 'rgba(255,255,255,0.1)');
+        document.documentElement.style.setProperty('--muted', '#bfc0d6');
+        localStorage.setItem('nexahub-theme', 'dark');
+        
+        // Update icon
+        const icons = document.querySelectorAll('#themeToggle i, #themeToggleMobile i');
+        icons.forEach(icon => {
+          icon.className = 'fa-solid fa-moon';
+        });
       }
-    };
-
+    }
+    
     // Load saved theme
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = localStorage.getItem('nexahub-theme') || 'dark';
     setTheme(savedTheme);
-
+    
     themeToggle?.addEventListener('click', () => {
-      const currentTheme = localStorage.getItem('theme') || 'dark';
+      const currentTheme = localStorage.getItem('nexahub-theme') || 'dark';
       setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
-
+    
     themeToggleMobile?.addEventListener('click', () => {
-      const currentTheme = localStorage.getItem('theme') || 'dark';
+      const currentTheme = localStorage.getItem('nexahub-theme') || 'dark';
       setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
 
@@ -762,42 +1779,53 @@
     const menuButton = document.getElementById('menuButton');
     const mobileMenu = document.getElementById('mobileMenu');
     const closeMenu = document.getElementById('closeMenu');
-
+    
     menuButton?.addEventListener('click', () => {
       mobileMenu.classList.add('active');
       document.body.style.overflow = 'hidden';
+      
+      // Animate menu items
+      gsap.from('#mobileMenu a', {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "power2.out"
+      });
     });
-
+    
     closeMenu?.addEventListener('click', () => {
       mobileMenu.classList.remove('active');
       document.body.style.overflow = '';
     });
 
-    // Close mobile menu when clicking links
-    document.querySelectorAll('#mobileMenu a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
-
     // Copy Script Functionality
     const copyBtn = document.getElementById('copyBtn');
     const copyScriptBtn = document.getElementById('copyScriptBtn');
+    const copyAllBtn = document.getElementById('copyAllBtn');
     const codeBlock = document.getElementById('codeBlock');
     
-    const copyToClipboard = async () => {
+    async function copyScript() {
       const text = codeBlock.textContent;
       try {
         await navigator.clipboard.writeText(text);
-        showToast('Script copied to clipboard!');
+        showToast('Script Copied!', 'Ready to paste into your executor');
+        
+        // Animation effect
+        gsap.to(copyBtn, {
+          scale: 1.1,
+          duration: 0.1,
+          yoyo: true,
+          repeat: 1
+        });
       } catch (err) {
-        showToast('Failed to copy!');
+        showToast('Error!', 'Failed to copy script');
       }
-    };
-
-    copyBtn?.addEventListener('click', copyToClipboard);
-    copyScriptBtn?.addEventListener('click', copyToClipboard);
+    }
+    
+    copyBtn?.addEventListener('click', copyScript);
+    copyScriptBtn?.addEventListener('click', copyScript);
+    copyAllBtn?.addEventListener('click', copyScript);
 
     // Download Script
     const downloadBtn = document.getElementById('downloadBtn');
@@ -809,28 +1837,42 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'nexahub-loader.lua';
+      a.download = 'nexahub-premium-loader.lua';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast('Download started!');
+      
+      showToast('Download Started!', 'Check your downloads folder');
     });
-
+    
     downloadScriptBtn?.addEventListener('click', () => downloadBtn?.click());
 
     // Toast Notification
-    function showToast(message) {
+    function showToast(title, message) {
       const toast = document.getElementById('toast');
+      const toastTitle = document.getElementById('toastTitle');
       const toastMessage = document.getElementById('toastMessage');
       
+      toastTitle.textContent = title;
       toastMessage.textContent = message;
-      toast.style.transform = 'translateY(0)';
-      toast.style.opacity = '1';
       
+      // Animate in
+      gsap.to(toast, {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: "back.out(1.7)"
+      });
+      
+      // Animate out after 3 seconds
       setTimeout(() => {
-        toast.style.transform = 'translateY(10px)';
-        toast.style.opacity = '0';
+        gsap.to(toast, {
+          y: 10,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.in"
+        });
       }, 3000);
     }
 
@@ -838,21 +1880,29 @@
     document.querySelectorAll('.faq-item').forEach(item => {
       const question = item.querySelector('.faq-question');
       const answer = item.querySelector('.faq-answer');
-      const toggle = item.querySelector('.faq-toggle');
+      const toggle = item.querySelector('span');
       
       question.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
+        const isActive = !answer.classList.contains('hidden');
         
         // Close all FAQ items
-        document.querySelectorAll('.faq-item').forEach(faq => {
-          faq.classList.remove('active');
-          faq.querySelector('.faq-toggle').textContent = '+';
+        document.querySelectorAll('.faq-answer').forEach(ans => {
+          ans.classList.add('hidden');
+          ans.previousElementSibling.querySelector('span').textContent = '+';
         });
         
         // Toggle current item
         if (!isActive) {
-          item.classList.add('active');
-          toggle.textContent = '-';
+          answer.classList.remove('hidden');
+          toggle.textContent = '−';
+          
+          // Animate answer
+          gsap.from(answer, {
+            height: 0,
+            opacity: 0,
+            duration: 0.3,
+            ease: "power2.out"
+          });
         }
       });
     });
@@ -861,9 +1911,11 @@
     const backToTop = document.getElementById('backToTop');
     backToTop?.addEventListener('click', (e) => {
       e.preventDefault();
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+      
+      gsap.to(window, {
+        scrollTo: 0,
+        duration: 1,
+        ease: "power2.inOut"
       });
     });
 
@@ -871,6 +1923,22 @@
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const showcaseIframe = document.getElementById('showcaseIframe');
+    
+    let isPlaying = true;
+    playPauseBtn?.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      playPauseBtn.innerHTML = isPlaying ? 
+        '<i class="fa-solid fa-pause"></i>' : 
+        '<i class="fa-solid fa-play"></i>';
+      
+      // Animation
+      gsap.to(playPauseBtn, {
+        scale: 1.2,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1
+      });
+    });
     
     fullscreenBtn?.addEventListener('click', () => {
       if (showcaseIframe.requestFullscreen) {
@@ -880,91 +1948,14 @@
       }
     });
 
-    let isPlaying = false;
-    playPauseBtn?.addEventListener('click', () => {
-      isPlaying = !isPlaying;
-      playPauseBtn.innerHTML = isPlaying ? 
-        '<i class="fa-solid fa-pause"></i>' : 
-        '<i class="fa-solid fa-play"></i>';
-    });
-
-    // Typing Effect
-    function typingEffect() {
-      const element = document.getElementById('typedSubtitle');
-      if (!element) return;
-      
-      const phrases = [
-        "Premium Roblox script hub",
-        "Fast • Secure • Reliable",
-        "Built for performance",
-        "Optimized for all devices"
-      ];
-      
-      let phraseIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
-      let isEnd = false;
-      
-      function type() {
-        const currentPhrase = phrases[phraseIndex];
-        
-        if (isDeleting) {
-          element.textContent = currentPhrase.substring(0, charIndex - 1);
-          charIndex--;
-        } else {
-          element.textContent = currentPhrase.substring(0, charIndex + 1);
-          charIndex++;
-        }
-        
-        if (!isDeleting && charIndex === currentPhrase.length) {
-          isEnd = true;
-          setTimeout(type, 2000);
-          return;
-        }
-        
-        if (isDeleting && charIndex === 0) {
-          isDeleting = false;
-          phraseIndex = (phraseIndex + 1) % phrases.length;
-        }
-        
-        if (isEnd) {
-          isDeleting = true;
-          isEnd = false;
-          setTimeout(type, 100);
-          return;
-        }
-        
-        const speed = isDeleting ? 50 : 100;
-        setTimeout(type, speed + Math.random() * 50);
-      }
-      
-      setTimeout(type, 1000);
-    }
-    
-    typingEffect();
-
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    let lastScroll = 0;
-    
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.pageYOffset;
-      
-      if (currentScroll <= 0) {
-        navbar.style.transform = 'translateY(0)';
-        navbar.style.backdropFilter = 'blur(12px)';
-        return;
-      }
-      
-      if (currentScroll > lastScroll && currentScroll > 100) {
-        // Scrolling down
-        navbar.style.transform = 'translateY(-100%)';
-      } else {
-        // Scrolling up
-        navbar.style.transform = 'translateY(0)';
-      }
-      
-      lastScroll = currentScroll;
+    // Watch Showcase Button
+    const watchShowBtn = document.getElementById('watchShow');
+    watchShowBtn?.addEventListener('click', () => {
+      gsap.to(window, {
+        scrollTo: '#showcase',
+        duration: 1,
+        ease: "power2.inOut"
+      });
     });
 
     // Sound Toggle
@@ -974,119 +1965,218 @@
     soundToggle?.addEventListener('click', () => {
       soundEnabled = !soundEnabled;
       soundToggle.innerHTML = soundEnabled ? 
-        '<i class="fa-solid fa-volume-high"></i> Sound On' : 
-        '<i class="fa-solid fa-volume-xmark"></i> Sound Off';
-      showToast(soundEnabled ? 'Sound enabled' : 'Sound disabled');
+        '<i class="fa-solid fa-volume-high mr-2"></i> Sound On' : 
+        '<i class="fa-solid fa-volume-xmark mr-2"></i> Sound Off';
+      
+      // Animation
+      gsap.to(soundToggle, {
+        rotation: 360,
+        duration: 0.5,
+        ease: "back.out(1.7)"
+      });
+      
+      showToast(soundEnabled ? 'Sound Enabled' : 'Sound Disabled');
     });
 
-    // Particles Background
-    function initParticles() {
-      const canvas = document.getElementById('particles-canvas');
-      if (!canvas) return;
-      
-      const ctx = canvas.getContext('2d');
-      let width = canvas.width = window.innerWidth;
-      let height = canvas.height = window.innerHeight;
-      
-      const particles = [];
-      const particleCount = Math.min(100, Math.floor(width * height / 10000));
-      
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          size: Math.random() * 2 + 0.5,
-          speedX: Math.random() * 0.5 - 0.25,
-          speedY: Math.random() * 0.5 - 0.25,
-          color: `rgba(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 100 + 100)}, 255, 0.1)`
-        });
-      }
-      
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-        
-        particles.forEach(particle => {
-          ctx.beginPath();
-          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-          ctx.fillStyle = particle.color;
-          ctx.fill();
-          
-          particle.x += particle.speedX;
-          particle.y += particle.speedY;
-          
-          if (particle.x < 0 || particle.x > width) particle.speedX *= -1;
-          if (particle.y < 0 || particle.y > height) particle.speedY *= -1;
-        });
-        
-        requestAnimationFrame(animate);
-      }
-      
-      animate();
-      
-      window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
+    // Animate Button
+    const animateBtn = document.getElementById('animateBtn');
+    animateBtn?.addEventListener('click', () => {
+      // Trigger multiple animations
+      gsap.to('.feature-card', {
+        y: -20,
+        duration: 0.5,
+        stagger: 0.1,
+        yoyo: true,
+        repeat: 1,
+        ease: "power2.inOut"
       });
-    }
-    
-    initParticles();
+      
+      gsap.to('.neon-text', {
+        scale: 1.05,
+        duration: 0.3,
+        yoyo: true,
+        repeat: 2,
+        ease: "power2.inOut"
+      });
+      
+      // Particle explosion
+      createParticleExplosion();
+    });
 
-    // Watch Showcase Button
-    const watchShowBtn = document.getElementById('watchShow');
-    watchShowBtn?.addEventListener('click', () => {
-      document.getElementById('showcase').scrollIntoView({ 
-        behavior: 'smooth' 
+    // Particle Explosion Effect
+    function createParticleExplosion() {
+      const colors = ['#9b6bff', '#6c47ff', '#5ce1e6', '#ff6b9d', '#ffd166'];
+      
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.position = 'fixed';
+        particle.style.zIndex = '9999';
+        particle.style.pointerEvents = 'none';
+        
+        // Random properties
+        const size = Math.random() * 8 + 2;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 5 + 2;
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.background = color;
+        particle.style.borderRadius = '50%';
+        particle.style.opacity = '1';
+        
+        document.body.appendChild(particle);
+        
+        // Animate particle
+        gsap.to(particle, {
+          x: Math.cos(angle) * velocity * 100,
+          y: Math.sin(angle) * velocity * 100,
+          opacity: 0,
+          duration: 1,
+          ease: "power2.out",
+          onComplete: () => {
+            particle.remove();
+          }
+        });
+      }
+    }
+
+    // Mouse Move Effects
+    document.addEventListener('mousemove', (e) => {
+      // Create subtle parallax effect
+      const x = (e.clientX / window.innerWidth) * 20 - 10;
+      const y = (e.clientY / window.innerHeight) * 20 - 10;
+      
+      gsap.to('.bg-blob-1', {
+        x: x * 0.5,
+        y: y * 0.5,
+        duration: 0.5,
+        ease: "power2.out"
+      });
+      
+      gsap.to('.bg-blob-2', {
+        x: -x * 0.3,
+        y: -y * 0.3,
+        duration: 0.5,
+        ease: "power2.out"
       });
     });
 
-    // Add active class to nav links on scroll
-    const sections = document.querySelectorAll('section[id]');
-    
-    function updateActiveNav() {
-      const scrollY = window.pageYOffset;
-      
-      sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
+    // Add ripple effect to buttons
+    document.querySelectorAll('.ripple-effect').forEach(button => {
+      button.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
         
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-          document.querySelector(`a[href="#${sectionId}"]`)?.classList.add('text-white');
-          document.querySelector(`a[href="#${sectionId}"]`)?.classList.remove('text-muted');
-        } else {
-          document.querySelector(`a[href="#${sectionId}"]`)?.classList.add('text-muted');
-          document.querySelector(`a[href="#${sectionId}"]`)?.classList.remove('text-white');
-        }
+        ripple.style.cssText = `
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.3);
+          transform: scale(0);
+          animation: ripple 0.6s linear;
+          pointer-events: none;
+          width: ${size}px;
+          height: ${size}px;
+          left: ${x}px;
+          top: ${y}px;
+        `;
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
       });
-    }
-    
-    window.addEventListener('scroll', updateActiveNav);
+    });
 
-    // Initialize tooltips for buttons
-    function initTooltips() {
-      const buttons = document.querySelectorAll('button');
-      buttons.forEach(button => {
-        if (button.id) {
-          button.addEventListener('mouseenter', () => {
-            const tooltip = document.createElement('div');
-            tooltip.className = 'fixed glass px-3 py-1 rounded text-xs font-semibold pointer-events-none z-50';
-            tooltip.textContent = button.getAttribute('title') || '';
-            document.body.appendChild(tooltip);
-            
-            const rect = button.getBoundingClientRect();
-            tooltip.style.left = `${rect.left + rect.width / 2 - tooltip.offsetWidth / 2}px`;
-            tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`;
-            
-            button.addEventListener('mouseleave', () => {
-              tooltip.remove();
-            }, { once: true });
-          });
+    // Initialize tooltips
+    document.querySelectorAll('[title]').forEach(element => {
+      element.addEventListener('mouseenter', function(e) {
+        const tooltip = document.createElement('div');
+        tooltip.textContent = this.getAttribute('title');
+        tooltip.className = 'fixed glass px-3 py-2 rounded text-sm font-semibold pointer-events-none z-50';
+        document.body.appendChild(tooltip);
+        
+        const rect = this.getBoundingClientRect();
+        tooltip.style.left = `${rect.left + rect.width / 2 - tooltip.offsetWidth / 2}px`;
+        tooltip.style.top = `${rect.top - tooltip.offsetHeight - 10}px`;
+        
+        this.addEventListener('mouseleave', () => {
+          tooltip.remove();
+        }, { once: true });
+      });
+    });
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Ctrl/Cmd + C to copy
+      if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+        if (document.activeElement === codeBlock) {
+          copyScript();
+          e.preventDefault();
         }
+      }
+      
+      // Ctrl/Cmd + D to download
+      if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+        downloadBtn?.click();
+        e.preventDefault();
+      }
+      
+      // Escape to close mobile menu
+      if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Performance optimization
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 250);
+    });
+
+    // Preload critical images
+    const preloadImages = [
+      'https://i.imgur.com/6h1Te7r.png'
+    ];
+    
+    preloadImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    // Service Worker registration (if needed)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(error => {
+          console.log('Service Worker registration failed:', error);
+        });
       });
     }
-    
-    // Run after page loads
-    setTimeout(initTooltips, 1000);
+
+    // Final initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      // Add loaded class for CSS transitions
+      document.body.classList.add('loaded');
+      
+      // Initialize particles
+      createParticles();
+      
+      // Start animations
+      setTimeout(initAnimations, 100);
+    });
   </script>
 </body>
 </html>
